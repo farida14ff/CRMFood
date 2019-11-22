@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">CRM Food</string>
+    <string name="no_internet">Нет интернета</string>
+    <string name="update_page">Попробуйте обновить страницу</string>
+</resources>
