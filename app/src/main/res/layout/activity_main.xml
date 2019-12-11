@@ -1,32 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/back"
-    tools:context=".main.MainActivity">
+    tools:context=".main.MainActivity"
+    android:orientation="vertical">
 
-    <Button
-        android:id="@+id/create_new_order_button"
-        android:layout_width="193dp"
-        android:layout_height="74dp"
-        android:layout_marginTop="244dp"
-        android:text="Create new order"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints" />
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints">
 
-    <Button
-        android:id="@+id/list_of_active_orders_button"
-        android:layout_width="245dp"
-        android:layout_height="74dp"
-        android:layout_marginTop="32dp"
-        android:text="list of active orders"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/create_new_order_button"
-        tools:ignore="MissingConstraints" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/app_bar"
+                android:layout_marginTop="2dp"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:fontFamily="Avenir Next"
+                app:title="@string/active_ordders_list"
+                app:titleTextColor="@color/colorBlack">
+
+            </androidx.appcompat.widget.Toolbar>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="83dp"
+                >
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_logout"
+                android:layout_marginTop="20dp">
+            </ImageView>
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+       >
+
+        <ImageView
+            android:id="@+id/create_new_order_button"
+            android:layout_width="288dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="37dp"
+            android:layout_marginTop="34dp"
+            android:src="@drawable/do_new_order_button">
+        </ImageView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="normal"
+            android:layout_marginStart="71dp"
+            android:textSize="18sp"
+            android:textColor="@color/colorBlack"
+            android:layout_marginTop="39.5dp"
+            android:text="@string/create_a_new_order">
+
+        </TextView>
+
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="274dp"
+            android:layout_marginTop="39.5dp"
+            android:src="@drawable/ic_rec" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="282.5dp"
+            android:layout_marginTop="41.5dp"
+            android:textColor="@color/colorWhite"
+            android:text="+"/>
+
+
+
+
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:layout_marginTop="88dp"
+            android:textSize="18sp"
+            android:textStyle="normal"
+            android:text="@string/active_ordders_list"
+            android:textColor="@color/colorBlack"
+            android:layout_marginStart="67dp">
+
+        </TextView>
+
+    </androidx.cardview.widget.CardView>
+
+    <include
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        layout="@layout/list_of_active_order_re_v">
+    </include>
+
+</LinearLayout>

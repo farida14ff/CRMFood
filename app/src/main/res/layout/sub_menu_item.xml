@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginTop="34dp"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/poduct_name_sub"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/meal_name"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="38dp"
+        android:textSize="14sp"
+        android:textStyle="normal"
+        android:textColor="@color/colorBlack">
+    </TextView>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="38dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="14dp">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="73dp"
+            android:layout_height="31dp"
+            app:cardBackgroundColor="@color/colorLightGray">
+
+            <TextView
+                android:id="@+id/item_price_sub"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:paddingStart="12dp"
+                android:textColor="@color/colorBlack"
+                android:text="@string/items_price"
+                tools:ignore="RtlSymmetry" />
+
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/increase_menu_sub"
+            android:layout_width="38dp"
+            android:layout_height="31dp"
+            app:cardBackgroundColor="@color/colorBusy">
+
+            <TextView
+                android:layout_width="31dp"
+                android:layout_height="wrap_content"
+                android:text="-     "
+                android:textSize="20sp"
+                android:layout_marginStart="16dp"
+                android:textColor="@color/colorBlack"/>
+
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="38dp"
+            android:layout_height="31dp"
+            app:cardBackgroundColor="@color/colorLightGray">
+
+            <TextView
+                android:id="@+id/counter_menu_sub"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:paddingStart="13dp"
+                android:textColor="@color/colorBlack"
+                android:text="11"
+                tools:ignore="RtlSymmetry" />
+
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/decrease_menu_sub"
+            android:layout_width="38dp"
+            android:layout_height="31dp"
+            app:cardBackgroundColor="@color/colorBusy">
+
+            <TextView
+                android:layout_width="31dp"
+                android:layout_height="wrap_content"
+                android:text="+"
+                android:textSize="20sp"
+                android:layout_marginStart="14dp"
+                android:textColor="@color/colorBlack"/>
+
+        </androidx.cardview.widget.CardView>
+
+
+        <ImageView
+            android:id="@+id/to_basket_cv_sub"
+            android:layout_width="38dp"
+            android:layout_height="31dp"
+            android:layout_marginStart="90dp"
+            android:src="@drawable/ic_check_mark"
+            android:visibility="visible"/>
+
+
+        <ImageView
+            android:id="@+id/to_basket_cv2_sub"
+            android:layout_width="38dp"
+            android:layout_height="31dp"
+            android:layout_marginStart="90dp"
+            android:src="@drawable/ic_check_mark2"
+            android:visibility="gone"/>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

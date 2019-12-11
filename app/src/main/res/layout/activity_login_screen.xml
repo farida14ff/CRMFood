@@ -7,4 +7,120 @@
     android:background="@drawable/back"
     tools:context=".login.LoginActivity">
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="200dp"
+        android:src="@drawable/ic_crmtext"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </ImageView>
+
+    <EditText
+        android:id="@+id/login_ed"
+        android:layout_width="306dp"
+        android:layout_height="60dp"
+        android:hint="Логин"
+        android:layout_marginTop="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        tools:ignore="MissingConstraints" />
+
+
+    <!--    <com.google.android.material.textfield.TextInputLayout-->
+<!--        android:id="@+id/phone_text_field"-->
+<!--        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+<!--        android:layout_width="328dp"-->
+<!--        android:layout_height="80dp"-->
+<!--        android:layout_marginTop="36dp"-->
+<!--        android:textColorHint="@color/colorAccent"-->
+<!--        app:boxStrokeColor="@color/colorWhite"-->
+<!--        app:endIconMode="custom"-->
+<!--        app:errorEnabled="true"-->
+<!--        app:hintTextColor="@color/colorAccent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.493"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/imageView"-->
+<!--        tools:ignore="MissingConstraints">-->
+
+<!--        <com.google.android.material.textfield.TextInputEditText-->
+<!--            android:id="@+id/loginEditText"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="56dp"-->
+<!--            android:cursorVisible="true"-->
+<!--            android:hint="Логин"-->
+<!--            android:inputType="number"-->
+<!--            android:singleLine="true"-->
+<!--            android:textColor="@color/colorAccent"-->
+<!--            android:textCursorDrawable="@null" />-->
+
+<!--    </com.google.android.material.textfield.TextInputLayout>-->
+
+
+<!--    <com.google.android.material.textfield.TextInputLayout-->
+<!--        android:id="@+id/password_text_field"-->
+<!--        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+<!--        android:layout_width="328dp"-->
+<!--        android:layout_height="100dp"-->
+<!--        android:textColorHint="@color/colorAccent"-->
+<!--        app:boxStrokeColor="@color/colorWhite"-->
+<!--        app:errorEnabled="true"-->
+<!--        app:hintTextColor="@color/colorAccent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.493"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/phone_text_field"-->
+<!--        app:passwordToggleEnabled="true"-->
+<!--        app:passwordToggleTint="@color/textColorPrimary"-->
+<!--        tools:ignore="MissingConstraints">-->
+
+<!--        <com.google.android.material.textfield.TextInputEditText-->
+<!--            android:id="@+id/passwordEditText"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="56dp"-->
+<!--            android:cursorVisible="true"-->
+<!--            android:hint="Пароль"-->
+<!--            android:inputType="textPassword"-->
+<!--            android:singleLine="true"-->
+<!--            android:textColor="@color/colorAccent"-->
+<!--            android:textCursorDrawable="@null" />-->
+
+<!--    </com.google.android.material.textfield.TextInputLayout>-->
+
+    <EditText
+        android:id="@+id/password_ed"
+        android:layout_width="306dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="36dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login_ed"
+        tools:ignore="MissingConstraints">
+
+    </EditText>
+
+    <Button
+        android:id="@+id/loginButton"
+        android:layout_width="326dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="48dp"
+        android:background="@drawable/sign_in_btn"
+        android:text="Войти"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/password_ed"
+        tools:ignore="MissingConstraints">
+
+    </Button>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,20 +1,201 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/back"
+    android:orientation="vertical"
     tools:context=".tables.TablesActivity">
 
-    <androidx.recyclerview.widget.RecyclerView
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+            <LinearLayout
+                android:id="@+id/go_back_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="14dp"
+                    android:layout_height="13dp"
+                    android:layout_margin="20dp"
+                    app:srcCompat="@drawable/ic_go_back">
+
+                </ImageView>
+
+            </LinearLayout>
+
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/app_bar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:fontFamily="Avenir Next"
+                app:title="@string/title_tables"
+                app:titleTextColor="@color/colorBlack">
+
+            </androidx.appcompat.widget.Toolbar>
+
+
+        </LinearLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/recycler_view"
-        tools:ignore="MissingConstraints">
+        android:layout_marginStart="10sp"
+        android:orientation="horizontal">
 
-    </androidx.recyclerview.widget.RecyclerView>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:paddingBottom="5dp"
+            >
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="90dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            app:cardElevation="4dp"
+            app:cardBackgroundColor="@color/colorBusy"
+            app:cardCornerRadius="5dp">
+
+            <RelativeLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+
+                <TextView
+                    android:layout_width="57dp"
+                    android:layout_height="16dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="Активные"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="12sp">
+
+                </TextView>
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:paddingBottom="5dp"
+            >
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="90dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="10dp"
+                app:cardBackgroundColor="@color/colorFree"
+                app:cardCornerRadius="5dp">
+
+                <RelativeLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    >
+
+                    <TextView
+                        android:layout_width="67dp"
+                        android:layout_height="16dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginEnd="12dp"
+                        android:text="Свободные"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="12sp">
+
+                    </TextView>
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:paddingBottom="5dp"
+            >
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="90dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="10dp"
+                app:cardBackgroundColor="@color/colorBooked"
+                app:cardElevation="4dp"
+                app:cardCornerRadius="5dp">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="87dp"
+                        android:layout_height="15dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="6dp"
+                        android:text="Забронированы"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="11sp">
+
+                    </TextView>
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+        </RelativeLayout>
 
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/recycler_view"
+            tools:ignore="MissingConstraints">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+    </LinearLayout>
+
+
+
+
+
+
+</LinearLayout>

@@ -1,5 +1,29 @@
 <resources>
     <string name="app_name">CRM Food</string>
-    <string name="no_internet">Нет интернета</string>
+    <string name="no_internet">Отсутствует интернет-соединение</string>
     <string name="update_page">Попробуйте обновить страницу</string>
+    <string name="tables_error">Невозможно получить список столов</string>
+    <string name="title_tables">Столы</string>
+    <string name="active_ordders_list">Лист активных заказов</string>
+    <string name="create_a_new_order">Сделать новый заказ</string>
+    <string name="orders_number">Заказ #1</string>
+    <string name="orders_name">Блинный Брауни</string>
+    <string name="add">Добавить</string>
+    <string name="close_account">Закрыть счет</string>
+    <string name="delete">Удалить</string>
+
+    <string name="freezed">ЗАМОРОЖЕН</string>
+    <string name="redy_t">ГОТОВО!</string>
+    <string name="in_progress">В ПРОЦЕССЕ</string>
+    <string name="title_menu">Меню блюд</string>
+    <string name="breakfast">Завраки</string>
+    <string name="title_bar">Меню бара</string>
+    <string name="drinks">Алкогольные напитки</string>
+    <string name="orders_error">Невозможно получить список заказов</string>
+    <string name="meal_name">Боул с черникой и гранолой</string>
+    <string name="items_weight">200гр</string>
+    <string name="items_price">60,00 c</string>
+    <string name="pod_menu_error">Ошибка! Попробуйте перезагрузить страницу</string>
+    <string name="login_error">Ошибка входа</string>
+    <string name="shr_error_password">Неверный номер телефона или пароль, попробуйте снова</string>
 </resources>
