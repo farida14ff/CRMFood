@@ -36,7 +36,7 @@
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/app_bar_sub_menu"
-                android:layout_width="250dp"
+                android:layout_width="270dp"
                 android:layout_height="?attr/actionBarSize"
                 android:fontFamily="Avenir Next"
                 app:title="Завтраки"
@@ -69,7 +69,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="570dp"
         android:padding="8dp">
 
         <androidx.recyclerview.widget.RecyclerView
@@ -80,4 +80,32 @@
         </androidx.recyclerview.widget.RecyclerView>
 
     </LinearLayout>
+
+    <Button
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="130dp"
+        android:id="@+id/next_button"
+        android:layout_width="100dp"
+        android:layout_height="37dp"
+        android:textColor="@color/colorWhite"
+        android:textSize="12sp"
+        android:text="@string/next"
+        android:background="@drawable/close_c_button">
+    </Button>
+
+    <Button
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="130dp"
+        android:id="@+id/go_to_the_basket_button"
+        android:layout_width="100dp"
+        android:layout_height="37dp"
+        android:textColor="@color/colorWhite"
+        android:textSize="12sp"
+        android:text="@string/next"
+        android:background="@drawable/close_c_button"
+        android:visibility="gone"
+        >
+
+    </Button>
+
 </LinearLayout>

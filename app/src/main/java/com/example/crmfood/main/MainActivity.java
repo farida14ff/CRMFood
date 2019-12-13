@@ -44,12 +44,13 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         initRecyclerViewWithAdapter();
 
 
-        ImageView createNewOrderButton = findViewById(R.id.create_new_order_button);
+        final ImageView createNewOrderButton = findViewById(R.id.create_new_order_button);
         createNewOrderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, TablesActivity.class);
                 startActivity(intent);
+                //createNewOrderButton.setEnabled(false);
 
             }
         });

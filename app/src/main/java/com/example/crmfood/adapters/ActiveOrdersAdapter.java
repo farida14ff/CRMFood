@@ -71,7 +71,6 @@ public class ActiveOrdersAdapter extends RecyclerView.Adapter<ActiveOrdersAdapte
         TextView ordersNumTextView;
         Button addBtn;
         Button closeAccountBtn;
-        Button deleteBtn;
         TextView ordersStatus;
 
 
@@ -82,7 +81,6 @@ public class ActiveOrdersAdapter extends RecyclerView.Adapter<ActiveOrdersAdapte
             recyclerView2 = itemView.findViewById(R.id.list_of_order_items_rv);
             ordersNumTextView = itemView.findViewById(R.id.orders_number_textView);
             closeAccountBtn = itemView.findViewById(R.id.close_account_button);
-            deleteBtn = itemView.findViewById(R.id.delete_button);
             addBtn = itemView.findViewById(R.id.add_button);
             ordersStatus = itemView.findViewById(R.id.orders_status_text);
 
@@ -101,14 +99,12 @@ public class ActiveOrdersAdapter extends RecyclerView.Adapter<ActiveOrdersAdapte
                          recyclerView2.setVisibility(a);
                          addBtn.setVisibility(View.VISIBLE);
                          closeAccountBtn.setVisibility(View.VISIBLE);
-                         deleteBtn.setVisibility(View.VISIBLE);
 
                          a = View.GONE;
                      }else {
                          recyclerView2.setVisibility(a);
                          addBtn.setVisibility(View.GONE);
                          closeAccountBtn.setVisibility(View.GONE);
-                         deleteBtn.setVisibility(View.GONE);
                          a = View.VISIBLE;
                      }
                  }
@@ -122,14 +118,12 @@ public class ActiveOrdersAdapter extends RecyclerView.Adapter<ActiveOrdersAdapte
                         recyclerView2.setVisibility(a);
                         addBtn.setVisibility(View.VISIBLE);
                         closeAccountBtn.setVisibility(View.VISIBLE);
-                        deleteBtn.setVisibility(View.VISIBLE);
 
                         a = View.GONE;
                     }else {
                         recyclerView2.setVisibility(a);
                         addBtn.setVisibility(View.GONE);
                         closeAccountBtn.setVisibility(View.GONE);
-                        deleteBtn.setVisibility(View.GONE);
                         a = View.VISIBLE;
                     }
 

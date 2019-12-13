@@ -14,7 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.crmfood.R;
 import com.example.crmfood.adapters.TablesAdapter;
-import com.example.crmfood.kitchenMenu.KitchenMenuActivity;
+import com.example.crmfood.menu.MainMenuActivity;
+import com.example.crmfood.menu.kitchenMenu.KitchenMenuFragment;
 import com.example.crmfood.models.Table;
 
 import java.util.List;
@@ -65,8 +66,9 @@ public class TablesActivity extends AppCompatActivity implements TablesContract.
 
     @Override
     public void showMenu(Table table) {
-        Intent intent = new Intent(this, KitchenMenuActivity.class);
+        Intent intent = new Intent(this, MainMenuActivity.class);
         startActivityForResult(intent, 100);
+
     }
 
     @Override

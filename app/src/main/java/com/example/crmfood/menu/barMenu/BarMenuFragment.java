@@ -1,58 +1,52 @@
-package com.example.crmfood.barMenu;
+package com.example.crmfood.menu.barMenu;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.crmfood.R;
 import com.example.crmfood.adapters.BarAdapter;
-import com.example.crmfood.adapters.MenuAdapter;
-import com.example.crmfood.barMenu.BarMenuContract;
-import com.example.crmfood.barMenu.BarMenuPresenter;
+import com.example.crmfood.basket.BasketActivity;
 import com.example.crmfood.models.MenuBar;
-import com.example.crmfood.models.MenuKitchen;
-import com.example.crmfood.models.SubMenu;
 import com.example.crmfood.subMenu.SubMenuActivity;
 
 import java.util.List;
 
-public class BarMenuActivity extends AppCompatActivity implements BarMenuContract.View {
+public class BarMenuFragment extends Fragment implements BarMenuContract.View {
 
     private BarMenuContract.Presenter presenter;
     private BarAdapter adapterBar;
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bar_menu);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View root = inflater.inflate(R.layout.activity_bar_menu, container, false);
 
-        LinearLayout goBackIM = findViewById(R.id.go_back_icon);
-        goBackIM.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
-
-        initRecyclerViewWithAdapter();
+        initRecyclerViewWithAdapter(root);
+        return root;
     }
 
-    private void initRecyclerViewWithAdapter() {
-        RecyclerView recyclerView = findViewById(R.id.bar_rv);
+
+    private void initRecyclerViewWithAdapter(View root) {
+        RecyclerView recyclerView = root.findViewById(R.id.bar_rv);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
 
-        adapterBar = new BarAdapter(new BarMenuContract.OnItemClickListener(){
+        adapterBar = new BarAdapter(new BarMenuContract.OnItemClickListener() {
             @Override
             public void onItemClick(MenuBar menuBar) {
                 showPodMenu(menuBar);
@@ -60,14 +54,14 @@ public class BarMenuActivity extends AppCompatActivity implements BarMenuContrac
 
         });
 
-//        if (menu.getDepartmentName().equals("Kitchen")) {
+////        if (menu.getDepartmentName().equals("Kitchen")) {
 //        if (adapterBar == null) {
 //            recyclerView.setVisibility(View.GONE);
-////            emptyView.setVisibility(View.GONE);
-////            progressBar.setVisibility(View.VISIBLE);
-//            adapterBar = new MenuAdapter(new KitchenMenuContract.OnItemClickListener() {
+//////            emptyView.setVisibility(View.GONE);
+//////            progressBar.setVisibility(View.VISIBLE);
+//            adapterBar = new BarAdapter(new BarMenuContract.OnItemClickListener() {
 //                @Override
-//                public void onItemClick(MenuKitchen menu) {
+//                public void onItemClick(MenuBar menu) {
 //
 //                }
 //
@@ -87,14 +81,16 @@ public class BarMenuActivity extends AppCompatActivity implements BarMenuContrac
         adapterBar.setValues(body);
     }
 
-    public void showPodMenu(MenuBar menuBar){
-        Intent intent = new Intent(this, SubMenuActivity.class);
+    public void showPodMenu(MenuBar menuBar) {
+        Intent intent = new Intent(getActivity(), SubMenuActivity.class);
+        intent.putExtra("categoryId", menuBar.getCategoryId());
+        intent.putExtra("category", menuBar.getCategoryName());
         startActivity(intent);
     }
 
     @Override
     public void showError() {
-        Toast.makeText(this, getString(R.string.tables_error), Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(), getString(R.string.tables_error), Toast.LENGTH_LONG).show();
     }
 
     @Override

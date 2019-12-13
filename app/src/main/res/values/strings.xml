@@ -26,4 +26,7 @@
     <string name="pod_menu_error">Ошибка! Попробуйте перезагрузить страницу</string>
     <string name="login_error">Ошибка входа</string>
     <string name="shr_error_password">Неверный номер телефона или пароль, попробуйте снова</string>
+    <string name="confirm">Подтвердить</string>
+    <string name="add_meal">Добавить</string>
+    <string name="next">Далее</string>
 </resources>

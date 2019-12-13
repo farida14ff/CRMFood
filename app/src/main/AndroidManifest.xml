@@ -15,10 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".subMenu.SubMenuActivity"></activity>
-        <activity android:name=".barMenu.BarMenuActivity" />
-        <activity android:name=".podMenu.PodMenuActivity" />
-        <activity android:name=".kitchenMenu.KitchenMenuActivity" />
+        <activity android:name=".menu.MainMenuActivity"></activity>
+        <activity android:name=".basket.BasketActivity" />
+        <activity android:name=".subMenu.SubMenuActivity" />
         <activity android:name=".tables.TablesActivity" />
         <activity android:name=".main.MainActivity">
             <intent-filter>

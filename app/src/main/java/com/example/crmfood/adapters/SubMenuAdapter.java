@@ -81,7 +81,7 @@ public class SubMenuAdapter extends RecyclerView.Adapter<SubMenuAdapter.SubMenuV
             basket = itemView.findViewById(R.id.to_basket_cv_sub);
             basket2 = itemView.findViewById(R.id.to_basket_cv2_sub);
 
-            number = 1;
+            number = 0;
 
          }
 
@@ -97,39 +97,49 @@ public class SubMenuAdapter extends RecyclerView.Adapter<SubMenuAdapter.SubMenuV
              name.setText(subMenu.getSub_name());
              price.setText(String.valueOf(subMenu.getSub_price()));
 
-
-
              increase.setOnClickListener(new View.OnClickListener() {
                  @Override
                  public void onClick(View view) {
                      number++;
                      counter.setText(String.valueOf(number));
+                     basket.setVisibility(View.GONE);
+                     basket2.setVisibility(View.VISIBLE);
                  }
              });
 
              decrease.setOnClickListener(new View.OnClickListener() {
                  @Override
                  public void onClick(View view) {
-                     number--;
+                     if (number>0) {
+                         number--;
+                     }else {
+                         number = 0;
+                     }
                      counter.setText(String.valueOf(number));
+                     if (number == 0) {
+                         basket2.setVisibility(View.GONE);
+                         basket.setVisibility(View.VISIBLE);
+                     }
                  }
              });
 
              basket.setOnClickListener(new View.OnClickListener() {
                  @Override
                  public void onClick(View view) {
-                     //TODO: add meal to the basket
+                     //TODO: add meal to the to_basket
                      basket.setVisibility(View.GONE);
                      basket2.setVisibility(View.VISIBLE);
+                     counter.setText("1");
                  }
              });
 
              basket2.setOnClickListener(new View.OnClickListener() {
                  @Override
                  public void onClick(View view) {
-                     //TODO: delete meal from basket
+                     //TODO: delete meal from to_basket
                      basket2.setVisibility(View.GONE);
                      basket.setVisibility(View.VISIBLE);
+                     counter.setText("0");
                  }
              });
          }

@@ -66,18 +66,7 @@
 
     </Button>
 
-    <Button
-        android:id="@+id/delete_button"
-        android:layout_width="100dp"
-        android:layout_height="30dp"
-        android:textColor="@color/colorWhite"
-        android:layout_marginStart="8dp"
-        android:textSize="12sp"
-        android:background="@drawable/delete_button"
-        android:text="@string/delete"
-        tools:ignore="MissingConstraints">
 
-    </Button>
     </LinearLayout>
 
 

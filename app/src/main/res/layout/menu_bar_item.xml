@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="25dp"
             android:text="@string/drinks"
-            android:textColor="@color/colorBlack"
+            android:textColor="@color/colorWhite"
             android:textSize="18sp"
             android:layout_margin="16dp">
 

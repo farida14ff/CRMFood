@@ -1,4 +1,4 @@
-package com.example.crmfood.barMenu;
+package com.example.crmfood.menu.barMenu;
 
 import com.example.crmfood.models.MenuBar;
 import com.example.crmfood.models.MenuKitchen;

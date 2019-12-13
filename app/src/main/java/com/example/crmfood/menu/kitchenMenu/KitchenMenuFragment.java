@@ -1,25 +1,29 @@
-package com.example.crmfood.kitchenMenu;
+package com.example.crmfood.menu.kitchenMenu;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.crmfood.R;
 import com.example.crmfood.adapters.MenuAdapter;
+import com.example.crmfood.basket.BasketActivity;
 import com.example.crmfood.models.MenuKitchen;
 import com.example.crmfood.subMenu.SubMenuActivity;
 
 import java.util.List;
 
-public class KitchenMenuActivity extends AppCompatActivity implements KitchenMenuContract.View {
+public class KitchenMenuFragment extends Fragment implements KitchenMenuContract.View {
 
     private KitchenMenuContract.Presenter presenter;
     private MenuAdapter adapterMenu;
@@ -27,25 +31,25 @@ public class KitchenMenuActivity extends AppCompatActivity implements KitchenMen
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_kitchen_menu);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View root = inflater.inflate(R.layout.activity_kitchen_menu, container, false);
 
-        LinearLayout goBackIM = findViewById(R.id.go_back_icon);
-        goBackIM.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
 
-        initRecyclerViewWithAdapter();
+
+
+        initRecyclerViewWithAdapter(root);
+
+        return root;
     }
 
-    private void initRecyclerViewWithAdapter() {
-        RecyclerView recyclerView = findViewById(R.id.menu_catigories_rv);
+
+
+    private void initRecyclerViewWithAdapter(View root) {
+        RecyclerView recyclerView = root.findViewById(R.id.menu_catigories_rv);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
 
         adapterMenu = new MenuAdapter(new KitchenMenuContract.OnItemClickListener(){
@@ -56,19 +60,19 @@ public class KitchenMenuActivity extends AppCompatActivity implements KitchenMen
 
         });
 
-//        if (menu.getDepartmentName().equals("Kitchen")) {
-        if (adapterMenu == null) {
-            recyclerView.setVisibility(View.GONE);
-//            emptyView.setVisibility(View.GONE);
-//            progressBar.setVisibility(View.VISIBLE);
-            adapterMenu = new MenuAdapter(new KitchenMenuContract.OnItemClickListener() {
-                @Override
-                public void onItemClick(MenuKitchen menu) {
-
-                }
-
-            });
-        }
+////        if (menu.getDepartmentName().equals("Kitchen")) {
+//        if (adapterMenu == null) {
+//            recyclerView.setVisibility(View.GONE);
+////            emptyView.setVisibility(View.GONE);
+////            progressBar.setVisibility(View.VISIBLE);
+//            adapterMenu = new MenuAdapter(new KitchenMenuContract.OnItemClickListener() {
+//                @Override
+//                public void onItemClick(MenuKitchen menu) {
+//
+//                }
+//
+//            });
+//        }
 
         presenter = new KitchenMenuPresenter(this);
         presenter.displayMenuCategoy();
@@ -84,7 +88,7 @@ public class KitchenMenuActivity extends AppCompatActivity implements KitchenMen
     }
 
     public void showPodMenu(MenuKitchen menuKitchen){
-        Intent intent = new Intent(this, SubMenuActivity.class);
+        Intent intent = new Intent(getActivity(), SubMenuActivity.class);
         intent.putExtra("categoryId",menuKitchen.getCategoryId());
         intent.putExtra("category",menuKitchen.getCategoryName());
         startActivity(intent);
@@ -92,8 +96,10 @@ public class KitchenMenuActivity extends AppCompatActivity implements KitchenMen
 
     @Override
     public void showError() {
-        Toast.makeText(this, getString(R.string.tables_error), Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(), getString(R.string.tables_error), Toast.LENGTH_LONG).show();
     }
+
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

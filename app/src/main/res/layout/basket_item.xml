@@ -10,7 +10,7 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/poduct_name_sub"
+        android:id="@+id/poduct_name_basket"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/meal_name"
@@ -35,7 +35,7 @@
             app:cardBackgroundColor="@color/colorLightGray">
 
             <TextView
-                android:id="@+id/item_price_sub"
+                android:id="@+id/item_price_basket"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingTop="8dp"
@@ -48,7 +48,7 @@
 
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/decrease_menu_sub"
+            android:id="@+id/decrease_menu_basket"
             android:layout_width="44dp"
             android:layout_height="37dp"
             app:cardBackgroundColor="@color/colorBusy">
@@ -70,7 +70,7 @@
             app:cardBackgroundColor="@color/colorLightGray">
 
             <TextView
-                android:id="@+id/counter_menu_sub"
+                android:id="@+id/counter_menu_basket"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingTop="9dp"
@@ -83,7 +83,7 @@
 
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/increase_menu_sub"
+            android:id="@+id/increase_menu_basket"
             android:layout_width="44dp"
             android:layout_height="37dp"
             app:cardBackgroundColor="@color/colorBusy">
@@ -99,23 +99,18 @@
         </androidx.cardview.widget.CardView>
 
 
-        <ImageView
-            android:id="@+id/to_basket_cv_sub"
-            android:layout_width="44dp"
+        <Button
+            android:id="@+id/delete_button_basket"
+            android:layout_width="100dp"
             android:layout_height="37dp"
-            android:layout_marginStart="80dp"
-            android:src="@drawable/ic_check_mark"
-            android:visibility="visible"/>
+            android:textColor="@color/colorWhite"
+            android:layout_marginStart="20dp"
+            android:textSize="12sp"
+            android:background="@drawable/delete_button"
+            android:text="@string/delete"
+            tools:ignore="MissingConstraints">
 
-
-        <ImageView
-            android:id="@+id/to_basket_cv2_sub"
-            android:layout_width="44dp"
-            android:layout_height="37dp"
-            android:layout_marginStart="90dp"
-            android:src="@drawable/ic_done_s"
-            android:visibility="gone"/>
-
+        </Button>
 
     </LinearLayout>
 
