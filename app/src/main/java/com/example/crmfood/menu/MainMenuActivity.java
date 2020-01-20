@@ -6,6 +6,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -14,6 +15,8 @@ import com.example.crmfood.adapters.FixedTabsPagerAdapter;
 import com.example.crmfood.basket.BasketActivity;
 import com.example.crmfood.menu.barMenu.BarMenuFragment;
 import com.example.crmfood.menu.kitchenMenu.KitchenMenuFragment;
+import com.example.crmfood.subMenu.SubMenuActivity;
+import com.example.crmfood.tables.TablesActivity;
 import com.google.android.material.tabs.TabLayout;
 
 public class MainMenuActivity extends AppCompatActivity {
@@ -24,15 +27,43 @@ public class MainMenuActivity extends AppCompatActivity {
     private KitchenMenuFragment kitchenMenuFragment;
     private BarMenuFragment barMenuFragment;
     private FixedTabsPagerAdapter adapter;
-
+    long my_tableId;
+    Intent intent1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
+        initIntents();
         initViews();
         initTabLayoutSelection();
+
+    }
+
+    private void initIntents() {
+
+        Intent intent3 = getIntent();
+        long my_activeOrdersId = intent3.getLongExtra("activeOrdersId",205);
+        Log.e("activeOrdersId", "MainMenuActivity getExtra my_activeOrdersId: "+ my_activeOrdersId);
+
+
+        Intent intent = getIntent();
+        my_tableId = intent.getLongExtra("tableId",1);
+        Log.e("tableId", "MainMenuActivity getExtra my_tbl: "+ my_tableId);
+
+
+        intent1 = new Intent(MainMenuActivity.this, BasketActivity.class);
+        intent1.putExtra("tableId",my_tableId);
+        intent1.putExtra("activeOrdersId",my_activeOrdersId);
+        Log.e("tableId", "MainMenuActivity putExtra my_tbl to basket: "+ my_tableId);
+        Log.e("activeOrdersId", "MainMenuActivity putExtra to basket my_activeOrdersId to basket: "+ my_activeOrdersId);
+
+        Intent intent2 = new Intent(MainMenuActivity.this, SubMenuActivity.class);
+        intent2.putExtra("tableId",my_tableId);
+        intent2.putExtra("activeOrdersId",my_activeOrdersId);
+        Log.e("tableId", "MainMenuActivity putExtra my_tbl to sub: "+ my_tableId);
+        Log.e("activeOrdersId", "MainMenuActivity putExtra to sub my_activeOrdersId to basket: "+ my_activeOrdersId);
 
     }
 
@@ -43,8 +74,8 @@ public class MainMenuActivity extends AppCompatActivity {
         basket_LL.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainMenuActivity.this, BasketActivity.class);
-                startActivity(intent);
+                startActivity(intent1);
+//                finish();
                 //basket_LL.setEnabled(false);
             }
         });
@@ -53,6 +84,9 @@ public class MainMenuActivity extends AppCompatActivity {
         goBackIM.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+//                Intent intent = new Intent(MainMenuActivity.this, TablesActivity.class);
+//                startActivity(intent);
+
                 finish();
             }
         });

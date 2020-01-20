@@ -4,6 +4,7 @@ package com.example.crmfood.menu.barMenu;
 import android.util.Log;
 
 
+import com.example.crmfood.BaseActivity;
 import com.example.crmfood.menu.barMenu.BarMenuContract;
 import com.example.crmfood.models.MenuBar;
 import com.example.crmfood.network.MyService;
@@ -29,7 +30,7 @@ public class BarMenuPresenter implements BarMenuContract.Presenter{
 
     @Override
     public void displayBarCategoy() {
-        Call<List<MenuBar>> call = service.getMenuBar("Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI3IiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZSI6ImxvZ2lud3NkIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoid2FpdGVyIiwibmJmIjoxNTc2MDY1MTU5LCJleHAiOjE1Nzc3OTMxNTksImlzcyI6IkNSTVNlcnZlciIsImF1ZCI6IkNSTUZvb2QifQ.btgL4dMpF0sKcGKPC7zV_G-2GrL8TWHXYz-Z5hGCtJg");
+        Call<List<MenuBar>> call = service.getMenuBar(BaseActivity.authToken);
         call.enqueue(new Callback<List<MenuBar>>() {
             @Override
             public void onResponse(@NotNull Call<List<MenuBar>> call, @NotNull Response<List<MenuBar>> response) {

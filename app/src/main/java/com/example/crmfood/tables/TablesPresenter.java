@@ -3,7 +3,7 @@ package com.example.crmfood.tables;
 import android.util.Log;
 
 
-import com.example.crmfood.main.MainActivity;
+import com.example.crmfood.BaseActivity;
 import com.example.crmfood.models.Table;
 import com.example.crmfood.network.MyService;
 import com.example.crmfood.network.RetrofitClientInstance;
@@ -29,7 +29,7 @@ public class TablesPresenter implements TablesContract.Presenter {
 
     @Override
     public void displayTables() {
-        Call<List<Table>> call = service.getTables("Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI3IiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZSI6ImxvZ2lud3NkIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoid2FpdGVyIiwibmJmIjoxNTc2MDY1MTU5LCJleHAiOjE1Nzc3OTMxNTksImlzcyI6IkNSTVNlcnZlciIsImF1ZCI6IkNSTUZvb2QifQ.btgL4dMpF0sKcGKPC7zV_G-2GrL8TWHXYz-Z5hGCtJg");
+        Call<List<Table>> call = service.getTables(BaseActivity.authToken);
         call.enqueue(new Callback<List<Table>>() {
             @Override
             public void onResponse(@NotNull Call<List<Table>> call,

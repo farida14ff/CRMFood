@@ -1,11 +1,20 @@
 package com.example.crmfood.network;
 
 import com.example.crmfood.models.ActiveOrder;
+
+import com.example.crmfood.models.AddMeal;
+import com.example.crmfood.models.Basket2;
 import com.example.crmfood.models.CategoryId;
+import com.example.crmfood.models.CloseCheque;
+import com.example.crmfood.models.CreateOrder;
+import com.example.crmfood.models.Login;
 import com.example.crmfood.models.MenuBar;
 import com.example.crmfood.models.MenuKitchen;
+import com.example.crmfood.models.OrderId;
+import com.example.crmfood.models.StatusMessage;
 import com.example.crmfood.models.SubMenu;
 import com.example.crmfood.models.Table;
+import com.example.crmfood.models.User;
 
 import java.util.List;
 
@@ -17,6 +26,9 @@ import retrofit2.http.POST;
 
 
 public interface MyService {
+
+    @POST("/api/Account/Login")
+    Call<User> login(@Body Login login);
 
     @GET("/api/Waiter/getTables")
     Call<List<Table>> getTables(@Header("Authorization") String authToken);
@@ -33,8 +45,17 @@ public interface MyService {
     @GET("/api/Waiter/getBarMenu")
     Call<List<MenuBar>> getMenuBar(@Header("Authorization") String authToken);
 
-//    @POST("http://neobiscrmfood.herokuapp.com/api/Account/Login")
-//    Call<User> login(@Body Login login);
+    @POST("/api/Waiter/closeCheque")
+    Call<CloseCheque> closeCheque(@Header("Authorization") String authToken, @Body OrderId orderId);
+
+    @POST("/api/Waiter/createOrder")
+    Call<StatusMessage> createOrder(@Header("Authorization") String authToken, @Body CreateOrder createOrder);
+
+    @POST("/api/Waiter/addMealsOrder")
+    Call<StatusMessage> addMealsOrder(@Header("Authorization") String authToken, @Body AddMeal addMeal);
+
+
+
 
 
 

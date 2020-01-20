@@ -106,14 +106,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="22dp"
-            android:layout_marginStart="70dp"
+            android:layout_marginStart="65dp"
             android:orientation="horizontal">
 
 
             <Button
                 android:id="@+id/confirm_button"
                 android:layout_width="100dp"
-                android:layout_height="30dp"
+                android:layout_height="37dp"
                 android:textColor="@color/colorWhite"
                 android:textSize="10sp"
                 android:text="@string/confirm"
@@ -125,7 +125,7 @@
             <Button
                 android:id="@+id/add_meal_button"
                 android:layout_width="100dp"
-                android:layout_height="30dp"
+                android:layout_height="37dp"
                 android:textColor="@color/colorWhite"
                 android:layout_marginStart="20dp"
                 android:textSize="10sp"

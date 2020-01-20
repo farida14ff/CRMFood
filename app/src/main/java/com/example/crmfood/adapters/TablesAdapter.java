@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.crmfood.R;
 import com.example.crmfood.models.Table;
+import com.example.crmfood.tables.TablesActivity;
 import com.example.crmfood.tables.TablesContract;
 
 import java.util.ArrayList;
@@ -90,12 +91,16 @@ public class TablesAdapter extends RecyclerView.Adapter<TablesAdapter.TablesView
             switch (colorStatus) {
                 case 0:
                     cardView.setCardBackgroundColor(Color.parseColor("#2D4DCE"));
+                    cardView.setEnabled(true);
+
                     break;
                 case 1:
                     cardView.setCardBackgroundColor(Color.parseColor("#04932C"));
+                    cardView.setEnabled(false);
                     break;
                 case 2:
                     cardView.setCardBackgroundColor(Color.parseColor("#B80505"));
+                    cardView.setEnabled(false);
                     break;
             }
         }

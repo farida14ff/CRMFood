@@ -1,5 +1,6 @@
 package com.example.crmfood.adapters;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,14 +13,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.crmfood.R;
 import com.example.crmfood.basket.BasketContract;
-import com.example.crmfood.models.Basket;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.crmfood.data.ToBasketRoomDatabase;
+import com.example.crmfood.models.Basket2;
+
 public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.BasketViewHolder> {
 
-    private List<Basket> basketList;
+    private List<Basket2> basketList;
     private BasketContract.OnItemClickListener onItemClickListener;
 
     public BasketAdapter(BasketContract.OnItemClickListener onItemClickListener) {
@@ -27,7 +30,12 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.BasketView
         this.onItemClickListener = onItemClickListener;
     }
 
-    public void setValues(List<Basket> values) {
+    public BasketAdapter(List<Basket2> basketList,BasketContract.OnItemClickListener onItemClickListener) {
+        this.basketList = basketList;
+        this.onItemClickListener = onItemClickListener;
+    }
+
+    public void setValues(List<Basket2> values) {
         basketList.clear();
         if (values != null) {
             basketList.addAll(values);
@@ -66,11 +74,15 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.BasketView
         CardView decrease;
         TextView counter;
         Button delete_from_basket;
+        ToBasketRoomDatabase db;
 
         int number;
+        double inPrice;
+        double totPrice;
 
         BasketViewHolder(@NonNull View itemView) {
             super(itemView);
+            db  = ToBasketRoomDatabase.getDatabase(itemView.getContext());
 
             name = itemView.findViewById(R.id.poduct_name_basket);
             price = itemView.findViewById(R.id.item_price_basket);
@@ -79,11 +91,13 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.BasketView
             decrease = itemView.findViewById(R.id.decrease_menu_basket);
             delete_from_basket = itemView.findViewById(R.id.delete_button_basket);
 
-            number = 0;
+            number = 1;
+            inPrice = 0;
+            totPrice = 0;
 
         }
 
-        void bind(final Basket basket, final BasketContract.OnItemClickListener onItemClickListener) {
+        void bind(final Basket2 basket, final BasketContract.OnItemClickListener onItemClickListener) {
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -93,27 +107,53 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.BasketView
             });
 
 
+            name.setText(basket.getBasket_name());
+            inPrice = basket.getBasket_price();
+            price.setText(String.valueOf(inPrice));
+            counter.setText(String.valueOf(number));
+
+
             increase.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     number++;
+                    totPrice = inPrice *number;
+                    price.setText(String.valueOf(totPrice));
                     counter.setText(String.valueOf(number));
-
+//                    Basket2 basketObj = new Basket2(basket.getMealId(), name.getText().toString(), Double.parseDouble(price.getText().toString()), Integer.parseInt(counter.getText().toString()));
+//
+//                    db.toBasketDao().addItems(basketObj);
+//                    basket.setVisibility(View.GONE);
+//                    basket2.setVisibility(View.VISIBLE);
                 }
             });
 
             decrease.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (number>0) {
+                    if (number>1) {
                         number--;
-                    }else {
+                        totPrice = totPrice-inPrice ;
+                        if (totPrice < inPrice){
+                            price.setText(String.valueOf(inPrice));
+                            number = 0;
+
+                        }else {
+                            price.setText(String.valueOf(totPrice));
+                        }
+                        if (number == 0) {
+//                            basket2.setVisibility(View.GONE);
+//                            basket.setVisibility(View.VISIBLE);
+                        }
+                        counter.setText(String.valueOf(number));
+                    } else {
                         number = 0;
-                    }
-                    counter.setText(String.valueOf(number));
-                    if (number == 0) {
+                        counter.setText(String.valueOf(number));
+//                        basket2.setVisibility(View.GONE);
+//                        basket.setVisibility(View.VISIBLE);
 
                     }
+
                 }
             });
 
@@ -121,7 +161,9 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.BasketView
             delete_from_basket.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //TODO: implement deleting from db
+                    Basket2 basketObj = new Basket2(basket.getMealId(),name.getText().toString(),Double.parseDouble(price.getText().toString()),Integer.parseInt(counter.getText().toString()));
+                    db.toBasketDao().deleteItem(basketObj.getMealId());
+                    Log.e("getSub_id", "onClick: " + basketObj.getMealId());
                 }
             });
         }

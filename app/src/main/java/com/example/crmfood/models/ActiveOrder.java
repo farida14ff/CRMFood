@@ -10,14 +10,18 @@ public class ActiveOrder implements Serializable {
 
 
     @SerializedName("id")
-    private int id;
+    public long idAcOr;
 //    @SerializedName("tableName")
 //    private int tableName;
     @SerializedName("mealOrders")
     private List<ListMealInActiveOrder> listMealInActiveOrders;
 
+    public ActiveOrder(long idAcOr) {
+        this.idAcOr = idAcOr;
+    }
+
     public ActiveOrder(int id, List<ListMealInActiveOrder> listMealInActiveOrders) {
-        this.id = id;
+        this.idAcOr = id;
         this.listMealInActiveOrders = listMealInActiveOrders;
     }
 
@@ -25,8 +29,8 @@ public class ActiveOrder implements Serializable {
     public ActiveOrder() {
     }
 
-    public int getId() {
-        return id;
+    public long getId() {
+        return idAcOr;
     }
 
 

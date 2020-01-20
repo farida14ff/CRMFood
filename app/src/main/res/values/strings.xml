@@ -5,12 +5,19 @@
     <string name="tables_error">Невозможно получить список столов</string>
     <string name="title_tables">Столы</string>
     <string name="active_ordders_list">Лист активных заказов</string>
+    <string name="active_ordders_list_">Лист активных заказов:</string>
     <string name="create_a_new_order">Сделать новый заказ</string>
     <string name="orders_number">Заказ #1</string>
     <string name="orders_name">Блинный Брауни</string>
     <string name="add">Добавить</string>
     <string name="close_account">Закрыть счет</string>
     <string name="delete">Удалить</string>
+    <string name="logout_title">Выйти из аккаунта</string>
+    <string name="do_order_title">Сделать заказ</string>
+    <string name="do_order_message">Вы уверены, что хотите сделать заказ?</string>
+    <string name="logout_message">Вы уверены, что хотите выйти из аккаунта?</string>
+    <string name="action_conf">Подтвердить</string>
+    <string name="action_logout">Выйти</string>
 
     <string name="freezed">ЗАМОРОЖЕН</string>
     <string name="redy_t">ГОТОВО!</string>
@@ -29,4 +36,10 @@
     <string name="confirm">Подтвердить</string>
     <string name="add_meal">Добавить</string>
     <string name="next">Далее</string>
+    <string name="log_out">Принять</string>
+    <string name="cancel_order">Отменить</string>
+    <string name="cancel_close_cheque">Отмена</string>
+    <string name="close_cheque_question">Вы уверены, что хотите закрыть счет?</string>
+    <string name="accept_close_cheque">Закрыть счет</string>
+    <string name="close_cheque_title">Закрыть счет</string>
 </resources>

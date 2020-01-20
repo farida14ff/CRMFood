@@ -66,17 +66,17 @@
 
         <androidx.cardview.widget.CardView
             android:layout_width="44dp"
-            android:layout_height="37dp"
+            android:layout_height="match_parent"
             app:cardBackgroundColor="@color/colorLightGray">
 
             <TextView
                 android:id="@+id/counter_menu_sub"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingTop="9dp"
                 android:paddingStart="17dp"
-                android:textColor="@color/colorBlack"
+                android:paddingTop="9dp"
                 android:text="0"
+                android:textColor="@color/colorBlack"
                 tools:ignore="RtlSymmetry" />
 
         </androidx.cardview.widget.CardView>

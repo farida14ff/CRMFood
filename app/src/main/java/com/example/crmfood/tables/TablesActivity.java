@@ -3,6 +3,7 @@ package com.example.crmfood.tables;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.crmfood.R;
 import com.example.crmfood.adapters.TablesAdapter;
+import com.example.crmfood.basket.BasketActivity;
 import com.example.crmfood.menu.MainMenuActivity;
 import com.example.crmfood.menu.kitchenMenu.KitchenMenuFragment;
 import com.example.crmfood.models.Table;
@@ -24,6 +26,7 @@ public class TablesActivity extends AppCompatActivity implements TablesContract.
 
     private TablesContract.Presenter presenter;
     private TablesAdapter adapter;
+    Table table = new Table();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +42,12 @@ public class TablesActivity extends AppCompatActivity implements TablesContract.
         });
 
         initRecyclerViewWithAdapter();
+
+//        Intent intent = new Intent(TablesActivity.this, BasketActivity.class);
+//        intent.putExtra("tableId",table.getId());
+////        startActivity(intent);
+//        Log.e("tableId", "TablesActivity putExtra: "+ table.getId());
+
     }
 
     @Override
@@ -55,6 +64,7 @@ public class TablesActivity extends AppCompatActivity implements TablesContract.
             @Override
             public void onItemClick(Table table) {
                 showMenu(table);
+                Log.e("tableId TABLES: ", String.valueOf(table.getId()));
             }
         });
 
@@ -67,6 +77,8 @@ public class TablesActivity extends AppCompatActivity implements TablesContract.
     @Override
     public void showMenu(Table table) {
         Intent intent = new Intent(this, MainMenuActivity.class);
+        intent.putExtra("tableId",table.getId());
+        Log.e("tableId", "TablesActivity putExtra: "+ table.getId());
         startActivityForResult(intent, 100);
 
     }

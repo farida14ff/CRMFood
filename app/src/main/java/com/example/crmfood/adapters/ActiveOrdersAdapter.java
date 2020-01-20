@@ -3,19 +3,28 @@ package com.example.crmfood.adapters;
 import android.annotation.SuppressLint;
 import android.content.Context;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.crmfood.BaseActivity;
 import com.example.crmfood.R;
+import com.example.crmfood.basket.BasketActivity;
+import com.example.crmfood.main.MainFragment;
 import com.example.crmfood.main.MainContract;
+import com.example.crmfood.main.MainPresenter;
+import com.example.crmfood.menu.MainMenuActivity;
 import com.example.crmfood.models.ActiveOrder;
 import com.example.crmfood.models.ListMealInActiveOrder;
 
@@ -27,6 +36,8 @@ public class ActiveOrdersAdapter extends RecyclerView.Adapter<ActiveOrdersAdapte
     private Context context;
     private List<ActiveOrder> activeOrderList;
     private MainContract.OnItemClickListener clickListener;
+    private MainContract.Presenter presenter;
+
 
 
     public ActiveOrdersAdapter(Context context, List<ActiveOrder> activeOrderList, MainContract.OnItemClickListener clickListener) {
@@ -90,7 +101,6 @@ public class ActiveOrdersAdapter extends RecyclerView.Adapter<ActiveOrdersAdapte
         @SuppressLint({"SetTextI18n", "ResourceAsColor"})
          void bind(final ActiveOrder activeOrder, final MainContract.OnItemClickListener onItemClickListener) {
 
-
              ordersNumTextView.setOnClickListener(new View.OnClickListener() {
                  int a = View.GONE;
                  @Override
@@ -138,6 +148,33 @@ public class ActiveOrdersAdapter extends RecyclerView.Adapter<ActiveOrdersAdapte
             recyclerView2.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.VERTICAL, false));
             recyclerView2.setAdapter(listMealInActiveOrderAdapter);
 
+            addBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, MainMenuActivity.class);
+                intent.putExtra("activeOrdersId: ",activeOrder.getId());
+                Log.e("activeOrdersId", " Add btn clicked: "+ activeOrder.getId());
+                context.startActivity(intent);
+
+            }
+            });
+            MainContract.View view = new MainFragment();
+
+            presenter = new MainPresenter(view);
+
+            closeAccountBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showConfirmLogoutDialog(activeOrder.getId());
+//                presenter.closeCheque(activeOrder.getId());
+
+
+
+            }
+        });
+
+
+
 
 //            switch (activeOrder.getMainStatus()){
 //                case "NotReady":
@@ -155,9 +192,33 @@ public class ActiveOrdersAdapter extends RecyclerView.Adapter<ActiveOrdersAdapte
 //
 //            }
 
+
             ordersNumTextView.setText("Заказ #"+activeOrder.getId());
 
             Log.e("tableID",String.valueOf(activeOrder.getId()));
         }
+    }
+
+    public void showConfirmLogoutDialog(final long activeOrderId) {
+
+        BaseActivity baseActivity = new BaseActivity();
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context, R.style.AlertDialogTheme);
+//        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(baseActivity.getApplicationContext(), R.style.AlertDialogTheme);
+        alertDialogBuilder.setTitle(R.string.close_cheque_title);
+        alertDialogBuilder.setNegativeButton(R.string.cancel_close_cheque, null);
+        alertDialogBuilder.setMessage(R.string.close_cheque_question);
+        alertDialogBuilder.setPositiveButton(R.string.accept_close_cheque, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        presenter.closeCheque(activeOrderId);
+
+                    }
+                });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+
+        alertDialog.show();
+
     }
 }

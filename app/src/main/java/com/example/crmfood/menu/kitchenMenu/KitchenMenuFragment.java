@@ -35,10 +35,6 @@ public class KitchenMenuFragment extends Fragment implements KitchenMenuContract
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.activity_kitchen_menu, container, false);
-
-
-
-
         initRecyclerViewWithAdapter(root);
 
         return root;

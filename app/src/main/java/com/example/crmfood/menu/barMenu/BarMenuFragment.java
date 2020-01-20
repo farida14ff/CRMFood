@@ -10,14 +10,12 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.crmfood.R;
 import com.example.crmfood.adapters.BarAdapter;
-import com.example.crmfood.basket.BasketActivity;
 import com.example.crmfood.models.MenuBar;
 import com.example.crmfood.subMenu.SubMenuActivity;
 

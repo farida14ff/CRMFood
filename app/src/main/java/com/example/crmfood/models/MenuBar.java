@@ -7,7 +7,7 @@ import java.util.List;
 
 public class MenuBar implements Serializable {
 
-    @SerializedName("catetegoryId")
+    @SerializedName("categoryId")
     private long categoryId;
     @SerializedName("category")
     private String categoryName;

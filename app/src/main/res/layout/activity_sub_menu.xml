@@ -45,21 +45,21 @@
             </androidx.appcompat.widget.Toolbar>
 
 
-            <LinearLayout
-                android:id="@+id/basket_sub"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                >
+<!--            <LinearLayout-->
+<!--                android:id="@+id/basket_sub"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="match_parent"-->
+<!--                >-->
 
-                <ImageView
-                    android:layout_width="19dp"
-                    android:layout_height="16dp"
-                    android:layout_marginTop="20dp"
-                    app:srcCompat="@drawable/ic_submit">
+<!--                <ImageView-->
+<!--                    android:layout_width="19dp"-->
+<!--                    android:layout_height="16dp"-->
+<!--                    android:layout_marginTop="20dp"-->
+<!--                    app:srcCompat="@drawable/ic_submit">-->
 
-                </ImageView>
+<!--                </ImageView>-->
 
-            </LinearLayout>
+<!--            </LinearLayout>-->
 
 
         </LinearLayout>

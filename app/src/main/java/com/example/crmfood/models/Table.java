@@ -7,13 +7,13 @@ import java.io.Serializable;
 public class Table implements Serializable  {
 
     @SerializedName("id")
-    private int id;
+    private long id;
     @SerializedName("name")
     private String name;
     @SerializedName("status")
     private int status;
 
-    public Table(int id, String name, int status) {
+    public Table(long id, String name, int status) {
         this.id = id;
         this.name = name;
         this.status = status;
@@ -23,7 +23,7 @@ public class Table implements Serializable  {
 
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 

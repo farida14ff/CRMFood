@@ -1,5 +1,8 @@
 package com.example.crmfood.models;
 
+
+import androidx.room.Entity;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -20,6 +23,10 @@ public class SubMenu implements Serializable {
         this.sub_name = sub_name;
         this.sub_price = sub_price;
         this.sub_status = sub_status;
+    }
+
+    public SubMenu() {
+
     }
 
     public long getSub_id() {
