@@ -26,7 +26,6 @@ public class TablesActivity extends AppCompatActivity implements TablesContract.
 
     private TablesContract.Presenter presenter;
     private TablesAdapter adapter;
-    Table table = new Table();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,12 +33,7 @@ public class TablesActivity extends AppCompatActivity implements TablesContract.
         setContentView(R.layout.activity_tables);
 
         LinearLayout goBackIM = findViewById(R.id.go_back_icon);
-        goBackIM.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        goBackIM.setOnClickListener(e -> finish());
 
         initRecyclerViewWithAdapter();
 
@@ -86,6 +80,7 @@ public class TablesActivity extends AppCompatActivity implements TablesContract.
     @Override
     public void showError() {
         Toast.makeText(this, getString(R.string.tables_error), Toast.LENGTH_LONG).show();
+        //TODO: add emty view
     }
 
     @Override

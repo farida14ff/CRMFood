@@ -43,9 +43,12 @@ public class MainMenuActivity extends AppCompatActivity {
 
     private void initIntents() {
 
-        Intent intent3 = getIntent();
-        long my_activeOrdersId = intent3.getLongExtra("activeOrdersId",205);
-        Log.e("activeOrdersId", "MainMenuActivity getExtra my_activeOrdersId: "+ my_activeOrdersId);
+        //Intent intent3 = getIntent();
+//        long my_activeOrdersId = intent3.getLongExtra("activeOrdersId",1);
+        //Bundle extras = intent3.getExtras();
+        //assert extras != null;
+        //long my_activeOrdersId = extras.getLong("activeOrdersId");
+       // Log.e("activeOrdersId", "MainMenuActivity getExtra my_activeOrdersId: "+ my_activeOrdersId);
 
 
         Intent intent = getIntent();
@@ -55,15 +58,15 @@ public class MainMenuActivity extends AppCompatActivity {
 
         intent1 = new Intent(MainMenuActivity.this, BasketActivity.class);
         intent1.putExtra("tableId",my_tableId);
-        intent1.putExtra("activeOrdersId",my_activeOrdersId);
-        Log.e("tableId", "MainMenuActivity putExtra my_tbl to basket: "+ my_tableId);
-        Log.e("activeOrdersId", "MainMenuActivity putExtra to basket my_activeOrdersId to basket: "+ my_activeOrdersId);
+//        intent1.putExtra("activeOrdersId",my_activeOrdersId);
+        Log.e("tableId", "MainMenuActivity putExtra my_tbl to addMealList: "+ my_tableId);
+//        Log.e("activeOrdersId", "MainMenuActivity putExtra to addMealList my_activeOrdersId to addMealList: "+ my_activeOrdersId);
 
         Intent intent2 = new Intent(MainMenuActivity.this, SubMenuActivity.class);
         intent2.putExtra("tableId",my_tableId);
-        intent2.putExtra("activeOrdersId",my_activeOrdersId);
+//        intent2.putExtra("activeOrdersId",my_activeOrdersId);
         Log.e("tableId", "MainMenuActivity putExtra my_tbl to sub: "+ my_tableId);
-        Log.e("activeOrdersId", "MainMenuActivity putExtra to sub my_activeOrdersId to basket: "+ my_activeOrdersId);
+//        Log.e("activeOrdersId", "MainMenuActivity putExtra to sub my_activeOrdersId to addMealList: "+ my_activeOrdersId);
 
     }
 

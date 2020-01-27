@@ -36,7 +36,7 @@
         android:layout_width="15dp"
         android:layout_height="15dp"
         android:layout_marginStart="196dp"
-        android:src="@drawable/redy_ic"
+        android:src="@drawable/no_ready_ic"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
@@ -48,7 +48,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:text="ЗАМОРОЖЕН"
+        tools:text="ЗАМОРОЖЕН"
         android:textColor="@color/colorBlack"
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"

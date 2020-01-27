@@ -3,7 +3,6 @@ package com.example.crmfood.network;
 import com.example.crmfood.models.ActiveOrder;
 
 import com.example.crmfood.models.AddMeal;
-import com.example.crmfood.models.Basket2;
 import com.example.crmfood.models.CategoryId;
 import com.example.crmfood.models.CloseCheque;
 import com.example.crmfood.models.CreateOrder;

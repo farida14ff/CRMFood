@@ -5,7 +5,7 @@ import android.util.Log;
 import com.example.crmfood.BaseActivity;
 import com.example.crmfood.models.AddMeal;
 import com.example.crmfood.models.AddMealList;
-import com.example.crmfood.models.Basket2;
+import com.example.crmfood.models.Basket;
 import com.example.crmfood.models.CreateOrder;
 import com.example.crmfood.models.StatusMessage;
 import com.example.crmfood.network.MyService;
@@ -30,8 +30,11 @@ public class BasketPresenter implements BasketContract.Presenter{
         this.view = view;
     }
 
+
+
+
     @Override
-    public void sendCreatedOrder(final long tableId, final String comment, final List<Basket2> mealOrders) {
+    public void sendCreatedOrder(final long tableId, final String comment, final List<Basket> mealOrders) {
         Call<StatusMessage> call = service.createOrder(BaseActivity.authToken, new CreateOrder(tableId, comment, mealOrders));
         call.enqueue(new Callback<StatusMessage>() {
             @Override

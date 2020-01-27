@@ -12,37 +12,38 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.crmfood.R;
+import com.example.crmfood.basket.BasketActivity;
 import com.example.crmfood.basket.BasketContract;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.example.crmfood.data.ToBasketRoomDatabase;
-import com.example.crmfood.models.Basket2;
+import com.example.crmfood.models.Basket;
 
 public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.BasketViewHolder> {
 
-    private List<Basket2> basketList;
+    private List<Basket> basketList;
     private BasketContract.OnItemClickListener onItemClickListener;
+    private BasketActivity basketActivity = new BasketActivity();
 
     public BasketAdapter(BasketContract.OnItemClickListener onItemClickListener) {
         basketList = new ArrayList<>();
         this.onItemClickListener = onItemClickListener;
     }
 
-    public BasketAdapter(List<Basket2> basketList,BasketContract.OnItemClickListener onItemClickListener) {
+    public BasketAdapter(List<Basket> basketList, BasketContract.OnItemClickListener onItemClickListener) {
         this.basketList = basketList;
         this.onItemClickListener = onItemClickListener;
     }
 
-    public void setValues(List<Basket2> values) {
+    public void setValues(List<Basket> values) {
         basketList.clear();
         if (values != null) {
             basketList.addAll(values);
         }
         this.notifyDataSetChanged();
     }
-
 
     @NonNull
     @Override
@@ -75,6 +76,7 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.BasketView
         TextView counter;
         Button delete_from_basket;
         ToBasketRoomDatabase db;
+        public Basket basket;
 
         int number;
         double inPrice;
@@ -91,80 +93,82 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.BasketView
             decrease = itemView.findViewById(R.id.decrease_menu_basket);
             delete_from_basket = itemView.findViewById(R.id.delete_button_basket);
 
-            number = 1;
             inPrice = 0;
             totPrice = 0;
 
         }
 
-        void bind(final Basket2 basket, final BasketContract.OnItemClickListener onItemClickListener) {
+        void bind(final Basket basket2, final BasketContract.OnItemClickListener onItemClickListener) {
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    onItemClickListener.onItemClick(basket);
-                }
-            });
+            itemView.setOnClickListener(e -> onItemClickListener.onItemClick(basket2));
 
 
-            name.setText(basket.getBasket_name());
-            inPrice = basket.getBasket_price();
+            name.setText(basket2.getBasket_name());
+            inPrice = basket2.getBasket_price();
             price.setText(String.valueOf(inPrice));
-            counter.setText(String.valueOf(number));
+            counter.setText(String.valueOf(basket2.getOrderedQuantity()));
+
+            basket = basket2;
 
 
-            increase.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    number++;
-                    totPrice = inPrice *number;
-                    price.setText(String.valueOf(totPrice));
-                    counter.setText(String.valueOf(number));
-//                    Basket2 basketObj = new Basket2(basket.getMealId(), name.getText().toString(), Double.parseDouble(price.getText().toString()), Integer.parseInt(counter.getText().toString()));
+            increase.setOnClickListener(e ->{
+
+                basket.increase();
+                totPrice = inPrice * basket.getOrderedQuantity();
+                price.setText(String.valueOf(totPrice));
+                counter.setText(String.valueOf(basket.getOrderedQuantity()));
+                basketActivity.saveBasket(basket);
+
+            });
+
+//            increase.setOnClickListener( e ->{
+//                    basket2.increase();
+//                    totPrice = inPrice *basket2.getOrderedQuantity();
+//                    price.setText(String.valueOf(totPrice));
+//                    counter.setText(String.valueOf(basket2.getOrderedQuantity()));
 //
-//                    db.toBasketDao().addItems(basketObj);
-//                    basket.setVisibility(View.GONE);
-//                    basket2.setVisibility(View.VISIBLE);
+////                    Basket basketObj = new Basket(ImageBasket.getMealId(), name.getText().toString(), Double.parseDouble(price.getText().toString()), Integer.parseInt(counter.getText().toString()));
+////
+////                    db.toBasketDao().addItems(basketObj);
+////                    ImageBasket.setVisibility(View.GONE);
+////                    ImageBasket2.setVisibility(View.VISIBLE);
+//
+//            });
+
+            //            decrease.setOnClickListener(e ->{
+//                    basket2.decrease();
+//                    totPrice = inPrice *basket2.getOrderedQuantity();
+//                    price.setText(String.valueOf(totPrice));
+//                    counter.setText(String.valueOf(basket2.getOrderedQuantity()));
+//
+//            });
+
+
+            decrease.setOnClickListener(e ->{
+
+                number = basket.getOrderedQuantity();
+                basket.decrease();
+                counter.setText(String.valueOf(basket.getOrderedQuantity()));
+                Log.e("SubMenuAdepter","bsaket quantity"+basket.getOrderedQuantity());
+
+                if (basket.getOrderedQuantity()>0){
+                    Log.e("SubMenuAdepter","number>0");
+                    totPrice = inPrice *basket.getOrderedQuantity();
+                    price.setText(String.valueOf(totPrice));
+                    basketActivity.saveBasket(basket);
                 }
+                else {
+                    Log.e("SubMenuAdepter","fromBasketView");
+                    basketActivity.deleteFromBasket(basket);
+                    price.setText(String.valueOf(inPrice));
+                }
+
             });
 
-            decrease.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (number>1) {
-                        number--;
-                        totPrice = totPrice-inPrice ;
-                        if (totPrice < inPrice){
-                            price.setText(String.valueOf(inPrice));
-                            number = 0;
 
-                        }else {
-                            price.setText(String.valueOf(totPrice));
-                        }
-                        if (number == 0) {
-//                            basket2.setVisibility(View.GONE);
-//                            basket.setVisibility(View.VISIBLE);
-                        }
-                        counter.setText(String.valueOf(number));
-                    } else {
-                        number = 0;
-                        counter.setText(String.valueOf(number));
-//                        basket2.setVisibility(View.GONE);
-//                        basket.setVisibility(View.VISIBLE);
-
-                    }
-
-                }
-            });
-
-
-            delete_from_basket.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Basket2 basketObj = new Basket2(basket.getMealId(),name.getText().toString(),Double.parseDouble(price.getText().toString()),Integer.parseInt(counter.getText().toString()));
-                    db.toBasketDao().deleteItem(basketObj.getMealId());
-                    Log.e("getSub_id", "onClick: " + basketObj.getMealId());
-                }
+            delete_from_basket.setOnClickListener(e ->{
+                basketActivity.deleteFromBasket(basket);
+                    Log.e("getSub_id", "onClick: " + basket.getMealId());
             });
         }
     }

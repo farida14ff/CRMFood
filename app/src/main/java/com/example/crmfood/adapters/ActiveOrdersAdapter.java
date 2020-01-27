@@ -5,22 +5,23 @@ import android.content.Context;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.crmfood.BaseActivity;
+import com.example.crmfood.App;
 import com.example.crmfood.R;
-import com.example.crmfood.basket.BasketActivity;
+import com.example.crmfood.SharedPreferencesManager;
 import com.example.crmfood.main.MainFragment;
 import com.example.crmfood.main.MainContract;
 import com.example.crmfood.main.MainPresenter;
@@ -42,7 +43,7 @@ public class ActiveOrdersAdapter extends RecyclerView.Adapter<ActiveOrdersAdapte
 
     public ActiveOrdersAdapter(Context context, List<ActiveOrder> activeOrderList, MainContract.OnItemClickListener clickListener) {
         this.context = context;
-        this.activeOrderList =  new ArrayList<>();
+        this.activeOrderList = new ArrayList<>();
         this.clickListener = clickListener;
     }
 
@@ -60,13 +61,13 @@ public class ActiveOrdersAdapter extends RecyclerView.Adapter<ActiveOrdersAdapte
     public AciveOdresViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view;
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        view = layoutInflater.inflate(R.layout.active_arders_list_item, parent,false);
+        view = layoutInflater.inflate(R.layout.active_arders_list_item, parent, false);
         return new AciveOdresViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull AciveOdresViewHolder holder, int position) {
-        holder.bind(activeOrderList.get(position),clickListener);
+        holder.bind(activeOrderList.get(position), clickListener);
 
     }
 
@@ -75,7 +76,7 @@ public class ActiveOrdersAdapter extends RecyclerView.Adapter<ActiveOrdersAdapte
         return activeOrderList.size();
     }
 
-     class AciveOdresViewHolder extends RecyclerView.ViewHolder {
+    class AciveOdresViewHolder extends RecyclerView.ViewHolder {
 
         RecyclerView recyclerView2;
         List<ListMealInActiveOrder> listMealInActiveOrders;
@@ -83,9 +84,10 @@ public class ActiveOrdersAdapter extends RecyclerView.Adapter<ActiveOrdersAdapte
         Button addBtn;
         Button closeAccountBtn;
         TextView ordersStatus;
+        ActiveOrder currentOrder;
 
 
-         AciveOdresViewHolder(@NonNull View itemView) {
+        AciveOdresViewHolder(@NonNull View itemView) {
             super(itemView);
 
             listMealInActiveOrders = new ArrayList<>();
@@ -98,29 +100,31 @@ public class ActiveOrdersAdapter extends RecyclerView.Adapter<ActiveOrdersAdapte
         }
 
 
-        @SuppressLint({"SetTextI18n", "ResourceAsColor"})
-         void bind(final ActiveOrder activeOrder, final MainContract.OnItemClickListener onItemClickListener) {
+        @SuppressLint({"SetTextI18n", "ResourceAsColor", "LongLogTag", "CommitPrefEdits"})
+        void bind(final ActiveOrder activeOrder, final MainContract.OnItemClickListener onItemClickListener) {
+            currentOrder = activeOrder;
+            ordersNumTextView.setOnClickListener(new View.OnClickListener() {
+                int a = View.GONE;
 
-             ordersNumTextView.setOnClickListener(new View.OnClickListener() {
-                 int a = View.GONE;
-                 @Override
-                 public void onClick(View view) {
-                     if (a == View.VISIBLE) {
-                         recyclerView2.setVisibility(a);
-                         addBtn.setVisibility(View.VISIBLE);
-                         closeAccountBtn.setVisibility(View.VISIBLE);
+                @Override
+                public void onClick(View view) {
+                    if (a == View.VISIBLE) {
+                        recyclerView2.setVisibility(a);
+                        addBtn.setVisibility(View.VISIBLE);
+                        closeAccountBtn.setVisibility(View.VISIBLE);
 
-                         a = View.GONE;
-                     }else {
-                         recyclerView2.setVisibility(a);
-                         addBtn.setVisibility(View.GONE);
-                         closeAccountBtn.setVisibility(View.GONE);
-                         a = View.VISIBLE;
-                     }
-                 }
-             });
+                        a = View.GONE;
+                    } else {
+                        recyclerView2.setVisibility(a);
+                        addBtn.setVisibility(View.GONE);
+                        closeAccountBtn.setVisibility(View.GONE);
+                        a = View.VISIBLE;
+                    }
+                }
+            });
             itemView.setOnClickListener(new View.OnClickListener() {
                 int a = View.GONE;
+
                 @Override
                 public void onClick(View view) {
                     onItemClickListener.onItemClick(activeOrder);
@@ -130,7 +134,7 @@ public class ActiveOrdersAdapter extends RecyclerView.Adapter<ActiveOrdersAdapte
                         closeAccountBtn.setVisibility(View.VISIBLE);
 
                         a = View.GONE;
-                    }else {
+                    } else {
                         recyclerView2.setVisibility(a);
                         addBtn.setVisibility(View.GONE);
                         closeAccountBtn.setVisibility(View.GONE);
@@ -142,38 +146,26 @@ public class ActiveOrdersAdapter extends RecyclerView.Adapter<ActiveOrdersAdapte
 
             List<ListMealInActiveOrder> listMealInActiveOrders = activeOrder.getListMealInActiveOrders();
             ListMealInActiveOrderAdapter listMealInActiveOrderAdapter = new ListMealInActiveOrderAdapter
-                    (context,listMealInActiveOrders);
+                    (context, listMealInActiveOrders);
 
             recyclerView2.setHasFixedSize(true);
-            recyclerView2.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.VERTICAL, false));
+            recyclerView2.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
             recyclerView2.setAdapter(listMealInActiveOrderAdapter);
 
-            addBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            addBtn.setOnClickListener(e -> {
+
                 Intent intent = new Intent(context, MainMenuActivity.class);
-                intent.putExtra("activeOrdersId: ",activeOrder.getId());
-                Log.e("activeOrdersId", " Add btn clicked: "+ activeOrder.getId());
+                Log.e("activeOrdersId", " Add btn clicked: " + activeOrder.getId());
+                saveId(currentOrder.getId());
                 context.startActivity(intent);
 
-            }
-            });
-            MainContract.View view = new MainFragment();
 
+            });
+
+            MainContract.View view = new MainFragment();
             presenter = new MainPresenter(view);
 
-            closeAccountBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showConfirmLogoutDialog(activeOrder.getId());
-//                presenter.closeCheque(activeOrder.getId());
-
-
-
-            }
-        });
-
-
+            closeAccountBtn.setOnClickListener(e -> showConfirmLogoutDialog(activeOrder.getId()));
 
 
 //            switch (activeOrder.getMainStatus()){
@@ -193,31 +185,34 @@ public class ActiveOrdersAdapter extends RecyclerView.Adapter<ActiveOrdersAdapte
 //            }
 
 
-            ordersNumTextView.setText("Заказ #"+activeOrder.getId());
+            ordersNumTextView.setText("Заказ #" + activeOrder.getId());
 
-            Log.e("tableID",String.valueOf(activeOrder.getId()));
+            Log.e("tableID", String.valueOf(activeOrder.getId()));
+        }
+
+        @SuppressLint("LongLogTag")
+        void saveId(Long id) {
+            SharedPreferencesManager.setValue("ORDER_ID",id);
+            Log.i("SharedPreferencesManager", "id: " +id);
         }
     }
 
+
     public void showConfirmLogoutDialog(final long activeOrderId) {
 
-        BaseActivity baseActivity = new BaseActivity();
-
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context, R.style.AlertDialogTheme);
-//        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(baseActivity.getApplicationContext(), R.style.AlertDialogTheme);
         alertDialogBuilder.setTitle(R.string.close_cheque_title);
         alertDialogBuilder.setNegativeButton(R.string.cancel_close_cheque, null);
         alertDialogBuilder.setMessage(R.string.close_cheque_question);
         alertDialogBuilder.setPositiveButton(R.string.accept_close_cheque, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        presenter.closeCheque(activeOrderId);
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                presenter.closeCheque(activeOrderId);
 
-                    }
-                });
+            }
+        });
 
         AlertDialog alertDialog = alertDialogBuilder.create();
-
         alertDialog.show();
 
     }

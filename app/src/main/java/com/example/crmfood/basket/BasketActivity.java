@@ -14,42 +14,37 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.crmfood.BaseActivity;
 import com.example.crmfood.R;
+import com.example.crmfood.SharedPreferencesManager;
 import com.example.crmfood.adapters.BasketAdapter;
-import com.example.crmfood.menu.MainMenuActivity;
 import com.example.crmfood.models.ActiveOrder;
 
 
 import java.util.List;
 
-import com.example.crmfood.data.ToBasketDao;
 import com.example.crmfood.data.ToBasketRoomDatabase;
 import com.example.crmfood.models.AddMealList;
-import com.example.crmfood.models.Basket2;
+import com.example.crmfood.models.Basket;
 
-public class BasketActivity extends AppCompatActivity  implements BasketContract.View {
+public class BasketActivity extends AppCompatActivity implements BasketContract.View {
 
     BasketContract.Presenter presenter;
     BasketAdapter adapter;
 
-    List<Basket2> items_b;
-//    List<AddMealList> items_b_add;
+
+    List<Basket> items_b;
+    List<AddMealList> items_b_add;
+
 
     private ToBasketRoomDatabase db;
-    private ToBasketDao dao;
 
-    private int sub_id;
-    private String basket_name;
-    private double basket_price;
-    private int counter_menu_basket;
-    private int basket_status;
-
+    public static long act_ored_id;
+    long def_val = 1;
 
 
 //    @Override
@@ -58,27 +53,35 @@ public class BasketActivity extends AppCompatActivity  implements BasketContract
 //        int count = db.toBasketDao().getAllItems().size();
 //        if(adapter != null)
 //            adapter.notifyDataSetChanged();
-//        Log.e("onResume count basket:",String.valueOf(count));
+//        Log.e("onResume count addMealList:",String.valueOf(count));
 //    }
 
 
+    @SuppressLint("CommitPrefEdits")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_basket);
 
+
+
+        act_ored_id = SharedPreferencesManager.getValue("ORDER_ID",def_val);
+
         db = ToBasketRoomDatabase.getDatabase(this);
-//        dao = db.toBasketDao();
-
-        items_b = db.toBasketDao().getAllItems();
-//        items_b_add = db.toBasketDao().getAllItemsAddMeal();
 
 
+        if (act_ored_id == def_val){
+            items_b = db.toBasketDao().getAllItems();
+            countMealsQuantity();
+        }else {
+            items_b_add = db.toBasketDao().getAllItemsAddMeal();
+            countAddMealsQuantity();
 
-//        for (int i = 0; i <items_b2.size() ; i++) {
-//            Log.e("BasketActivity", "items_b2: "+ items_b2);
-//        }
+        }
 
+
+        Log.e("BasketActivity", "items_b: " + items_b);
+        Log.e("BasketActivity", "items_b_add: " + items_b_add);
 
         initRecyclerView();
         initBasketItems();
@@ -92,22 +95,21 @@ public class BasketActivity extends AppCompatActivity  implements BasketContract
 
         presenter = new BasketPresenter(this);
 
-
-        adapter = new BasketAdapter(items_b,new  BasketContract.OnItemClickListener() {
-            @Override
-            public void onItemClick(Basket2 basket) {
+            adapter = new BasketAdapter(items_b, e -> {
                 //TODO: modalWindow "about"
-            }
 
-        });
 
-        recyclerView.setAdapter(adapter);
+            });
+            recyclerView.setAdapter(adapter);
+
+
+
         recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
     }
 
     @SuppressLint("SetTextI18n")
-    private void initBasketItems(){
+    private void initBasketItems() {
         TextView meals_quantity_tv = findViewById(R.id.meals_quantity);
         TextView total_price_tv = findViewById(R.id.total_price);
         Button confirm_button_b = findViewById(R.id.confirm_button);
@@ -115,63 +117,37 @@ public class BasketActivity extends AppCompatActivity  implements BasketContract
 
 
         LinearLayout goBackIM = findViewById(R.id.go_back_icon);
-        goBackIM.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                Intent intent = new Intent(BasketActivity.this,MainMenuActivity.class);
-//                startActivity(intent);
+        goBackIM.setOnClickListener(e ->{
                 finish();
-            }
-        });
 
-        int arraysSize = 0;
-        String wordsEnd = "";
-//        if (items_b_add.size() < 1){
-            arraysSize = items_b.size();
-            if (arraysSize == 1){
-                wordsEnd = "";
-            } else if (arraysSize <= 4 ) {
-                wordsEnd = "а";
-            }
-            else {
-                wordsEnd = "ов";
-            }
-//        }else {
-//            arraysSize = items_b_add.size();
-//            if (arraysSize == 1){
-//                wordsEnd = "";
-//            } else if (arraysSize <= 4 ) {
-//                wordsEnd = "а";
-//            }
-//            else {
-//                wordsEnd = "ов";
-//            }
+        });
+//
+//        int arraysSize = 0;
+//        String wordsEnd = "";
+//        arraysSize = items_b.size();
+//        if (arraysSize == 1) {
+//            wordsEnd = "";
+//        } else if (arraysSize <= 4) {
+//            wordsEnd = "а";
+//        } else {
+//            wordsEnd = "ов";
 //        }
+//
+//
+//        meals_quantity_tv.setText(arraysSize + " товар" + wordsEnd);
+//
+//
+//        String tp = String.valueOf(calculateTotalPrice());
+//        total_price_tv.setText(tp);
 
-         meals_quantity_tv.setText(arraysSize+" товар"+wordsEnd);
+        add_meal_button.setOnClickListener(e -> finish());
 
-
-         String tp = String.valueOf(calculateTotalPrice());
-         total_price_tv.setText(tp);
-
-         add_meal_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                Intent intent = new Intent(BasketActivity.this,MainMenuActivity.class);
-//                startActivity(intent);
-                finish();
-            }
-        });
-
-        confirm_button_b.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        confirm_button_b.setOnClickListener(e ->{
                 showConfirmLogoutDialog();
 
-                //TODO: clear basket
-                //TODO: connect basket to the tables id
+                //TODO: clear addMealList
+                //TODO: connect addMealList to the tables id
 
-            }
         });
 
 
@@ -189,22 +165,25 @@ public class BasketActivity extends AppCompatActivity  implements BasketContract
                 ActiveOrder activeOrder = new ActiveOrder();
 
                 Intent intent = getIntent();
-                long tableID = intent.getLongExtra("tableId",1);
+                long tableID = intent.getLongExtra("tableId", 1);
 //                long activeOrdersID = intent.getLongExtra("activeOrdersId",1);
-//                if (activeOrdersID == 1){
-                presenter.sendCreatedOrder(tableID," ", items_b);
-                db.toBasketDao().deleteAllItems(items_b);
-               // }else {
-               //     presenter.sendAddMealOrder(activeOrdersID,items_b_add);
-               // }
+                if (act_ored_id == def_val){
+                    presenter.sendCreatedOrder(tableID, " ", items_b);
+                    db.toBasketDao().deleteAllItems(items_b);
+                 }else {
+                    presenter.sendAddMealOrder(act_ored_id,items_b_add);
+                    db.toBasketDao().deleteAllItems(items_b);
+//                     presenter.sendAddMealOrder(act_ored_id,items_b);
+                 }
 
 //                presenter.sendCreatedOrder(tableID," ", items_b2);
-                Intent intent1 = new Intent(BasketActivity.this,BaseActivity.class);
+                Intent intent1 = new Intent(BasketActivity.this, BaseActivity.class);
                 startActivity(intent1);
                 finish();
 //                presenter.sendCreatedOrder(activeOrder.getId(),"",items_b);
-                Log.e("tableId", "BasketActivity getLongExtra: "+ tableID);
-                Log.e("BasketActivity", "items_b2: "+ items_b);
+                Log.e("tableId", "BasketActivity tableId: " + tableID);
+                Log.e("tableId", "BasketActivity activeOrdersId: " + act_ored_id);
+                Log.e("BasketActivity", "items_b2: " + items_b);
 
 
             }
@@ -217,22 +196,29 @@ public class BasketActivity extends AppCompatActivity  implements BasketContract
 
 
     @Override
-    public void openActiveOrderList(List<Basket2> body) {
+    public void openActiveOrderList(List<Basket> body) {
         adapter.setValues(body);
     }
 
 
-    public double calculateTotalPrice(){
+    public double calculateTotalPrice() {
         double totPrice = 0;
         for (int i = 0; i < items_b.size(); i++) {
-           totPrice += items_b.get(i).getBasket_price();
+            totPrice += items_b.get(i).getBasket_price();
         }
         Log.e("calculateTotalPrice: ", String.valueOf(totPrice));
         return totPrice;
 
 
+    }
 
-
+    public double calculateAddMealTotalPrice(){
+        double totPrice = 0;
+        for (int i = 0; i < items_b_add.size(); i++) {
+            totPrice += items_b_add.get(i).getAdd_meal_price();
+        }
+        Log.e("calculateTotalPrice: ", String.valueOf(totPrice));
+        return totPrice;
     }
 
     @Override
@@ -243,4 +229,100 @@ public class BasketActivity extends AppCompatActivity  implements BasketContract
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return netInfo != null && netInfo.isConnectedOrConnecting();
     }
+
+    public void saveBasket(Basket b) {
+        ToBasketRoomDatabase db = ToBasketRoomDatabase.getDatabase(this);
+
+        Basket basket = db.toBasketDao().getItem(b.getMealId());
+
+        if (basket == null) {
+            db.toBasketDao().addItems(b);
+            Log.e("SubMenuActivity","basket created");
+
+        } else {
+            db.toBasketDao().update(b.getOrderedQuantity(), b.getMealId());
+            Log.e("SubMenu activity","basket updated");
+        }
+
+    }
+
+    public void saveAddMeal(AddMealList aml) {
+        ToBasketRoomDatabase db = ToBasketRoomDatabase.getDatabase(this);
+
+        AddMealList addMealList = db.toBasketDao().getAddItem(aml.getMealId());
+
+        if (addMealList == null) {
+            db.toBasketDao().addItemsAddMeal(aml);
+            Log.e("SubMenuActivity","addMealList created");
+
+        } else {
+            db.toBasketDao().updateAddMeal(aml.getAddQuantity(), aml.getMealId());
+            Log.e("SubMenu activity","addMealList updated");
+        }
+
+    }
+
+    public void deleteFromBasket(Basket b){
+        ToBasketRoomDatabase db = ToBasketRoomDatabase.getDatabase(this);
+
+        db.toBasketDao().deleteItem(b.getMealId());
+
+    }
+
+    public void deleteFromAddMealBasket(AddMealList addMealList){
+        ToBasketRoomDatabase db = ToBasketRoomDatabase.getDatabase(this);
+
+        db.toBasketDao().deleteItemAddMeal(addMealList.getMealId());
+
+    }
+
+    public void countMealsQuantity(){
+        TextView meals_quantity_tv = findViewById(R.id.meals_quantity);
+        TextView total_price_tv = findViewById(R.id.total_price);
+
+        int arraysSize = 0;
+        String wordsEnd = "";
+        arraysSize = items_b.size();
+        if (arraysSize == 1) {
+            wordsEnd = "";
+        } else if (arraysSize <= 4) {
+            wordsEnd = "а";
+        } else {
+            wordsEnd = "ов";
+        }
+
+
+        meals_quantity_tv.setText(arraysSize + " товар" + wordsEnd);
+
+
+        String tp = String.valueOf(calculateTotalPrice());
+        total_price_tv.setText(tp);
+
+    }
+
+    public void countAddMealsQuantity(){
+        TextView meals_quantity_tv = findViewById(R.id.meals_quantity);
+        TextView total_price_tv = findViewById(R.id.total_price);
+
+        int arraysSize = 0;
+        String wordsEnd = "";
+        arraysSize = items_b_add.size();
+        if (arraysSize == 1) {
+            wordsEnd = "";
+        } else if (arraysSize <= 4) {
+            wordsEnd = "а";
+        } else {
+            wordsEnd = "ов";
+        }
+
+
+        meals_quantity_tv.setText(arraysSize + " товар" + wordsEnd);
+
+
+        String tp = String.valueOf(calculateAddMealTotalPrice());
+        total_price_tv.setText(tp);
+
+    }
+
+
 }

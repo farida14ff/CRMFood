@@ -2,22 +2,22 @@ package com.example.crmfood.models;
 
 public class StatusMessage {
 
-    private String status;
-    private String message;
+    private String Status;
+    private String Message;
 
     public String getStatus() {
-        return status;
+        return Status;
     }
 
     public void setStatus(String status) {
-        this.status = status;
+        this.Status = status;
     }
 
     public String getMessage() {
-        return message;
+        return Message;
     }
 
     public void setMessage(String message) {
-        this.message = message;
+        this.Message = message;
     }
 }

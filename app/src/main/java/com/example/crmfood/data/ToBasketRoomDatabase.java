@@ -7,10 +7,10 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
 import com.example.crmfood.models.AddMealList;
-import com.example.crmfood.models.Basket2;
+import com.example.crmfood.models.Basket;
 
 
-@Database(entities = {Basket2.class, AddMealList.class}, version = 4,exportSchema = false)
+@Database(entities = {Basket.class, AddMealList.class}, version = 5,exportSchema = false)
 //@Database(entities = Basket.class, version = 1, exportSchema = false)
 public abstract class ToBasketRoomDatabase extends RoomDatabase {
 

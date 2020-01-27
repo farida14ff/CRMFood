@@ -6,8 +6,8 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "basket2")
-public class Basket2 {
+@Entity(tableName = "basket")
+public  class Basket {
 
     @PrimaryKey(autoGenerate = true)
     private long mealId;
@@ -22,25 +22,22 @@ public class Basket2 {
     private int orderedQuantity;
 
 
-    public Basket2(long mealId, String basket_name, double basket_price, int orderedQuantity) {
+    public Basket(long mealId, String basket_name, double basket_price, int orderedQuantity) {
         this.mealId = mealId;
         this.basket_name = basket_name;
         this.basket_price = basket_price;
         this.orderedQuantity = orderedQuantity;
     }
- //   public Basket2(long mealId, int orderedQuantity) {
+ //   public Basket(long mealId, int orderedQuantity) {
 //        this.mealId = mealId;
 //        this.orderedQuantity = orderedQuantity;
 //    }
 
     @Ignore
-    public Basket2() {
+    public Basket() {
         super();
     }
 
-    public long getMealId() {
-        return mealId;
-    }
 
     public void setMealId(long mealId) {
         this.mealId = mealId;
@@ -68,5 +65,33 @@ public class Basket2 {
 
     public void setOrderedQuantity(int orderedQuantity) {
         this.orderedQuantity = orderedQuantity;
+
     }
+
+    public void decrease(){
+        if(orderedQuantity > 0){
+            orderedQuantity--;
+        }
+    }
+    public void increase(){
+        orderedQuantity++;
+    }
+
+    @Override
+    public String toString() {
+        return "Basket{" +
+                "mealId=" + mealId +
+                ", basket_name='" + basket_name + '\'' +
+                ", basket_price=" + basket_price +
+                ", orderedQuantity=" + orderedQuantity +
+                '}';
+    }
+
+    public long getMealId() {
+        return mealId;
+    }
+
 }
+
+
+

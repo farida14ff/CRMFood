@@ -6,21 +6,19 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.crmfood.R;
+import com.example.crmfood.SharedPreferencesManager;
 import com.example.crmfood.adapters.SubMenuAdapter;
-import com.example.crmfood.basket.BasketActivity;
-import com.example.crmfood.menu.MainMenuActivity;
-import com.example.crmfood.models.SubMenu;
+import com.example.crmfood.models.AddMealList;
+import com.example.crmfood.models.Basket;
 
 import java.util.List;
 
@@ -28,19 +26,15 @@ import com.example.crmfood.data.ToBasketRoomDatabase;
 
 public class SubMenuActivity extends AppCompatActivity implements SubMenuContract.View {
 
+
     private SubMenuContract.Presenter presenter;
-    private SubMenuAdapter adapter ;
+    private SubMenuAdapter adapter;
 
     public long activeOrdersId;
 
-    private long sb_id;
-    private String sb_name;
-    private double sb_price;
-    private int counter_menu_sb;
+    public static long act_ored_id;
+    long def_val = 1;
 
-    SubMenu subMenu = new SubMenu();
-    Intent intent1;
-    long my_tableId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,20 +42,17 @@ public class SubMenuActivity extends AppCompatActivity implements SubMenuContrac
         setContentView(R.layout.activity_sub_menu);
 
 
+        act_ored_id = SharedPreferencesManager.getValue("ORDER_ID",def_val);
         initRecyclerView();
         initViews();
 
     }
 
-    @SuppressLint("WrongViewCast")
     private void initViews() {
 
         LinearLayout goBackIM = findViewById(R.id.go_back_icon);
-        goBackIM.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
+        goBackIM.setOnClickListener(e -> {
+            finish();
         });
 
 //        final LinearLayout basket_LL = findViewById(R.id.basket_sub);
@@ -75,26 +66,58 @@ public class SubMenuActivity extends AppCompatActivity implements SubMenuContrac
 
 
         final Button next_btn = findViewById(R.id.next_button);
-        next_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                Intent intent = new Intent(SubMenuActivity.this, MainMenuActivity.class);
-//                startActivity(intent);
-                //TODO: send login to the presenter
-                //adapter.basketObjToRoom(adapter.id,adapter.view1,adapter.my_name,adapter.my_price,adapter.my_counter,adapter.db,adapter.basket);
-                finish();
+        next_btn.setOnClickListener(e -> finish());
 
-                //next_btn.setEnabled(false);
-            }
-        });
+    }
 
+    public void saveBasket(Basket b) {
+        ToBasketRoomDatabase db = ToBasketRoomDatabase.getDatabase(this);
 
+        Basket basket = db.toBasketDao().getItem(b.getMealId());
 
+        if (basket == null) {
+            db.toBasketDao().addItems(b);
+            Log.e("SubMenuActivity","addMealList created");
+
+        } else {
+            db.toBasketDao().update(b.getOrderedQuantity(), b.getMealId());
+            Log.e("SubMenu activity","addMealList updated");
+        }
+
+    }
+
+    public void saveAddMeal(AddMealList aml) {
+        ToBasketRoomDatabase db = ToBasketRoomDatabase.getDatabase(this);
+
+        AddMealList addMealList = db.toBasketDao().getAddItem(aml.getMealId());
+
+        if (addMealList == null) {
+            db.toBasketDao().addItemsAddMeal(aml);
+            Log.e("SubMenuActivity","addMealList created");
+
+        } else {
+            db.toBasketDao().updateAddMeal(aml.getAddQuantity(), aml.getMealId());
+            Log.e("SubMenu activity","addMealList updated");
+        }
+
+    }
+
+    public void deleteFromAddMealBasket(AddMealList addMealList){
+        ToBasketRoomDatabase db = ToBasketRoomDatabase.getDatabase(this);
+
+        db.toBasketDao().deleteItemAddMeal(addMealList.getMealId());
 
     }
 
 
-    private void initRecyclerView() {
+    public void deleteFromBasket(Basket b){
+        ToBasketRoomDatabase db = ToBasketRoomDatabase.getDatabase(this);
+        db.toBasketDao().deleteItem(b.getMealId());
+
+    }
+
+    @Override
+    public void initRecyclerView() {
         RecyclerView recyclerView = findViewById(R.id.sub_menu_rv);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -103,41 +126,40 @@ public class SubMenuActivity extends AppCompatActivity implements SubMenuContrac
 
         Intent intent = getIntent();
         String categoryName = intent.getStringExtra("category");
-        long id = intent.getLongExtra("categoryId",3);
-        activeOrdersId = intent.getLongExtra("activeOrdersId",1);
-        Log.e("SubMenuActivity", "activeOrdersId: "+ activeOrdersId);
+        long id = intent.getLongExtra("categoryId", 3);
+        activeOrdersId = intent.getLongExtra("activeOrdersId", 1);
+        Log.e("SubMenuActivity", "activeOrdersId: " + activeOrdersId);
 //        my_tableId = intent.getLongExtra("tableId",1);
 //        Log.e("tableId", "SubMenuActivity getExtra my_tbl: "+ my_tableId);
 //
 //
 //        intent1 = new Intent(SubMenuActivity.this, BasketActivity.class);
 //        intent1.putExtra("tableId",my_tableId);
-//        Log.e("tableId", "SubMenuActivity putExtra my_tbl to basket: "+ my_tableId);
+//        Log.e("tableId", "SubMenuActivity putExtra my_tbl to addMealList: "+ my_tableId);
 
         androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.app_bar_sub_menu);
         toolbar.setTitle(categoryName);
 
         presenter.displayMeals(id);
 
-        adapter = new SubMenuAdapter(new SubMenuContract.OnItemClickListener() {
-            @Override
-            public void onItemClick(SubMenu subMenu) {
 
-            }
-        });
+            adapter = new SubMenuAdapter(e -> {
+
+            });
+            recyclerView.setAdapter(adapter);
 
 
-        recyclerView.setAdapter(adapter);
+
         recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
 
     }
 
-
     @Override
-    public void getListOfMeals(List<SubMenu> body) {
+    public void getListOfMeals(List<Basket> body) {
         adapter.setValues(body);
     }
+
 
     @Override
     public void showError() {
@@ -149,7 +171,7 @@ public class SubMenuActivity extends AppCompatActivity implements SubMenuContrac
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK && requestCode == 100) {
             Intent intent = getIntent();
-            long id = intent.getLongExtra("categoryId",2);
+            long id = intent.getLongExtra("categoryId", 2);
             presenter.displayMeals(id);
         }
     }

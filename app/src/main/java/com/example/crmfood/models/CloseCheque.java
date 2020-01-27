@@ -8,9 +8,9 @@ public class CloseCheque {
     private long userId;
     private long tableId;
     private String comment;
-    private ArrayList<Basket2> mealOrders;
+    private ArrayList<Basket> mealOrders;
 
-    public CloseCheque(long id, long userId, long tableId, String comment, ArrayList<Basket2> mealOrders) {
+    public CloseCheque(long id, long userId, long tableId, String comment, ArrayList<Basket> mealOrders) {
         this.id = id;
         this.userId = userId;
         this.tableId = tableId;
@@ -50,11 +50,11 @@ public class CloseCheque {
         this.comment = comment;
     }
 
-    public ArrayList<Basket2> getMealOrders() {
+    public ArrayList<Basket> getMealOrders() {
         return mealOrders;
     }
 
-    public void setMealOrders(ArrayList<Basket2> mealOrders) {
+    public void setMealOrders(ArrayList<Basket> mealOrders) {
         this.mealOrders = mealOrders;
     }
 }

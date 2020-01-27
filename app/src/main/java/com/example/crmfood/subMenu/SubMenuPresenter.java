@@ -3,6 +3,8 @@ package com.example.crmfood.subMenu;
 import android.util.Log;
 
 import com.example.crmfood.BaseActivity;
+import com.example.crmfood.SharedPreferencesManager;
+import com.example.crmfood.halpers.Funct;
 import com.example.crmfood.models.CategoryId;
 import com.example.crmfood.models.SubMenu;
 import com.example.crmfood.network.MyService;
@@ -22,6 +24,9 @@ public class SubMenuPresenter implements SubMenuContract.Presenter {
 
     private SubMenuContract.View view;
     private MyService service = RetrofitClientInstance.getRetrofitInstance().create(MyService.class);
+    public static long act_ored_id;
+    long def_val = 1;
+
 
     SubMenuPresenter(SubMenuContract.View view) {
         this.view = view;
@@ -33,9 +38,14 @@ public class SubMenuPresenter implements SubMenuContract.Presenter {
         call.enqueue(new Callback<List<SubMenu>>() {
             @Override
             public void onResponse(@NotNull Call<List<SubMenu>> call, @NotNull Response<List<SubMenu>> response) {
-                view.getListOfMeals(response.body());
-                assert response.body() != null;
-                Log.e(TAG, "onResponse " + response.body().toString());
+
+                act_ored_id = SharedPreferencesManager.getValue("ORDER_ID",def_val);
+
+                    view.getListOfMeals(Funct.getBusketList(response.body()));
+                    assert response.body() != null;
+                    Log.e(TAG, "onResponse " + response.body().toString());
+
+
 
             }
 
@@ -48,4 +58,5 @@ public class SubMenuPresenter implements SubMenuContract.Presenter {
         });
 
     }
+
 }
