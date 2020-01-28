@@ -113,9 +113,7 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.BasketView
             counter.setText(String.valueOf(basket2.getOrderedQuantity()));
 
 
-
             increase.setOnClickListener(e ->{
-
                 basket.increase();
                 totPrice = inPrice * basket.getOrderedQuantity();
                 price.setText(String.valueOf(totPrice));

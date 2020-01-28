@@ -46,4 +46,5 @@
     <string name="no_orders">Нет доступных заказов</string>
     <string name="update_orders">Попробуйте обновить страницу</string>
     <string name="categories_error">Невозможно загрузить список категорий</string>
+    <string name="meals_error">Невозможно получить список блюд</string>
 </resources>

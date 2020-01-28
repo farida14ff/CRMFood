@@ -41,18 +41,24 @@ public class SubMenuPresenter implements SubMenuContract.Presenter {
 
                 act_ored_id = SharedPreferencesManager.getValue("ORDER_ID",def_val);
 
+                if (response.body() != null && response.body().size() > 0) {
+                    Log.i(TAG, "onResponse if");
                     view.getListOfMeals(Funct.getBusketList(response.body()));
+                    view.hideProgressBar();
+                } else {
+                    Log.i(TAG, "onResponse else");
                     assert response.body() != null;
-                    Log.e(TAG, "onResponse " + response.body().toString());
+                    view.getListOfMeals(Funct.getBusketList(response.body()));
+                    view.showEmptyView();
+                }
 
-
+                Log.e(TAG, "onResponse getTables");
 
             }
 
             @Override
             public void onFailure(@NotNull Call<List<SubMenu>> call, @NotNull Throwable t) {
                 Log.e(TAG, "onFailure " + t.getMessage());
-
                 view.showError();
             }
         });

@@ -10,8 +10,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.crmfood.R;
@@ -29,6 +31,9 @@ public class SubMenuActivity extends AppCompatActivity implements SubMenuContrac
 
     private SubMenuContract.Presenter presenter;
     private SubMenuAdapter adapter;
+    private LinearLayout emptyView;
+    private RecyclerView recyclerView;
+    ProgressBar progressBar;
 
     public long activeOrdersId;
 
@@ -43,8 +48,9 @@ public class SubMenuActivity extends AppCompatActivity implements SubMenuContrac
 
 
         act_ored_id = SharedPreferencesManager.getValue("ORDER_ID",def_val);
-        initRecyclerView();
+
         initViews();
+        initRecyclerView();
 
     }
 
@@ -54,6 +60,9 @@ public class SubMenuActivity extends AppCompatActivity implements SubMenuContrac
         goBackIM.setOnClickListener(e -> {
             finish();
         });
+
+        progressBar = findViewById(R.id.subMenu_progress_bar);
+        emptyView = findViewById(R.id.empty_view_subMenu);
 
 //        final LinearLayout basket_LL = findViewById(R.id.basket_sub);
 //        basket_LL.setOnClickListener(new View.OnClickListener() {
@@ -118,38 +127,36 @@ public class SubMenuActivity extends AppCompatActivity implements SubMenuContrac
 
     @Override
     public void initRecyclerView() {
-        RecyclerView recyclerView = findViewById(R.id.sub_menu_rv);
+        recyclerView = findViewById(R.id.sub_menu_rv);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        presenter = new SubMenuPresenter(this);
+
 
         Intent intent = getIntent();
         String categoryName = intent.getStringExtra("category");
         long id = intent.getLongExtra("categoryId", 3);
         activeOrdersId = intent.getLongExtra("activeOrdersId", 1);
         Log.e("SubMenuActivity", "activeOrdersId: " + activeOrdersId);
-//        my_tableId = intent.getLongExtra("tableId",1);
-//        Log.e("tableId", "SubMenuActivity getExtra my_tbl: "+ my_tableId);
-//
-//
-//        intent1 = new Intent(SubMenuActivity.this, BasketActivity.class);
-//        intent1.putExtra("tableId",my_tableId);
-//        Log.e("tableId", "SubMenuActivity putExtra my_tbl to addMealList: "+ my_tableId);
 
         androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.app_bar_sub_menu);
         toolbar.setTitle(categoryName);
 
-        presenter.displayMeals(id);
 
+
+        if (adapter == null) {
+            recyclerView.setVisibility(View.GONE);
+            emptyView.setVisibility(View.GONE);
+            progressBar.setVisibility(View.VISIBLE);
 
             adapter = new SubMenuAdapter(e -> {
 
             });
-            recyclerView.setAdapter(adapter);
+            presenter = new SubMenuPresenter(this);
+            presenter.displayMeals(id);
+        }
 
-
-
+        recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
 
@@ -163,7 +170,10 @@ public class SubMenuActivity extends AppCompatActivity implements SubMenuContrac
 
     @Override
     public void showError() {
-        Toast.makeText(this, getString(R.string.tables_error), Toast.LENGTH_LONG).show();
+        Toast.makeText(this, getString(R.string.meals_error), Toast.LENGTH_LONG).show();
+        progressBar.setVisibility(View.GONE);
+        emptyView.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
     }
 
     @Override
@@ -174,5 +184,19 @@ public class SubMenuActivity extends AppCompatActivity implements SubMenuContrac
             long id = intent.getLongExtra("categoryId", 2);
             presenter.displayMeals(id);
         }
+    }
+
+    @Override
+    public void hideProgressBar() {
+        progressBar.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
+        emptyView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showEmptyView() {
+        progressBar.setVisibility(View.GONE);
+        emptyView.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
     }
 }

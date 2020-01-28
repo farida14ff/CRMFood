@@ -22,5 +22,7 @@ public interface SubMenuContract {
         void getListOfMeals(List<Basket> body);
         void initRecyclerView();
         void showError();
+        void hideProgressBar();
+        void showEmptyView();
     }
 }

@@ -53,6 +53,8 @@ public class BasketActivity extends AppCompatActivity implements BasketContract.
     public static long act_ored_id;
     long def_val = 1;
 
+    TextView total_price_tv;
+
 
 //    @Override
 //    protected void onResume() {
@@ -110,13 +112,10 @@ public class BasketActivity extends AppCompatActivity implements BasketContract.
     private void initSwipeRefreshLayout() {
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout_basket);
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.rippleColor), getResources().getColor(R.color.colorPrimary));
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                recreate();
-                initRoomAndShPref();
-                stopRefreshingOrders();
-            }
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+//                recreate();
+            initRoomAndShPref();
+            stopRefreshingOrders();
         });
 
     }
@@ -124,7 +123,7 @@ public class BasketActivity extends AppCompatActivity implements BasketContract.
     @SuppressLint("SetTextI18n")
     private void initBasketItems() {
         TextView meals_quantity_tv = findViewById(R.id.meals_quantity);
-        TextView total_price_tv = findViewById(R.id.total_price);
+        total_price_tv = findViewById(R.id.total_price);
         Button confirm_button_b = findViewById(R.id.confirm_button);
         Button add_meal_button = findViewById(R.id.add_meal_button);
 
@@ -263,7 +262,7 @@ public class BasketActivity extends AppCompatActivity implements BasketContract.
     public double calculateTotalPrice() {
         double totPrice = 0;
         for (int i = 0; i < items_b.size(); i++) {
-            totPrice += items_b.get(i).getBasket_price();
+            totPrice += items_b.get(i).getBasket_price()*items_b.get(i).getOrderedQuantity();
         }
         Log.e("calculateTotalPrice: ", String.valueOf(totPrice));
         return totPrice;
