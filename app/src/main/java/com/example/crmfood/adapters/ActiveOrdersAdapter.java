@@ -185,9 +185,10 @@ public class ActiveOrdersAdapter extends RecyclerView.Adapter<ActiveOrdersAdapte
 //            }
 
 
-            ordersNumTextView.setText("Заказ #" + activeOrder.getId());
+            ordersNumTextView.setText("Стол #" + activeOrder.getTableName());
 
             Log.e("tableID", String.valueOf(activeOrder.getId()));
+            Log.e("tableName", String.valueOf(activeOrder.getTableName()));
         }
 
         @SuppressLint("LongLogTag")

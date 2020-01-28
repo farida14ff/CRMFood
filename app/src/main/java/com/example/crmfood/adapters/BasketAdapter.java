@@ -121,27 +121,6 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.BasketView
 
             });
 
-//            increase.setOnClickListener( e ->{
-//                    basket2.increase();
-//                    totPrice = inPrice *basket2.getOrderedQuantity();
-//                    price.setText(String.valueOf(totPrice));
-//                    counter.setText(String.valueOf(basket2.getOrderedQuantity()));
-//
-////                    Basket basketObj = new Basket(ImageBasket.getMealId(), name.getText().toString(), Double.parseDouble(price.getText().toString()), Integer.parseInt(counter.getText().toString()));
-////
-////                    db.toBasketDao().addItems(basketObj);
-////                    ImageBasket.setVisibility(View.GONE);
-////                    ImageBasket2.setVisibility(View.VISIBLE);
-//
-//            });
-
-            //            decrease.setOnClickListener(e ->{
-//                    basket2.decrease();
-//                    totPrice = inPrice *basket2.getOrderedQuantity();
-//                    price.setText(String.valueOf(totPrice));
-//                    counter.setText(String.valueOf(basket2.getOrderedQuantity()));
-//
-//            });
 
 
             decrease.setOnClickListener(e ->{
