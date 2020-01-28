@@ -23,5 +23,9 @@ public interface BasketContract {
         void showConfirmLogoutDialog();
         boolean isConnected();
         void openActiveOrderList(List<Basket> body);
+        void hideProgressBar();
+        void stopRefreshingOrders();
+        void showEmptyView();
+        void showError();
     }
 }

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -14,9 +15,12 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.crmfood.BaseActivity;
 import com.example.crmfood.R;
@@ -36,10 +40,13 @@ public class BasketActivity extends AppCompatActivity implements BasketContract.
     BasketContract.Presenter presenter;
     BasketAdapter adapter;
 
-
     List<Basket> items_b;
     List<AddMealList> items_b_add;
 
+    private RecyclerView recyclerView;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private LinearLayout emptyView;
+    ProgressBar progressBar;
 
     private ToBasketRoomDatabase db;
 
@@ -63,48 +70,54 @@ public class BasketActivity extends AppCompatActivity implements BasketContract.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_basket);
 
-
-
-        act_ored_id = SharedPreferencesManager.getValue("ORDER_ID",def_val);
-
-        db = ToBasketRoomDatabase.getDatabase(this);
-
-
-        if (act_ored_id == def_val){
-            items_b = db.toBasketDao().getAllItems();
-            countMealsQuantity();
-        }else {
-            items_b_add = db.toBasketDao().getAllItemsAddMeal();
-            countAddMealsQuantity();
-
-        }
-
+        initRoomAndShPref();
 
         Log.e("BasketActivity", "items_b: " + items_b);
         Log.e("BasketActivity", "items_b_add: " + items_b_add);
 
-        initRecyclerView();
+
         initBasketItems();
+        initSwipeRefreshLayout();
+        initRecyclerView();
     }
 
     private void initRecyclerView() {
-        RecyclerView recyclerView = findViewById(R.id.basket_rv);
+        recyclerView = findViewById(R.id.basket_rv);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-
-        presenter = new BasketPresenter(this);
+        if (adapter == null) {
+            recyclerView.setVisibility(View.GONE);
+            emptyView.setVisibility(View.GONE);
+            progressBar.setVisibility(View.VISIBLE);
 
             adapter = new BasketAdapter(items_b, e -> {
                 //TODO: modalWindow "about"
 
-
             });
-            recyclerView.setAdapter(adapter);
+            presenter = new BasketPresenter(this);
 
+//            stopRefreshingOrders();
+            hideProgressBar();
 
+        }
 
+        recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+
+    }
+
+    private void initSwipeRefreshLayout() {
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout_basket);
+        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.rippleColor), getResources().getColor(R.color.colorPrimary));
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                recreate();
+                initRoomAndShPref();
+                stopRefreshingOrders();
+            }
+        });
 
     }
 
@@ -121,6 +134,9 @@ public class BasketActivity extends AppCompatActivity implements BasketContract.
                 finish();
 
         });
+
+        emptyView = findViewById(R.id.empty_view_basket);
+        progressBar = findViewById(R.id.progress_bar_basket);
 //
 //        int arraysSize = 0;
 //        String wordsEnd = "";
@@ -151,6 +167,20 @@ public class BasketActivity extends AppCompatActivity implements BasketContract.
         });
 
 
+    }
+
+    public void initRoomAndShPref(){
+        act_ored_id = SharedPreferencesManager.getValue("ORDER_ID",def_val);
+
+        db = ToBasketRoomDatabase.getDatabase(this);
+        if (act_ored_id == def_val){
+            items_b = db.toBasketDao().getAllItems();
+            countMealsQuantity();
+        }else {
+            items_b_add = db.toBasketDao().getAllItemsAddMeal();
+            countAddMealsQuantity();
+
+        }
     }
 
     @Override
@@ -198,6 +228,35 @@ public class BasketActivity extends AppCompatActivity implements BasketContract.
     @Override
     public void openActiveOrderList(List<Basket> body) {
         adapter.setValues(body);
+    }
+
+    @Override
+    public void hideProgressBar() {
+        progressBar.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
+        emptyView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void stopRefreshingOrders() {
+        swipeRefreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void showEmptyView() {
+        progressBar.setVisibility(View.GONE);
+        emptyView.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showError() {
+        Toast.makeText(this, getString(R.string.basket_orders_error), Toast.LENGTH_LONG).show();
+        swipeRefreshLayout.setRefreshing(false);
+        adapter.setValues(null);
+        progressBar.setVisibility(View.GONE);
+        emptyView.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
     }
 
 

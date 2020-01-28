@@ -81,7 +81,7 @@ public class ActiveOrdersAdapter extends RecyclerView.Adapter<ActiveOrdersAdapte
         RecyclerView recyclerView2;
         List<ListMealInActiveOrder> listMealInActiveOrders;
         TextView ordersNumTextView;
-        Button addBtn;
+//        Button addBtn;
         Button closeAccountBtn;
         TextView ordersStatus;
         ActiveOrder currentOrder;
@@ -94,7 +94,7 @@ public class ActiveOrdersAdapter extends RecyclerView.Adapter<ActiveOrdersAdapte
             recyclerView2 = itemView.findViewById(R.id.list_of_order_items_rv);
             ordersNumTextView = itemView.findViewById(R.id.orders_number_textView);
             closeAccountBtn = itemView.findViewById(R.id.close_account_button);
-            addBtn = itemView.findViewById(R.id.add_button);
+//            addBtn = itemView.findViewById(R.id.add_button);
             ordersStatus = itemView.findViewById(R.id.orders_status_text);
 
         }
@@ -110,13 +110,13 @@ public class ActiveOrdersAdapter extends RecyclerView.Adapter<ActiveOrdersAdapte
                 public void onClick(View view) {
                     if (a == View.VISIBLE) {
                         recyclerView2.setVisibility(a);
-                        addBtn.setVisibility(View.VISIBLE);
+//                        addBtn.setVisibility(View.VISIBLE);
                         closeAccountBtn.setVisibility(View.VISIBLE);
 
                         a = View.GONE;
                     } else {
                         recyclerView2.setVisibility(a);
-                        addBtn.setVisibility(View.GONE);
+//                        addBtn.setVisibility(View.GONE);
                         closeAccountBtn.setVisibility(View.GONE);
                         a = View.VISIBLE;
                     }
@@ -130,13 +130,13 @@ public class ActiveOrdersAdapter extends RecyclerView.Adapter<ActiveOrdersAdapte
                     onItemClickListener.onItemClick(activeOrder);
                     if (a == View.VISIBLE) {
                         recyclerView2.setVisibility(a);
-                        addBtn.setVisibility(View.VISIBLE);
+//                        addBtn.setVisibility(View.VISIBLE);
                         closeAccountBtn.setVisibility(View.VISIBLE);
 
                         a = View.GONE;
                     } else {
                         recyclerView2.setVisibility(a);
-                        addBtn.setVisibility(View.GONE);
+//                        addBtn.setVisibility(View.GONE);
                         closeAccountBtn.setVisibility(View.GONE);
                         a = View.VISIBLE;
                     }
@@ -152,15 +152,15 @@ public class ActiveOrdersAdapter extends RecyclerView.Adapter<ActiveOrdersAdapte
             recyclerView2.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
             recyclerView2.setAdapter(listMealInActiveOrderAdapter);
 
-            addBtn.setOnClickListener(e -> {
-
-                Intent intent = new Intent(context, MainMenuActivity.class);
-                Log.e("activeOrdersId", " Add btn clicked: " + activeOrder.getId());
-                saveId(currentOrder.getId());
-                context.startActivity(intent);
-
-
-            });
+//            addBtn.setOnClickListener(e -> {
+//
+//                Intent intent = new Intent(context, MainMenuActivity.class);
+//                Log.e("activeOrdersId", " Add btn clicked: " + activeOrder.getId());
+//                saveId(currentOrder.getId());
+//                context.startActivity(intent);
+//
+//
+//            });
 
             MainContract.View view = new MainFragment();
             presenter = new MainPresenter(view);

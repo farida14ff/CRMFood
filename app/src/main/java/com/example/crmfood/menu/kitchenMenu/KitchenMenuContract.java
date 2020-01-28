@@ -10,6 +10,8 @@ public interface KitchenMenuContract {
         void getMenuCategoy(List<MenuKitchen> body);
         void showError();
         void showPodMenu(MenuKitchen menuKitchen);
+        void hideProgressBar();
+        void showEmptyView();
 
     }
 

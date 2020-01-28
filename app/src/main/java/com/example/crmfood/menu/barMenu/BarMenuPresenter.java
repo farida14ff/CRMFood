@@ -34,14 +34,21 @@ public class BarMenuPresenter implements BarMenuContract.Presenter{
         call.enqueue(new Callback<List<MenuBar>>() {
             @Override
             public void onResponse(@NotNull Call<List<MenuBar>> call, @NotNull Response<List<MenuBar>> response) {
-                view.getBarCategoy(response.body());
-                Log.i(TAG, "onResponse ");
+
+                if (response.body() != null && response.body().size() > 0) {
+                    Log.i(TAG, "onResponse if");
+                    view.getBarCategoy(response.body());
+                    view.hideProgressBar();
+                } else {
+                    view.getBarCategoy(response.body());
+                    view.showEmptyView();
+                    Log.i(TAG, "onResponse else");
+                }
             }
 
             @Override
             public void onFailure(@NotNull Call<List<MenuBar>> call, @NotNull Throwable t) {
                 Log.e(TAG, "onFailure " + t.getMessage());
-
                 view.showError();
             }
 

@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -25,13 +26,19 @@ public class BarMenuFragment extends Fragment implements BarMenuContract.View {
 
     private BarMenuContract.Presenter presenter;
     private BarAdapter adapterBar;
+    private LinearLayout emptyView;
+    private RecyclerView recyclerView;
+    ProgressBar progressBar;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View root = inflater.inflate(R.layout.activity_bar_menu, container, false);
+        View root = inflater.inflate(R.layout.fragment_bar_menu, container, false);
+
+        progressBar = root.findViewById(R.id.progressBar_bar);
+        emptyView = root.findViewById(R.id.empty_view_bar);
 
         initRecyclerViewWithAdapter(root);
         return root;
@@ -39,39 +46,22 @@ public class BarMenuFragment extends Fragment implements BarMenuContract.View {
 
 
     private void initRecyclerViewWithAdapter(View root) {
-        RecyclerView recyclerView = root.findViewById(R.id.bar_rv);
+        recyclerView = root.findViewById(R.id.bar_rv);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
 
-        adapterBar = new BarAdapter(new BarMenuContract.OnItemClickListener() {
-            @Override
-            public void onItemClick(MenuBar menuBar) {
-                showPodMenu(menuBar);
-            }
+        if (adapterBar == null) {
+            recyclerView.setVisibility(View.GONE);
+            emptyView.setVisibility(View.GONE);
+            progressBar.setVisibility(View.VISIBLE);
+            adapterBar = new BarAdapter(this::showPodMenu);
+            presenter = new BarMenuPresenter(this);
+            presenter.displayBarCategoy();
+        }
 
-        });
-
-////        if (menu.getDepartmentName().equals("Kitchen")) {
-//        if (adapterBar == null) {
-//            recyclerView.setVisibility(View.GONE);
-//////            emptyView.setVisibility(View.GONE);
-//////            progressBar.setVisibility(View.VISIBLE);
-//            adapterBar = new BarAdapter(new BarMenuContract.OnItemClickListener() {
-//                @Override
-//                public void onItemClick(MenuBar menu) {
-//
-//                }
-//
-//            });
-//        }
-
-        presenter = new BarMenuPresenter(this);
-        presenter.displayBarCategoy();
         recyclerView.setAdapter(adapterBar);
-//        }else {
-//            recyclerView.setAdapter(adapterBar);
-//        }
+
     }
 
     @Override
@@ -88,7 +78,11 @@ public class BarMenuFragment extends Fragment implements BarMenuContract.View {
 
     @Override
     public void showError() {
-        Toast.makeText(getActivity(), getString(R.string.tables_error), Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(), getString(R.string.categories_error), Toast.LENGTH_LONG).show();
+        adapterBar.setValues(null);
+        progressBar.setVisibility(View.GONE);
+        emptyView.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
     }
 
     @Override
@@ -97,5 +91,19 @@ public class BarMenuFragment extends Fragment implements BarMenuContract.View {
         if (resultCode == Activity.RESULT_OK && requestCode == 100) {
             presenter.displayBarCategoy();
         }
+    }
+
+    @Override
+    public void hideProgressBar() {
+        progressBar.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
+        emptyView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showEmptyView() {
+        progressBar.setVisibility(View.GONE);
+        emptyView.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
     }
 }

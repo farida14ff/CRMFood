@@ -11,6 +11,8 @@ public interface BarMenuContract {
         void getBarCategoy(List<MenuBar> body);
         void showError();
         void showPodMenu(MenuBar menuBar);
+        void hideProgressBar();
+        void showEmptyView();
 
     }
 

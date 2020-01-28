@@ -37,8 +37,20 @@ public class MainPresenter implements MainContract.Presenter {
             @Override
             public void onResponse(@NotNull Call<List<ActiveOrder>> call,
                                    @NotNull Response<List<ActiveOrder>> response) {
-                view.setListOfActiveOrders(response.body());
-                Log.i(TAG, "onResponse ");
+
+                if (response.body() != null && response.body().size() > 0) {
+                    Log.i(TAG, "onResponse if");
+                    view.setListOfActiveOrders(response.body());
+                    view.hideProgressBar();
+                } else {
+                    Log.i(TAG, "onResponse else");
+                    view.setListOfActiveOrders(response.body());
+                    view.showEmptyView();
+                }
+                view.stopRefreshingOrders();
+
+
+
             }
 
             @Override

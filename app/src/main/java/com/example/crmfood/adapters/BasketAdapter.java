@@ -103,12 +103,15 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.BasketView
             itemView.setOnClickListener(e -> onItemClickListener.onItemClick(basket2));
 
 
+            basket = basket2;
+
             name.setText(basket2.getBasket_name());
             inPrice = basket2.getBasket_price();
-            price.setText(String.valueOf(inPrice));
+            totPrice = inPrice * basket.getOrderedQuantity();
+            price.setText(String.valueOf(totPrice));
+            Log.i("Initial Price","BasketAdapter " +inPrice);
             counter.setText(String.valueOf(basket2.getOrderedQuantity()));
 
-            basket = basket2;
 
 
             increase.setOnClickListener(e ->{
@@ -120,7 +123,6 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.BasketView
                 basketActivity.saveBasket(basket);
 
             });
-
 
 
             decrease.setOnClickListener(e ->{

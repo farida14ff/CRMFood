@@ -7,7 +7,7 @@
     <string name="active_ordders_list">Лист активных заказов</string>
     <string name="active_ordders_list_">Лист активных заказов:</string>
     <string name="create_a_new_order">Сделать новый заказ</string>
-    <string name="orders_number">Заказ #1</string>
+    <string name="orders_number">Стол #1</string>
     <string name="orders_name">Блинный Брауни</string>
     <string name="add">Добавить</string>
     <string name="close_account">Закрыть счет</string>
@@ -27,6 +27,7 @@
     <string name="title_bar">Меню бара</string>
     <string name="drinks">Алкогольные напитки</string>
     <string name="orders_error">Невозможно получить список заказов</string>
+    <string name="basket_orders_error">Невозможно получить список, попробуйте обновить страницу</string>
     <string name="meal_name">Боул с черникой и гранолой</string>
     <string name="items_weight">200гр</string>
     <string name="items_price">60,00 c</string>
@@ -42,4 +43,7 @@
     <string name="close_cheque_question">Вы уверены, что хотите закрыть счет?</string>
     <string name="accept_close_cheque">Закрыть счет</string>
     <string name="close_cheque_title">Закрыть счет</string>
+    <string name="no_orders">Нет доступных заказов</string>
+    <string name="update_orders">Попробуйте обновить страницу</string>
+    <string name="categories_error">Невозможно загрузить список категорий</string>
 </resources>

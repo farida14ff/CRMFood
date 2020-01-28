@@ -10,6 +10,8 @@ public interface TablesContract {
         void setTables(List<Table> tables);
         void showMenu(Table table);
         void showError();
+        void hideProgressBar();
+        void showEmptyView();
     }
 
     interface OnItemClickListener {

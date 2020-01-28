@@ -41,30 +41,29 @@ public class BasketPresenter implements BasketContract.Presenter{
             public void onResponse(@NotNull Call<StatusMessage> call, @NotNull Response<StatusMessage> response) {
                 if (response.isSuccessful()){
                     Log.e(TAG, "onResponse sendCreatedOrder ");
-
+                    view.hideProgressBar();
                 }
                 else {
                     if (view.isConnected()) {
-                        //view.showLoginError();
+                        view.showEmptyView();
                         Log.e("onResponse", "else -if");
                         Log.e(TAG, response.message());
                     } else {
-                        //view.showErrorToast();
+                        view.showEmptyView();
                         Log.e("onResponse", "else else");
                     }
                 }
+                view.stopRefreshingOrders();
 
                 Log.e("tableId", "onClick: "+ tableId);
                 Log.e("comment", "onClick: "+ comment);
-//                for (int i = 0; i <mealOrders.size() ; i++) {
-//                    Log.e("tableId", "onClick: "+ mealOrders.get(i));
-//                }
 
             }
 
             @Override
             public void onFailure(@NotNull Call<StatusMessage> call, @NotNull Throwable t) {
                 Log.e(TAG, "onFailure sendOrder " + t.getMessage());
+                view.showError();
 
             }
         });
@@ -79,23 +78,20 @@ public class BasketPresenter implements BasketContract.Presenter{
             public void onResponse(@NotNull Call<StatusMessage> call, @NotNull Response<StatusMessage> response) {
                 if (response.isSuccessful()){
                     Log.e(TAG, "onResponse addOrder ");
-
+                    view.hideProgressBar();
                 }
                 else {
                     if (view.isConnected()) {
-                        //view.showLoginError();
                         Log.e("onResponse addOrder", "else -if");
                         Log.e(TAG, response.message());
+                        view.showEmptyView();
                     } else {
-                        //view.showErrorToast();
+                        view.showEmptyView();
                         Log.e("onResponse addOrder", "else else");
                     }
                 }
 
                 Log.e("tableId", "onClick: "+ mealId);
-//                for (int i = 0; i <mealOrders.size() ; i++) {
-//                    Log.e("tableId", "onClick: "+ mealOrders.get(i));
-//                }
 
 
             }
@@ -103,7 +99,7 @@ public class BasketPresenter implements BasketContract.Presenter{
             @Override
             public void onFailure(@NotNull Call<StatusMessage> call, @NotNull Throwable t) {
                 Log.e(TAG, "onFailure addOrder " + t.getMessage());
-
+                view.showError();
             }
         });
     }

@@ -34,7 +34,17 @@ public class TablesPresenter implements TablesContract.Presenter {
             @Override
             public void onResponse(@NotNull Call<List<Table>> call,
                                    @NotNull Response<List<Table>> response) {
-                view.setTables(response.body());
+
+                if (response.body() != null && response.body().size() > 0) {
+                    Log.i(TAG, "onResponse if");
+                    view.setTables(response.body());
+                    view.hideProgressBar();
+                } else {
+                    Log.i(TAG, "onResponse else");
+                    view.setTables(response.body());
+                    view.showEmptyView();
+                }
+
                 Log.e(TAG, "onResponse getTables");
             }
 

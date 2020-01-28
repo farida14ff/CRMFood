@@ -10,32 +10,24 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.crmfood.BaseActivity;
 import com.example.crmfood.R;
 import com.example.crmfood.adapters.ActiveOrdersAdapter;
-//import com.example.crmfood.login.LoginActivity;
-import com.example.crmfood.menu.MainMenuActivity;
 import com.example.crmfood.models.ActiveOrder;
 import com.example.crmfood.models.ListMealInActiveOrder;
 import com.example.crmfood.tables.TablesActivity;
@@ -50,6 +42,11 @@ public class MainFragment extends Fragment implements MainContract.View {
     private ActiveOrdersAdapter adapter;
     private List<ActiveOrder> acitiveOrderArray;
     ActiveOrder activeOrder = new ActiveOrder();
+    private RecyclerView recyclerView;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private LinearLayout emptyView;
+    ProgressBar progressBar;
+
 
 
 
@@ -59,56 +56,37 @@ public class MainFragment extends Fragment implements MainContract.View {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.activity_main, container, false);
 
+        progressBar = root.findViewById(R.id.progress_bar);
+        emptyView = root.findViewById(R.id.empty_view);
+        setHasOptionsMenu(true);
         initRecyclerViewWithAdapter(root);
         initViews(root);
+        initSwipeRefreshLayout(root);
         setData();
-
-
         return root;
     }
 
     private void initViews(View root) {
         final ImageView createNewOrderButton = root.findViewById(R.id.create_new_order_button);
-        createNewOrderButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        createNewOrderButton.setOnClickListener(e ->{
                 Intent intent = new Intent(getActivity(), TablesActivity.class);
                 startActivity(intent);
                 //createNewOrderButton.setEnabled(false);
 
-            }
         });
 
         LinearLayout logutLL = root.findViewById(R.id.logout);
-        logutLL.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        logutLL.setOnClickListener(e ->{
                 showConfirmLogoutDialog();
-            }
+
         });
 
+    }
 
-//        Button addToOrderButton = findViewById(R.id.add_button);
-//        addToOrderButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(MainFragment.this, MainMenuActivity.class);
-//                startActivity(intent);
-//                finish();
-//
-//                //TODO: add login for adding order
-//            }
-//        });
-//
-//        Button closeChequeButton = findViewById(R.id.close_account_button);
-//        closeChequeButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                presenter.closeCheque(activeOrder.getId());
-//            }
-//        });
-
-
+    private void initSwipeRefreshLayout(View root) {
+        swipeRefreshLayout = root.findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.rippleColor), getResources().getColor(R.color.colorPrimary));
+        swipeRefreshLayout.setOnRefreshListener(() -> presenter.displayListOfActiveOrders());
     }
 
     @Override
@@ -117,46 +95,48 @@ public class MainFragment extends Fragment implements MainContract.View {
     }
 
     private void initRecyclerViewWithAdapter(View root) {
-        RecyclerView recyclerView = root.findViewById(R.id.list_of_active_orders_rv);
+        recyclerView = root.findViewById(R.id.list_of_active_orders_rv);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
-
-        adapter = new ActiveOrdersAdapter(getActivity(), acitiveOrderArray, new MainContract.OnItemClickListener() {
-            @Override
-            public void onItemClick(ActiveOrder activeOrder) {
-            }
-        });
-
-
-
-//        adapter = new ActiveOrdersAdapter(new MainContract.OnItemClickListener() {
-//            int a = View.GONE;
-//            @Override
-//            public void onItemClick(ActiveOrder activeOrder) {
-////                if (a == View.VISIBLE) {
-////
-////                    recyclerView.setVisibility(a);
-////                    a = View.GONE;
-////                }else {
-////                    recyclerView.setVisibility(a);
-////                    a = View.VISIBLE;
-////                }
-//            }
-//
-//        });
-
-        presenter = new MainPresenter(this);
-        presenter.displayListOfActiveOrders();
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        if (adapter == null) {
+            recyclerView.setVisibility(View.GONE);
+            emptyView.setVisibility(View.GONE);
+            progressBar.setVisibility(View.VISIBLE);
+            adapter = new ActiveOrdersAdapter(getActivity(), acitiveOrderArray, new MainContract.OnItemClickListener() {
+                @Override
+                public void onItemClick(ActiveOrder activeOrder) {
+                }
+            });
+            presenter = new MainPresenter(this);
+            presenter.displayListOfActiveOrders();
+        }
 
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
 
     }
 
+
+    @Override
+    public void hideProgressBar() {
+        progressBar.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
+        emptyView.setVisibility(View.GONE);
+    }
+
     @Override
     public void showError() {
         Toast.makeText(getActivity(), getString(R.string.orders_error), Toast.LENGTH_LONG).show();
+        swipeRefreshLayout.setRefreshing(false);
+        adapter.setValues(null);
+        progressBar.setVisibility(View.GONE);
+        emptyView.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
+    }
 
+    @Override
+    public void stopRefreshingOrders() {
+        swipeRefreshLayout.setRefreshing(false);
     }
 
 
@@ -212,6 +192,13 @@ public class MainFragment extends Fragment implements MainContract.View {
         });
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    @Override
+    public void showEmptyView() {
+        progressBar.setVisibility(View.GONE);
+        emptyView.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
     }
 
 //    @Override

@@ -11,6 +11,9 @@ public interface MainContract {
     interface View extends BaseContract.BaseView{
         void showConfirmLogoutDialog();
         void showError();
+        void hideProgressBar();
+        void stopRefreshingOrders();
+        void showEmptyView();
         boolean isConnected();
 
 

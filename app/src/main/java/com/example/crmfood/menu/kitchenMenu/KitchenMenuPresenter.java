@@ -32,14 +32,22 @@ public class KitchenMenuPresenter implements KitchenMenuContract.Presenter{
         call.enqueue(new Callback<List<MenuKitchen>>() {
             @Override
             public void onResponse(@NotNull Call<List<MenuKitchen>> call, @NotNull Response<List<MenuKitchen>> response) {
-                view.getMenuCategoy(response.body());
-                Log.i(TAG, "onResponse ");
+
+                if (response.body() != null && response.body().size() > 0) {
+                    Log.i(TAG, "onResponse if");
+                    view.getMenuCategoy(response.body());
+                    view.hideProgressBar();
+                } else {
+                    view.getMenuCategoy(response.body());
+                    view.showEmptyView();
+                    Log.i(TAG, "onResponse else");
+                }
+
             }
 
             @Override
             public void onFailure(@NotNull Call<List<MenuKitchen>> call, @NotNull Throwable t) {
                 Log.e(TAG, "onFailure " + t.getMessage());
-
                 view.showError();
             }
 

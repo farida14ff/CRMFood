@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -26,23 +27,32 @@ public class TablesActivity extends AppCompatActivity implements TablesContract.
 
     private TablesContract.Presenter presenter;
     private TablesAdapter adapter;
+    private LinearLayout emptyView;
+    private RecyclerView recyclerView;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tables);
 
+        progressBar = findViewById(R.id.table_progress_bar);
+        emptyView = findViewById(R.id.empty_view_table);
+
         LinearLayout goBackIM = findViewById(R.id.go_back_icon);
         goBackIM.setOnClickListener(e -> finish());
 
         initRecyclerViewWithAdapter();
 
-//        Intent intent = new Intent(TablesActivity.this, BasketActivity.class);
-//        intent.putExtra("tableId",table.getId());
-////        startActivity(intent);
-//        Log.e("tableId", "TablesActivity putExtra: "+ table.getId());
-
     }
+
+    @Override
+    public void hideProgressBar() {
+        progressBar.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
+        emptyView.setVisibility(View.GONE);
+    }
+
 
     @Override
     public void setTables(List<Table> tables) {
@@ -50,20 +60,21 @@ public class TablesActivity extends AppCompatActivity implements TablesContract.
     }
 
     private void initRecyclerViewWithAdapter() {
-        RecyclerView recyclerView = findViewById(R.id.recycler_view);
+        recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(this,3));
 
-        adapter = new TablesAdapter(new TablesContract.OnItemClickListener(){
-            @Override
-            public void onItemClick(Table table) {
+        if (adapter == null) {
+            recyclerView.setVisibility(View.GONE);
+            emptyView.setVisibility(View.GONE);
+            progressBar.setVisibility(View.VISIBLE);
+            adapter = new TablesAdapter(table -> {
                 showMenu(table);
                 Log.e("tableId TABLES: ", String.valueOf(table.getId()));
-            }
-        });
-
-        presenter = new TablesPresenter(this);
-        presenter.displayTables();
+            });
+            presenter = new TablesPresenter(this);
+            presenter.displayTables();
+        }
 
         recyclerView.setAdapter(adapter);
     }
@@ -80,7 +91,10 @@ public class TablesActivity extends AppCompatActivity implements TablesContract.
     @Override
     public void showError() {
         Toast.makeText(this, getString(R.string.tables_error), Toast.LENGTH_LONG).show();
-        //TODO: add emty view
+        adapter.setValues(null);
+        progressBar.setVisibility(View.GONE);
+        emptyView.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
     }
 
     @Override
@@ -91,6 +105,13 @@ public class TablesActivity extends AppCompatActivity implements TablesContract.
         }
     }
 
+
+    @Override
+    public void showEmptyView() {
+        progressBar.setVisibility(View.GONE);
+        emptyView.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
+    }
 
 
 
