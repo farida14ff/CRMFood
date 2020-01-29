@@ -20,12 +20,15 @@ import com.example.crmfood.tables.TablesContract;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class TablesAdapter extends RecyclerView.Adapter<TablesAdapter.TablesViewHolder> {
 
     private List<Table> tablesList;
     private TablesContract.OnItemClickListener clickListener;
+    TablesActivity tablesActivity = new TablesActivity();
 
     public TablesAdapter(TablesContract.OnItemClickListener clickListener) {
         tablesList = new ArrayList<>();
@@ -77,11 +80,19 @@ public class TablesAdapter extends RecyclerView.Adapter<TablesAdapter.TablesView
         @SuppressLint("LongLogTag")
         void bind(final Table table, final TablesContract.OnItemClickListener onItemClickListener) {
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    onItemClickListener.onItemClick(table);
-                }
+            itemView.setOnClickListener(view -> {
+                onItemClickListener.onItemClick(table);
+
+                itemView.setEnabled(false);
+
+                Timer buttonTimer = new Timer();
+                buttonTimer.schedule(new TimerTask() {
+
+                    @Override
+                    public void run() {
+                        tablesActivity.runOnUiThread(() -> itemView.setEnabled(true));
+                    }
+                }, 5000);
             });
 
             tableId.setText(String.valueOf(table.getId()));

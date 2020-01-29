@@ -3,7 +3,7 @@ package com.example.crmfood.subMenu;
 import android.util.Log;
 
 import com.example.crmfood.BaseActivity;
-import com.example.crmfood.SharedPreferencesManager;
+import com.example.crmfood.data.SharedPreferencesManager;
 import com.example.crmfood.halpers.Funct;
 import com.example.crmfood.models.CategoryId;
 import com.example.crmfood.models.SubMenu;

@@ -24,7 +24,7 @@ import android.widget.Toast;
 
 import com.example.crmfood.BaseActivity;
 import com.example.crmfood.R;
-import com.example.crmfood.SharedPreferencesManager;
+import com.example.crmfood.data.SharedPreferencesManager;
 import com.example.crmfood.adapters.BasketAdapter;
 import com.example.crmfood.models.ActiveOrder;
 
@@ -188,39 +188,42 @@ public class BasketActivity extends AppCompatActivity implements BasketContract.
         builder.setTitle(getString(R.string.do_order_title));
         builder.setMessage(getString(R.string.do_order_message));
         builder.setNegativeButton(R.string.cancel_order, null);
-        builder.setPositiveButton(getString(R.string.action_conf), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                ActiveOrder activeOrder = new ActiveOrder();
+        builder.setPositiveButton(getString(R.string.action_conf), (dialog, which) -> {
+            ActiveOrder activeOrder = new ActiveOrder();
 
-                Intent intent = getIntent();
-                long tableID = intent.getLongExtra("tableId", 1);
+            Intent intent = getIntent();
+            long tableID = intent.getLongExtra("tableId", 1);
 //                long activeOrdersID = intent.getLongExtra("activeOrdersId",1);
-                if (act_ored_id == def_val){
-                    presenter.sendCreatedOrder(tableID, " ", items_b);
-                    db.toBasketDao().deleteAllItems(items_b);
-                 }else {
-                    presenter.sendAddMealOrder(act_ored_id,items_b_add);
-                    db.toBasketDao().deleteAllItems(items_b);
+            if (act_ored_id == def_val){
+                presenter.sendCreatedOrder(tableID, " ", items_b);
+                db.toBasketDao().deleteAllItems(items_b);
+
+             }else {
+                presenter.sendAddMealOrder(act_ored_id,items_b_add);
+                db.toBasketDao().deleteAllItems(items_b);
 //                     presenter.sendAddMealOrder(act_ored_id,items_b);
-                 }
+             }
 
 //                presenter.sendCreatedOrder(tableID," ", items_b2);
-                Intent intent1 = new Intent(BasketActivity.this, BaseActivity.class);
-                startActivity(intent1);
-                finish();
+            Intent intent1 = new Intent(BasketActivity.this, BaseActivity.class);
+            startActivity(intent1);
+            finish();
 //                presenter.sendCreatedOrder(activeOrder.getId(),"",items_b);
-                Log.e("tableId", "BasketActivity tableId: " + tableID);
-                Log.e("tableId", "BasketActivity activeOrdersId: " + act_ored_id);
-                Log.e("BasketActivity", "items_b2: " + items_b);
+            Log.e("tableId", "BasketActivity tableId: " + tableID);
+            Log.e("tableId", "BasketActivity activeOrdersId: " + act_ored_id);
+            Log.e("BasketActivity", "items_b2: " + items_b);
 
-
-            }
 
         });
         AlertDialog dialog = builder.create();
         dialog.show();
 
+    }
+
+    @SuppressLint("LongLogTag")
+    void saveTotalPrice(Long tot_price) {
+        SharedPreferencesManager.setTotalPrice("total_price",tot_price);
+        Log.i("SharedPreferencesManager", "total_price: " +tot_price);
     }
 
 
@@ -262,9 +265,10 @@ public class BasketActivity extends AppCompatActivity implements BasketContract.
     public double calculateTotalPrice() {
         double totPrice = 0;
         for (int i = 0; i < items_b.size(); i++) {
-            totPrice += items_b.get(i).getBasket_price()*items_b.get(i).getOrderedQuantity();
+                totPrice += items_b.get(i).getBasket_price()*items_b.get(i).getOrderedQuantity();
         }
         Log.e("calculateTotalPrice: ", String.valueOf(totPrice));
+        saveTotalPrice((long) totPrice);
         return totPrice;
 
 

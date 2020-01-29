@@ -11,8 +11,13 @@ public class ActiveOrder implements Serializable {
 
     @SerializedName("id")
     public long idAcOr;
+
     @SerializedName("tableName")
     private int tableName;
+
+    @SerializedName("sum")
+    private double sum;
+
     @SerializedName("mealOrders")
     private List<ListMealInActiveOrder> listMealInActiveOrders;
 
@@ -47,5 +52,13 @@ public class ActiveOrder implements Serializable {
     }
 
     public void setArrayList(List<ActiveOrder> acitiveOrderArray) {
+    }
+
+    public double getSum() {
+        return sum;
+    }
+
+    public void setSum(double sum) {
+        this.sum = sum;
     }
 }

@@ -19,6 +19,9 @@ import com.example.crmfood.subMenu.SubMenuActivity;
 import com.example.crmfood.tables.TablesActivity;
 import com.google.android.material.tabs.TabLayout;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class MainMenuActivity extends AppCompatActivity {
 
 
@@ -62,25 +65,24 @@ public class MainMenuActivity extends AppCompatActivity {
     private void initViews() {
 
         final LinearLayout basket_LL = findViewById(R.id.basket_sub);
-        basket_LL.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(intent1);
-//                finish();
-                //basket_LL.setEnabled(false);
-            }
+        basket_LL.setOnClickListener(view -> {
+            startActivity(intent1);
+
+            basket_LL.setEnabled(false);
+
+            Timer buttonTimer = new Timer();
+            buttonTimer.schedule(new TimerTask() {
+
+                @Override
+                public void run() {
+                    runOnUiThread(() -> basket_LL.setEnabled(true));
+                }
+            }, 5000);
+
         });
 
         LinearLayout goBackIM = findViewById(R.id.go_back_icon);
-        goBackIM.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                Intent intent = new Intent(MainMenuActivity.this, TablesActivity.class);
-//                startActivity(intent);
-
-                finish();
-            }
-        });
+        goBackIM.setOnClickListener(view -> finish());
 
         Toolbar toolbar = findViewById(R.id.history_app_bar);
         (this).setSupportActionBar(toolbar);

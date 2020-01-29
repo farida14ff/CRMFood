@@ -2,6 +2,7 @@ package com.example.crmfood;
 
 import android.app.Application;
 
+import com.example.crmfood.data.SharedPreferencesManager;
 import com.example.crmfood.data.ToBasketRoomDatabase;
 
 public class App extends Application {

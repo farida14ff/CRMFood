@@ -11,17 +11,21 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.crmfood.R;
+import com.example.crmfood.menu.MainMenuActivity;
 import com.example.crmfood.menu.barMenu.BarMenuContract;
 import com.example.crmfood.models.MenuBar;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class BarAdapter extends RecyclerView.Adapter<BarAdapter.BarICategoriesViewHolder> {
 
     private List<MenuBar> menuBarList;
     private BarMenuContract.OnItemClickListener clickListener;
     private Context context;
+    MainMenuActivity mainMenuActivity = new MainMenuActivity();
 
     public BarAdapter(BarMenuContract.OnItemClickListener clickListener) {
         menuBarList = new ArrayList<>();
@@ -75,12 +79,21 @@ public class BarAdapter extends RecyclerView.Adapter<BarAdapter.BarICategoriesVi
 
         @SuppressLint("CheckResult")
         void bind(final MenuBar menuBar, final BarMenuContract.OnItemClickListener onItemClickListener) {
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    onItemClickListener.onItemClick(menuBar);
-                }
+            itemView.setOnClickListener(view -> {
+                onItemClickListener.onItemClick(menuBar);
+
+                itemView.setEnabled(false);
+
+                Timer buttonTimer = new Timer();
+                buttonTimer.schedule(new TimerTask() {
+
+                    @Override
+                    public void run() {
+                        mainMenuActivity.runOnUiThread(() -> itemView.setEnabled(true));
+                    }
+                }, 5000);
             });
+
             category_title.setText(menuBar.getCategoryName());
 
 //            Glide.with(category_image.getContext())

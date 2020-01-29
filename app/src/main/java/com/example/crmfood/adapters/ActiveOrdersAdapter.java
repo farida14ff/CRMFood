@@ -4,9 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,13 +16,11 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.crmfood.App;
 import com.example.crmfood.R;
-import com.example.crmfood.SharedPreferencesManager;
+import com.example.crmfood.data.SharedPreferencesManager;
 import com.example.crmfood.main.MainFragment;
 import com.example.crmfood.main.MainContract;
 import com.example.crmfood.main.MainPresenter;
-import com.example.crmfood.menu.MainMenuActivity;
 import com.example.crmfood.models.ActiveOrder;
 import com.example.crmfood.models.ListMealInActiveOrder;
 
@@ -38,6 +33,10 @@ public class ActiveOrdersAdapter extends RecyclerView.Adapter<ActiveOrdersAdapte
     private List<ActiveOrder> activeOrderList;
     private MainContract.OnItemClickListener clickListener;
     private MainContract.Presenter presenter;
+
+    private static long total_price;
+    private long def_val = 1;
+
 
 
 
@@ -62,6 +61,8 @@ public class ActiveOrdersAdapter extends RecyclerView.Adapter<ActiveOrdersAdapte
         View view;
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         view = layoutInflater.inflate(R.layout.active_arders_list_item, parent, false);
+        total_price = SharedPreferencesManager.getTotalPrice("total_price",def_val);
+
         return new AciveOdresViewHolder(view);
     }
 
@@ -81,6 +82,7 @@ public class ActiveOrdersAdapter extends RecyclerView.Adapter<ActiveOrdersAdapte
         RecyclerView recyclerView2;
         List<ListMealInActiveOrder> listMealInActiveOrders;
         TextView ordersNumTextView;
+        TextView totalPriceMain;
 //        Button addBtn;
         Button closeAccountBtn;
         TextView ordersStatus;
@@ -96,6 +98,7 @@ public class ActiveOrdersAdapter extends RecyclerView.Adapter<ActiveOrdersAdapte
             closeAccountBtn = itemView.findViewById(R.id.close_account_button);
 //            addBtn = itemView.findViewById(R.id.add_button);
             ordersStatus = itemView.findViewById(R.id.orders_status_text);
+            totalPriceMain = itemView.findViewById(R.id.total_price_main);
 
         }
 
@@ -103,6 +106,7 @@ public class ActiveOrdersAdapter extends RecyclerView.Adapter<ActiveOrdersAdapte
         @SuppressLint({"SetTextI18n", "ResourceAsColor", "LongLogTag", "CommitPrefEdits"})
         void bind(final ActiveOrder activeOrder, final MainContract.OnItemClickListener onItemClickListener) {
             currentOrder = activeOrder;
+//            totalPriceMain.setText(total_price + " c.");
             ordersNumTextView.setOnClickListener(new View.OnClickListener() {
                 int a = View.GONE;
 
@@ -165,7 +169,10 @@ public class ActiveOrdersAdapter extends RecyclerView.Adapter<ActiveOrdersAdapte
             MainContract.View view = new MainFragment();
             presenter = new MainPresenter(view);
 
-            closeAccountBtn.setOnClickListener(e -> showConfirmLogoutDialog(activeOrder.getId()));
+            closeAccountBtn.setOnClickListener(view1 -> {
+                showConfirmLogoutDialog(activeOrder.getId());
+//                removeAt(getPosition());
+            });
 
 
 //            switch (activeOrder.getMainStatus()){
@@ -186,15 +193,24 @@ public class ActiveOrdersAdapter extends RecyclerView.Adapter<ActiveOrdersAdapte
 
 
             ordersNumTextView.setText("Стол #" + activeOrder.getTableName());
+            totalPriceMain.setText(activeOrder.getSum() + " c.");
 
             Log.e("tableID", String.valueOf(activeOrder.getId()));
             Log.e("tableName", String.valueOf(activeOrder.getTableName()));
+            Log.e("tableSum", String.valueOf(activeOrder.getSum()));
         }
 
         @SuppressLint("LongLogTag")
         void saveId(Long id) {
             SharedPreferencesManager.setValue("ORDER_ID",id);
             Log.i("SharedPreferencesManager", "id: " +id);
+        }
+
+        public void removeAt(int position) {
+            listMealInActiveOrders.remove(position);
+            notifyItemRemoved(position);
+            notifyItemRangeChanged(position, listMealInActiveOrders.size());
+
         }
     }
 

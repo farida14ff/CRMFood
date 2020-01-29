@@ -47,4 +47,6 @@
     <string name="update_orders">Попробуйте обновить страницу</string>
     <string name="categories_error">Невозможно загрузить список категорий</string>
     <string name="meals_error">Невозможно получить список блюд</string>
+    <string name="cant_launch">Невозможно вывести список</string>
+    <string name="no_tables">Нет доступных столов</string>
 </resources>

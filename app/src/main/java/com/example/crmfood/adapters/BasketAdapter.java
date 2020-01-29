@@ -84,7 +84,7 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.BasketView
 
         BasketViewHolder(@NonNull View itemView) {
             super(itemView);
-            db  = ToBasketRoomDatabase.getDatabase(itemView.getContext());
+            db = ToBasketRoomDatabase.getDatabase(itemView.getContext());
 
             name = itemView.findViewById(R.id.poduct_name_basket);
             price = itemView.findViewById(R.id.item_price_basket);
@@ -109,11 +109,11 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.BasketView
             inPrice = basket2.getBasket_price();
             totPrice = inPrice * basket.getOrderedQuantity();
             price.setText(String.valueOf(totPrice));
-            Log.i("Initial Price","BasketAdapter " +inPrice);
+            Log.i("Initial Price", "BasketAdapter " + inPrice);
             counter.setText(String.valueOf(basket2.getOrderedQuantity()));
 
 
-            increase.setOnClickListener(e ->{
+            increase.setOnClickListener(e -> {
                 basket.increase();
                 totPrice = inPrice * basket.getOrderedQuantity();
                 price.setText(String.valueOf(totPrice));
@@ -123,21 +123,20 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.BasketView
             });
 
 
-            decrease.setOnClickListener(e ->{
+            decrease.setOnClickListener(e -> {
 
                 number = basket.getOrderedQuantity();
                 basket.decrease();
                 counter.setText(String.valueOf(basket.getOrderedQuantity()));
-                Log.e("SubMenuAdepter","bsaket quantity"+basket.getOrderedQuantity());
+                Log.e("SubMenuAdepter", "bsaket quantity" + basket.getOrderedQuantity());
 
-                if (basket.getOrderedQuantity()>0){
-                    Log.e("SubMenuAdepter","number>0");
-                    totPrice = inPrice *basket.getOrderedQuantity();
+                if (basket.getOrderedQuantity() > 0) {
+                    Log.e("SubMenuAdepter", "number>0");
+                    totPrice = inPrice * basket.getOrderedQuantity();
                     price.setText(String.valueOf(totPrice));
                     basketActivity.saveBasket(basket);
-                }
-                else {
-                    Log.e("SubMenuAdepter","fromBasketView");
+                } else {
+                    Log.e("SubMenuAdepter", "fromBasketView");
                     basketActivity.deleteFromBasket(basket);
                     price.setText(String.valueOf(inPrice));
                 }
@@ -145,10 +144,18 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.BasketView
             });
 
 
-            delete_from_basket.setOnClickListener(e ->{
+            delete_from_basket.setOnClickListener(e -> {
                 basketActivity.deleteFromBasket(basket);
-                    Log.e("getSub_id", "onClick: " + basket.getMealId());
+                removeAt(getPosition());
+                Log.e("getSub_id", "onClick: " + basket.getMealId());
             });
+        }
+
+        public void removeAt(int position) {
+            basketList.remove(position);
+            notifyItemRemoved(position);
+            notifyItemRangeChanged(position, basketList.size());
+
         }
     }
 }

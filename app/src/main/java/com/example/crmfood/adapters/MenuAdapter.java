@@ -11,17 +11,21 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.crmfood.R;
+import com.example.crmfood.menu.MainMenuActivity;
 import com.example.crmfood.menu.kitchenMenu.KitchenMenuContract;
 import com.example.crmfood.models.MenuKitchen;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuICategoriesViewHolder> {
 
     private List<MenuKitchen> menuKitchenList;
     private KitchenMenuContract.OnItemClickListener clickListener;
     private Context context;
+    MainMenuActivity mainMenuActivity = new MainMenuActivity();
 
     public MenuAdapter(KitchenMenuContract.OnItemClickListener clickListener) {
         menuKitchenList = new ArrayList<>();
@@ -75,11 +79,19 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuICategorie
 
          @SuppressLint("CheckResult")
          void bind(final MenuKitchen menuKitchen, final KitchenMenuContract.OnItemClickListener onItemClickListener) {
-             itemView.setOnClickListener(new View.OnClickListener() {
-                 @Override
-                 public void onClick(View view) {
-                     onItemClickListener.onItemClick(menuKitchen);
-                 }
+             itemView.setOnClickListener(view -> {
+                 onItemClickListener.onItemClick(menuKitchen);
+
+                 itemView.setEnabled(false);
+
+                 Timer buttonTimer = new Timer();
+                 buttonTimer.schedule(new TimerTask() {
+
+                     @Override
+                     public void run() {
+                         mainMenuActivity.runOnUiThread(() -> itemView.setEnabled(true));
+                     }
+                 }, 5000);
              });
              category_title.setText(menuKitchen.getCategoryName());
 

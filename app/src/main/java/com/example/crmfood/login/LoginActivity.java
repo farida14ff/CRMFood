@@ -23,6 +23,9 @@ import com.example.crmfood.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class LoginActivity extends AppCompatActivity implements LoginContract.LoginView {
 
     Button loginButton;
@@ -71,6 +74,17 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Lo
 
         loginButton.setOnClickListener(e ->{
             presenterL.login(phoneEditText.getText().toString(), passwordEditText.getText().toString());
+            loginButton.setEnabled(false);
+
+            Timer buttonTimer = new Timer();
+            buttonTimer.schedule(new TimerTask() {
+
+                @Override
+                public void run() {
+                    runOnUiThread(() -> loginButton.setEnabled(true));
+                }
+            }, 5000);
+
             Log.e("phone", phoneEditText.getText().toString());
             Log.e("passw", passwordEditText.getText().toString());
             //                loginButton.setEnabled(false);

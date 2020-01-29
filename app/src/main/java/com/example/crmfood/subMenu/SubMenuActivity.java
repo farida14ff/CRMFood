@@ -17,7 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.crmfood.R;
-import com.example.crmfood.SharedPreferencesManager;
+import com.example.crmfood.data.SharedPreferencesManager;
 import com.example.crmfood.adapters.SubMenuAdapter;
 import com.example.crmfood.models.AddMealList;
 import com.example.crmfood.models.Basket;

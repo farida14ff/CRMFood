@@ -1,4 +1,4 @@
-package com.example.crmfood;
+package com.example.crmfood.data;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -25,6 +25,13 @@ public class SharedPreferencesManager {
         return sharePref;
     }
 
+    public static Long getTotalPrice(String key, Long defValue) {
+        return sharedPreferences.getLong(key, defValue);
+    }
+
+    public static void setTotalPrice(String key, Long value) {
+        editor.putLong(key, value).apply();
+    }
 
     public static Long getValue(String key, Long defValue) {
         return sharedPreferences.getLong(key, defValue);
@@ -33,6 +40,9 @@ public class SharedPreferencesManager {
     public static void setValue(String key, Long value) {
         editor.putLong(key, value).apply();
     }
+
+
+
 
 
 }

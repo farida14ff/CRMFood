@@ -10,21 +10,38 @@
     android:paddingBottom="13dp"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/orders_number_textView"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/orders_number"
-        android:textColor="@color/colorBlack"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:textSize="14sp"
-        tools:ignore="MissingConstraints" />
+        android:orientation="horizontal">
 
+        <TextView
+            android:id="@+id/orders_number_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/orders_number"
+            android:textColor="@color/colorBlack"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:textSize="14sp"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/total_price_main"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textColor="@color/colorBlack"
+            android:textSize="14sp"
+            android:layout_marginStart="180dp"
+            tools:text="4 567 с." />
+
+
+    </LinearLayout>
 
     <include
         android:id="@+id/include_list_of_order_items"

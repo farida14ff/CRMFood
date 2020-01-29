@@ -12,6 +12,7 @@ public class ListMealInActiveOrder  implements Serializable {
     private String status;
 
 
+
     public ListMealInActiveOrder(String meal, String status) {
         this.meal = meal;
         this.status = status;
@@ -28,4 +29,6 @@ public class ListMealInActiveOrder  implements Serializable {
     public String getStatus() {
         return status;
     }
+
+
 }
