@@ -59,6 +59,7 @@ public class ListMealInActiveOrderAdapter extends RecyclerView.Adapter<ListMealI
          ImageView ordersStatusIcon;
          TextView ordersStatus;
          RecyclerView recyclerView2;
+         TextView ordersQuantity;
 
 
          ListMealInActiveOrderViewHolder(@NonNull View itemView) {
@@ -68,6 +69,7 @@ public class ListMealInActiveOrderAdapter extends RecyclerView.Adapter<ListMealI
              ordersStatusIcon = itemView.findViewById(R.id.orders_status_icon);
              ordersStatus = itemView.findViewById(R.id.orders_status_text);
              recyclerView2 = itemView.findViewById(R.id.list_of_order_items_rv);
+             ordersQuantity = itemView.findViewById(R.id.orders_quantity_active);
 
          }
 
@@ -94,6 +96,9 @@ public class ListMealInActiveOrderAdapter extends RecyclerView.Adapter<ListMealI
 
              }
               ordersName.setText(listMealInActiveOrder.getMeal());
+              ordersQuantity.setText("x"+listMealInActiveOrder.getOrderedQuantity());
+
+
 
 
           }

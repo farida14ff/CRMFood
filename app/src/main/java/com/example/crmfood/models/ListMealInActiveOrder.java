@@ -10,6 +10,8 @@ public class ListMealInActiveOrder  implements Serializable {
     private String meal;
     @SerializedName("status")
     private String status;
+    @SerializedName("orderedQuantity")
+    private String orderedQuantity;
 
 
 
@@ -30,5 +32,11 @@ public class ListMealInActiveOrder  implements Serializable {
         return status;
     }
 
+    public String getOrderedQuantity() {
+        return orderedQuantity;
+    }
 
+    public void setOrderedQuantity(String orderedQuantity) {
+        this.orderedQuantity = orderedQuantity;
+    }
 }
