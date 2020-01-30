@@ -146,7 +146,7 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.BasketView
 
             delete_from_basket.setOnClickListener(e -> {
                 basketActivity.deleteFromBasket(basket);
-                removeAt(getPosition());
+                removeAt(getAdapterPosition());
                 Log.e("getSub_id", "onClick: " + basket.getMealId());
             });
         }

@@ -37,6 +37,7 @@
             android:layout_marginTop="16dp"
             android:textColor="@color/colorBlack"
             android:textSize="14sp"
+            android:visibility="gone"
             android:layout_marginStart="180dp"
             tools:text="4 567 с." />
 
