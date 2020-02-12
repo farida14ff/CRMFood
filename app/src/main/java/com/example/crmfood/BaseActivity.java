@@ -31,7 +31,7 @@ public class BaseActivity extends AppCompatActivity {
         sharedPreferences = getApplicationContext().getSharedPreferences("myPreferences", Context.MODE_PRIVATE);
         authToken = "Bearer " + sharedPreferences.getString("authToken", null);
         if (sharedPreferences.getString("authToken", null) == null) {
-            Toast.makeText(this,getString(R.string.no_internet) , Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this,getString(R.string.no_internet) , Toast.LENGTH_SHORT).show();
 
             Log.e("base.addAuthToken: ",String.format("%s",sharedPreferences.getString("authToken", null )));
 
