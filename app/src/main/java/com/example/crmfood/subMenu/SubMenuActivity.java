@@ -131,8 +131,6 @@ public class SubMenuActivity extends AppCompatActivity implements SubMenuContrac
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-
-
         Intent intent = getIntent();
         String categoryName = intent.getStringExtra("category");
         long id = intent.getLongExtra("categoryId", 3);
@@ -141,8 +139,6 @@ public class SubMenuActivity extends AppCompatActivity implements SubMenuContrac
 
         androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.app_bar_sub_menu);
         toolbar.setTitle(categoryName);
-
-
 
         if (adapter == null) {
             recyclerView.setVisibility(View.GONE);
@@ -166,7 +162,6 @@ public class SubMenuActivity extends AppCompatActivity implements SubMenuContrac
     public void getListOfMeals(List<Basket> body) {
         adapter.setValues(body);
     }
-
 
     @Override
     public void showError() {

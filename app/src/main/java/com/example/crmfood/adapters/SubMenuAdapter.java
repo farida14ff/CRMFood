@@ -173,10 +173,13 @@ public class SubMenuAdapter extends RecyclerView.Adapter<SubMenuAdapter.SubMenuV
              });
 
              ImageBasket2.setOnClickListener(e ->{
-
+                 basket.decrease();
                  subMenuActivity.deleteFromBasket(basket);
                  fromBasketView();
-                 counter.setText("0");
+                 basket.setOrderedQuantity(0);
+                 counter.setText(String.valueOf(basket.getOrderedQuantity()));
+                 price.setText(String.valueOf(inPrice));
+
 
              });
 
