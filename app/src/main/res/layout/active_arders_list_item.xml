@@ -40,6 +40,23 @@
             android:layout_marginStart="180dp"
             tools:text="4 567 с." />
 
+        <ImageView
+            android:id="@+id/arrow_close"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/ic_arrow"
+            />
+
+        <ImageView
+            android:id="@+id/arrow_open"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/ic_arrow_down"
+            android:visibility="gone"
+            />
+
 
     </LinearLayout>
 

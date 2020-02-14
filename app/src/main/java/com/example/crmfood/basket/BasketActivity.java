@@ -207,17 +207,16 @@ public class BasketActivity extends AppCompatActivity implements BasketContract.
     }
 
     public List<AddMealList> arrayParse(List<Basket> items_b) {
-
-        AddMealList addMealList = new AddMealList();
-        Basket basket = new Basket();
-        for (int i = 0; i<items_b.size(); i++){
+        ArrayList<AddMealList> g = new ArrayList<>();
+        for (Basket basket: items_b){
+            AddMealList addMealList = new AddMealList();
             addMealList.setAdd_meal_name(basket.getBasket_name());
             addMealList.setMealId(basket.getMealId());
             addMealList.setAddQuantity(basket.getOrderedQuantity());
             addMealList.setAdd_meal_price(basket.getBasket_price());
-            items_b_add.add(addMealList);
+            g.add(addMealList);
         }
-        return items_b_add;
+        return g;
     }
 
 

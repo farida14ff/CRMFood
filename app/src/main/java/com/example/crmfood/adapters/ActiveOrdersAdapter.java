@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -87,6 +88,8 @@ public class ActiveOrdersAdapter extends RecyclerView.Adapter<ActiveOrdersAdapte
         Button closeAccountBtn;
         TextView ordersStatus;
         ActiveOrder currentOrder;
+        ImageView ararowOpenImg;
+        ImageView ararowCloseImg;
 
 
         AciveOdresViewHolder(@NonNull View itemView) {
@@ -99,6 +102,8 @@ public class ActiveOrdersAdapter extends RecyclerView.Adapter<ActiveOrdersAdapte
             addBtn = itemView.findViewById(R.id.add_button);
             ordersStatus = itemView.findViewById(R.id.orders_status_text);
             totalPriceMain = itemView.findViewById(R.id.total_price_main);
+            ararowOpenImg  = itemView.findViewById(R.id.arrow_open);
+            ararowCloseImg  = itemView.findViewById(R.id.arrow_close);
 
         }
 
@@ -115,12 +120,16 @@ public class ActiveOrdersAdapter extends RecyclerView.Adapter<ActiveOrdersAdapte
                         recyclerView2.setVisibility(a);
                         addBtn.setVisibility(View.VISIBLE);
                         closeAccountBtn.setVisibility(View.VISIBLE);
+                        ararowCloseImg.setVisibility(View.VISIBLE);
+                        ararowOpenImg.setVisibility(View.GONE);
 
                         a = View.GONE;
                     } else {
                         recyclerView2.setVisibility(a);
                         addBtn.setVisibility(View.GONE);
                         closeAccountBtn.setVisibility(View.GONE);
+                        ararowCloseImg.setVisibility(View.GONE);
+                        ararowOpenImg.setVisibility(View.VISIBLE);
                         a = View.VISIBLE;
                     }
                 }
@@ -135,12 +144,15 @@ public class ActiveOrdersAdapter extends RecyclerView.Adapter<ActiveOrdersAdapte
                         recyclerView2.setVisibility(a);
                         addBtn.setVisibility(View.VISIBLE);
                         closeAccountBtn.setVisibility(View.VISIBLE);
-
+                        ararowCloseImg.setVisibility(View.VISIBLE);
+                        ararowOpenImg.setVisibility(View.GONE);
                         a = View.GONE;
                     } else {
                         recyclerView2.setVisibility(a);
                         addBtn.setVisibility(View.GONE);
                         closeAccountBtn.setVisibility(View.GONE);
+                        ararowCloseImg.setVisibility(View.GONE);
+                        ararowOpenImg.setVisibility(View.VISIBLE);
                         a = View.VISIBLE;
                     }
 
