@@ -1,5 +1,6 @@
 package com.example.crmfood.basket;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -13,6 +14,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -29,6 +31,7 @@ import com.example.crmfood.adapters.BasketAdapter;
 import com.example.crmfood.models.ActiveOrder;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.example.crmfood.data.ToBasketRoomDatabase;
@@ -40,6 +43,7 @@ public class BasketActivity extends AppCompatActivity implements BasketContract.
     BasketContract.Presenter presenter;
     BasketAdapter adapter;
 
+
     List<Basket> items_b;
     List<AddMealList> items_b_add;
 
@@ -49,9 +53,8 @@ public class BasketActivity extends AppCompatActivity implements BasketContract.
     ProgressBar progressBar;
 
     private ToBasketRoomDatabase db;
-
     public static long act_ored_id;
-    long def_val = 1;
+    long def_val = 0;
 
     TextView total_price_tv;
 
@@ -75,12 +78,13 @@ public class BasketActivity extends AppCompatActivity implements BasketContract.
         initRoomAndShPref();
 
         Log.e("BasketActivity", "items_b: " + items_b);
+        items_b_add = arrayParse(items_b);
         Log.e("BasketActivity", "items_b_add: " + items_b_add);
-
 
         initBasketItems();
         initSwipeRefreshLayout();
         initRecyclerView();
+
     }
 
     private void initRecyclerView() {
@@ -98,8 +102,6 @@ public class BasketActivity extends AppCompatActivity implements BasketContract.
 
             });
             presenter = new BasketPresenter(this);
-
-//            stopRefreshingOrders();
             hideProgressBar();
 
         }
@@ -113,7 +115,6 @@ public class BasketActivity extends AppCompatActivity implements BasketContract.
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout_basket);
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.rippleColor), getResources().getColor(R.color.colorPrimary));
         swipeRefreshLayout.setOnRefreshListener(() -> {
-//                recreate();
             initRoomAndShPref();
             stopRefreshingOrders();
         });
@@ -129,57 +130,35 @@ public class BasketActivity extends AppCompatActivity implements BasketContract.
 
 
         LinearLayout goBackIM = findViewById(R.id.go_back_icon);
-        goBackIM.setOnClickListener(e ->{
-                finish();
-
-        });
+        goBackIM.setOnClickListener(e -> finish());
 
         emptyView = findViewById(R.id.empty_view_basket);
         progressBar = findViewById(R.id.progress_bar_basket);
-//
-//        int arraysSize = 0;
-//        String wordsEnd = "";
-//        arraysSize = items_b.size();
-//        if (arraysSize == 1) {
-//            wordsEnd = "";
-//        } else if (arraysSize <= 4) {
-//            wordsEnd = "а";
-//        } else {
-//            wordsEnd = "ов";
-//        }
-//
-//
-//        meals_quantity_tv.setText(arraysSize + " товар" + wordsEnd);
-//
-//
-//        String tp = String.valueOf(calculateTotalPrice());
-//        total_price_tv.setText(tp);
-
         add_meal_button.setOnClickListener(e -> finish());
 
-        confirm_button_b.setOnClickListener(e ->{
-                showConfirmLogoutDialog();
+        confirm_button_b.setOnClickListener(e -> {
+            showConfirmLogoutDialog();
 
-                //TODO: clear addMealList
-                //TODO: connect addMealList to the tables id
+            //TODO: clear addMealList
+            //TODO: connect addMealList to the tables id
 
         });
 
 
     }
 
-    public void initRoomAndShPref(){
-        act_ored_id = SharedPreferencesManager.getValue("ORDER_ID",def_val);
+    public void initRoomAndShPref() {
+        act_ored_id = SharedPreferencesManager.getValue("ORDER_ID", def_val);
 
         db = ToBasketRoomDatabase.getDatabase(this);
-        if (act_ored_id == def_val){
-            items_b = db.toBasketDao().getAllItems();
-            countMealsQuantity();
-        }else {
-            items_b_add = db.toBasketDao().getAllItemsAddMeal();
-            countAddMealsQuantity();
 
-        }
+        items_b = db.toBasketDao().getAllItems();
+        countMealsQuantity();
+//        }else {
+//            items_b_add = db.toBasketDao().getAllItemsAddMeal();
+//            countAddMealsQuantity();
+//
+//        }
     }
 
     @Override
@@ -189,20 +168,27 @@ public class BasketActivity extends AppCompatActivity implements BasketContract.
         builder.setMessage(getString(R.string.do_order_message));
         builder.setNegativeButton(R.string.cancel_order, null);
         builder.setPositiveButton(getString(R.string.action_conf), (dialog, which) -> {
-            ActiveOrder activeOrder = new ActiveOrder();
 
             Intent intent = getIntent();
             long tableID = intent.getLongExtra("tableId", 1);
-//                long activeOrdersID = intent.getLongExtra("activeOrdersId",1);
-            if (act_ored_id == def_val){
+
+            if (act_ored_id == def_val) {
                 presenter.sendCreatedOrder(tableID, " ", items_b);
                 db.toBasketDao().deleteAllItems(items_b);
-
-             }else {
-                presenter.sendAddMealOrder(act_ored_id,items_b_add);
+            } else {
+                items_b_add = arrayParse(items_b);
+                presenter.sendAddMealOrder(act_ored_id, items_b_add);
                 db.toBasketDao().deleteAllItems(items_b);
-//                     presenter.sendAddMealOrder(act_ored_id,items_b);
-             }
+            }
+//                long activeOrdersID = intent.getLongExtra("activeOrdersId",1);
+//            if (act_ored_id == def_val){
+
+
+//             }else {
+//                presenter.sendAddMealOrder(act_ored_id,items_b_add);
+//                db.toBasketDao().deleteAllItems(items_b);
+////                     presenter.sendAddMealOrder(act_ored_id,items_b);
+//             }
 
 //                presenter.sendCreatedOrder(tableID," ", items_b2);
             Intent intent1 = new Intent(BasketActivity.this, BaseActivity.class);
@@ -210,7 +196,7 @@ public class BasketActivity extends AppCompatActivity implements BasketContract.
             finish();
 //                presenter.sendCreatedOrder(activeOrder.getId(),"",items_b);
             Log.e("tableId", "BasketActivity tableId: " + tableID);
-            Log.e("tableId", "BasketActivity activeOrdersId: " + act_ored_id);
+//            Log.e("tableId", "BasketActivity activeOrdersId: " + act_ored_id);
             Log.e("BasketActivity", "items_b2: " + items_b);
 
 
@@ -219,6 +205,22 @@ public class BasketActivity extends AppCompatActivity implements BasketContract.
         dialog.show();
 
     }
+
+    public List<AddMealList> arrayParse(List<Basket> items_b) {
+
+        AddMealList addMealList = new AddMealList();
+        Basket basket = new Basket();
+        for (int i = 0; i<items_b.size(); i++){
+            addMealList.setAdd_meal_name(basket.getBasket_name());
+            addMealList.setMealId(basket.getMealId());
+            addMealList.setAddQuantity(basket.getOrderedQuantity());
+            addMealList.setAdd_meal_price(basket.getBasket_price());
+            items_b_add.add(addMealList);
+        }
+        return items_b_add;
+    }
+
+
 
     @SuppressLint("LongLogTag")
     void saveTotalPrice(Long tot_price) {
@@ -274,14 +276,14 @@ public class BasketActivity extends AppCompatActivity implements BasketContract.
 
     }
 
-    public double calculateAddMealTotalPrice(){
-        double totPrice = 0;
-        for (int i = 0; i < items_b_add.size(); i++) {
-            totPrice += items_b_add.get(i).getAdd_meal_price();
-        }
-        Log.e("calculateTotalPrice: ", String.valueOf(totPrice));
-        return totPrice;
-    }
+//    public double calculateAddMealTotalPrice(){
+//        double totPrice = 0;
+//        for (int i = 0; i < items_b_add.size(); i++) {
+//            totPrice += items_b_add.get(i).getAdd_meal_price();
+//        }
+//        Log.e("calculateTotalPrice: ", String.valueOf(totPrice));
+//        return totPrice;
+//    }
 
     @Override
     public boolean isConnected() {
@@ -308,21 +310,21 @@ public class BasketActivity extends AppCompatActivity implements BasketContract.
 
     }
 
-    public void saveAddMeal(AddMealList aml) {
-        ToBasketRoomDatabase db = ToBasketRoomDatabase.getDatabase(this);
-
-        AddMealList addMealList = db.toBasketDao().getAddItem(aml.getMealId());
-
-        if (addMealList == null) {
-            db.toBasketDao().addItemsAddMeal(aml);
-            Log.e("SubMenuActivity","addMealList created");
-
-        } else {
-            db.toBasketDao().updateAddMeal(aml.getAddQuantity(), aml.getMealId());
-            Log.e("SubMenu activity","addMealList updated");
-        }
-
-    }
+//    public void saveAddMeal(AddMealList aml) {
+//        ToBasketRoomDatabase db = ToBasketRoomDatabase.getDatabase(this);
+//
+//        AddMealList addMealList = db.toBasketDao().getAddItem(aml.getMealId());
+//
+//        if (addMealList == null) {
+//            db.toBasketDao().addItemsAddMeal(aml);
+//            Log.e("SubMenuActivity","addMealList created");
+//
+//        } else {
+//            db.toBasketDao().updateAddMeal(aml.getAddQuantity(), aml.getMealId());
+//            Log.e("SubMenu activity","addMealList updated");
+//        }
+//
+//    }
 
     public void deleteFromBasket(Basket b){
         ToBasketRoomDatabase db = ToBasketRoomDatabase.getDatabase(this);
@@ -331,19 +333,20 @@ public class BasketActivity extends AppCompatActivity implements BasketContract.
 
     }
 
-    public void deleteFromAddMealBasket(AddMealList addMealList){
-        ToBasketRoomDatabase db = ToBasketRoomDatabase.getDatabase(this);
+//    public void deleteFromAddMealBasket(AddMealList addMealList){
+//        ToBasketRoomDatabase db = ToBasketRoomDatabase.getDatabase(this);
+//
+//        db.toBasketDao().deleteItemAddMeal(addMealList.getMealId());
+//
+//    }
 
-        db.toBasketDao().deleteItemAddMeal(addMealList.getMealId());
-
-    }
-
+    @SuppressLint("SetTextI18n")
     public void countMealsQuantity(){
         TextView meals_quantity_tv = findViewById(R.id.meals_quantity);
         TextView total_price_tv = findViewById(R.id.total_price);
 
-        int arraysSize = 0;
-        String wordsEnd = "";
+        int arraysSize;
+        String wordsEnd;
         arraysSize = items_b.size();
         if (arraysSize == 1) {
             wordsEnd = "";
@@ -362,29 +365,29 @@ public class BasketActivity extends AppCompatActivity implements BasketContract.
 
     }
 
-    public void countAddMealsQuantity(){
-        TextView meals_quantity_tv = findViewById(R.id.meals_quantity);
-        TextView total_price_tv = findViewById(R.id.total_price);
-
-        int arraysSize = 0;
-        String wordsEnd = "";
-        arraysSize = items_b_add.size();
-        if (arraysSize == 1) {
-            wordsEnd = "";
-        } else if (arraysSize <= 4) {
-            wordsEnd = "а";
-        } else {
-            wordsEnd = "ов";
-        }
-
-
-        meals_quantity_tv.setText(arraysSize + " товар" + wordsEnd);
-
-
-        String tp = String.valueOf(calculateAddMealTotalPrice());
-        total_price_tv.setText(tp);
-
-    }
+//    public void countAddMealsQuantity(){
+//        TextView meals_quantity_tv = findViewById(R.id.meals_quantity);
+//        TextView total_price_tv = findViewById(R.id.total_price);
+//
+//        int arraysSize = 0;
+//        String wordsEnd = "";
+//        arraysSize = items_b_add.size();
+//        if (arraysSize == 1) {
+//            wordsEnd = "";
+//        } else if (arraysSize <= 4) {
+//            wordsEnd = "а";
+//        } else {
+//            wordsEnd = "ов";
+//        }
+//
+//
+//        meals_quantity_tv.setText(arraysSize + " товар" + wordsEnd);
+//
+//
+//        String tp = String.valueOf(calculateAddMealTotalPrice());
+//        total_price_tv.setText(tp);
+//
+//    }
 
 
 }

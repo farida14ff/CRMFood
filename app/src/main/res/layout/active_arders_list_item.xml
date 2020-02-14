@@ -58,43 +58,43 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-<!--    <Button-->
-<!--        android:id="@+id/add_button"-->
-<!--        android:layout_width="100dp"-->
-<!--        android:layout_height="30dp"-->
-<!--        android:textSize="12sp"-->
-<!--        android:textColor="@color/colorWhite"-->
-<!--        android:background="@drawable/add_button"-->
-<!--        android:text="@string/add"-->
-<!--        tools:ignore="MissingConstraints">-->
+    <Button
+        android:id="@+id/add_button"
+        android:layout_width="100dp"
+        android:layout_height="30dp"
+        android:textSize="12sp"
+        android:textColor="@color/colorWhite"
+        android:background="@drawable/add_button"
+        android:text="@string/add"
+        tools:ignore="MissingConstraints">
 
-<!--    </Button>-->
+    </Button>
 
-<!--    <Button-->
-<!--        android:id="@+id/close_account_button"-->
-<!--        android:layout_width="100dp"-->
-<!--        android:layout_height="30dp"-->
-<!--        android:textColor="@color/colorWhite"-->
-<!--        android:textSize="12sp"-->
-<!--        android:text="@string/close_account"-->
-<!--        android:background="@drawable/close_c_button"-->
-<!--        android:layout_marginStart="8dp"-->
-<!--        tools:ignore="MissingConstraints">-->
+    <Button
+        android:id="@+id/close_account_button"
+        android:layout_width="100dp"
+        android:layout_height="30dp"
+        android:textColor="@color/colorWhite"
+        android:textSize="12sp"
+        android:text="@string/close_account"
+        android:background="@drawable/close_c_button"
+        android:layout_marginStart="8dp"
+        tools:ignore="MissingConstraints">
 
-<!--    </Button>-->
+    </Button>
 
-        <Button
-            android:id="@+id/close_account_button"
-            android:layout_width="100dp"
-            android:layout_height="30dp"
-            android:textColor="@color/colorWhite"
-            android:textSize="12sp"
-            android:text="@string/close_account"
-            android:background="@drawable/close_c_button"
-            android:layout_marginStart="215dp"
-            tools:ignore="MissingConstraints">
+<!--        <Button-->
+<!--            android:id="@+id/close_account_button"-->
+<!--            android:layout_width="100dp"-->
+<!--            android:layout_height="30dp"-->
+<!--            android:textColor="@color/colorWhite"-->
+<!--            android:textSize="12sp"-->
+<!--            android:text="@string/close_account"-->
+<!--            android:background="@drawable/close_c_button"-->
+<!--            android:layout_marginStart="215dp"-->
+<!--            tools:ignore="MissingConstraints">-->
 
-        </Button>
+<!--        </Button>-->
 
 
     </LinearLayout>

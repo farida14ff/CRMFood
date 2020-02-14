@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +22,7 @@ import com.example.crmfood.data.SharedPreferencesManager;
 import com.example.crmfood.main.MainFragment;
 import com.example.crmfood.main.MainContract;
 import com.example.crmfood.main.MainPresenter;
+import com.example.crmfood.menu.MainMenuActivity;
 import com.example.crmfood.models.ActiveOrder;
 import com.example.crmfood.models.ListMealInActiveOrder;
 
@@ -36,8 +38,6 @@ public class ActiveOrdersAdapter extends RecyclerView.Adapter<ActiveOrdersAdapte
 
     private static long total_price;
     private long def_val = 1;
-
-
 
 
     public ActiveOrdersAdapter(Context context, List<ActiveOrder> activeOrderList, MainContract.OnItemClickListener clickListener) {
@@ -83,7 +83,7 @@ public class ActiveOrdersAdapter extends RecyclerView.Adapter<ActiveOrdersAdapte
         List<ListMealInActiveOrder> listMealInActiveOrders;
         TextView ordersNumTextView;
         TextView totalPriceMain;
-//        Button addBtn;
+        Button addBtn;
         Button closeAccountBtn;
         TextView ordersStatus;
         ActiveOrder currentOrder;
@@ -96,7 +96,7 @@ public class ActiveOrdersAdapter extends RecyclerView.Adapter<ActiveOrdersAdapte
             recyclerView2 = itemView.findViewById(R.id.list_of_order_items_rv);
             ordersNumTextView = itemView.findViewById(R.id.orders_number_textView);
             closeAccountBtn = itemView.findViewById(R.id.close_account_button);
-//            addBtn = itemView.findViewById(R.id.add_button);
+            addBtn = itemView.findViewById(R.id.add_button);
             ordersStatus = itemView.findViewById(R.id.orders_status_text);
             totalPriceMain = itemView.findViewById(R.id.total_price_main);
 
@@ -106,7 +106,6 @@ public class ActiveOrdersAdapter extends RecyclerView.Adapter<ActiveOrdersAdapte
         @SuppressLint({"SetTextI18n", "ResourceAsColor", "LongLogTag", "CommitPrefEdits"})
         void bind(final ActiveOrder activeOrder, final MainContract.OnItemClickListener onItemClickListener) {
             currentOrder = activeOrder;
-//            totalPriceMain.setText(total_price + " c.");
             ordersNumTextView.setOnClickListener(new View.OnClickListener() {
                 int a = View.GONE;
 
@@ -114,13 +113,13 @@ public class ActiveOrdersAdapter extends RecyclerView.Adapter<ActiveOrdersAdapte
                 public void onClick(View view) {
                     if (a == View.VISIBLE) {
                         recyclerView2.setVisibility(a);
-//                        addBtn.setVisibility(View.VISIBLE);
+                        addBtn.setVisibility(View.VISIBLE);
                         closeAccountBtn.setVisibility(View.VISIBLE);
 
                         a = View.GONE;
                     } else {
                         recyclerView2.setVisibility(a);
-//                        addBtn.setVisibility(View.GONE);
+                        addBtn.setVisibility(View.GONE);
                         closeAccountBtn.setVisibility(View.GONE);
                         a = View.VISIBLE;
                     }
@@ -134,13 +133,13 @@ public class ActiveOrdersAdapter extends RecyclerView.Adapter<ActiveOrdersAdapte
                     onItemClickListener.onItemClick(activeOrder);
                     if (a == View.VISIBLE) {
                         recyclerView2.setVisibility(a);
-//                        addBtn.setVisibility(View.VISIBLE);
+                        addBtn.setVisibility(View.VISIBLE);
                         closeAccountBtn.setVisibility(View.VISIBLE);
 
                         a = View.GONE;
                     } else {
                         recyclerView2.setVisibility(a);
-//                        addBtn.setVisibility(View.GONE);
+                        addBtn.setVisibility(View.GONE);
                         closeAccountBtn.setVisibility(View.GONE);
                         a = View.VISIBLE;
                     }
@@ -156,15 +155,13 @@ public class ActiveOrdersAdapter extends RecyclerView.Adapter<ActiveOrdersAdapte
             recyclerView2.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
             recyclerView2.setAdapter(listMealInActiveOrderAdapter);
 
-//            addBtn.setOnClickListener(e -> {
-//
-//                Intent intent = new Intent(context, MainMenuActivity.class);
-//                Log.e("activeOrdersId", " Add btn clicked: " + activeOrder.getId());
-//                saveId(currentOrder.getId());
-//                context.startActivity(intent);
-//
-//
-//            });
+            addBtn.setOnClickListener(e->{
+                Intent intent = new Intent(context, MainMenuActivity.class);
+                Log.i("activeOrdersId", " Add btn clicked: " + activeOrder.getId());
+                saveId(currentOrder.getId());
+                context.startActivity(intent);
+            });
+
 
             MainContract.View view = new MainFragment();
             presenter = new MainPresenter(view);
@@ -174,28 +171,10 @@ public class ActiveOrdersAdapter extends RecyclerView.Adapter<ActiveOrdersAdapte
 //                removeAt(getPosition());
             });
 
-
-//            switch (activeOrder.getMainStatus()){
-//                case "NotReady":
-//                    mainStatus.setText("В ПРОЦЕССЕ");
-//                    mainStatus.setTextColor(Color.parseColor("#928C8C"));
-//                    break;
-//                case "Ready":
-//                    mainStatus.setText(R.string.redy_t);
-//                    mainStatus.setTextColor(Color.parseColor("#04932C"));
-//                    break;
-//                case "Freezed":
-//                    mainStatus.setText("В ПРОЦЕССЕ");
-//                    mainStatus.setTextColor(Color.parseColor("#928C8C"));
-//                    break;
-//
-//            }
-
-
             ordersNumTextView.setText("Стол #" + activeOrder.getTableName());
             totalPriceMain.setText(activeOrder.getSum() + " c.");
 
-            Log.e("tableID", String.valueOf(activeOrder.getId()));
+            Log.e("orderID", String.valueOf(activeOrder.getId()));
             Log.e("tableName", String.valueOf(activeOrder.getTableName()));
             Log.e("tableSum", String.valueOf(activeOrder.getSum()));
         }
@@ -203,7 +182,7 @@ public class ActiveOrdersAdapter extends RecyclerView.Adapter<ActiveOrdersAdapte
         @SuppressLint("LongLogTag")
         void saveId(Long id) {
             SharedPreferencesManager.setValue("ORDER_ID",id);
-            Log.i("SharedPreferencesManager", "id: " +id);
+            Log.i("SharedPreferencesManager", "ORDER_ID: " +id);
         }
 
         public void removeAt(int position) {
@@ -213,7 +192,6 @@ public class ActiveOrdersAdapter extends RecyclerView.Adapter<ActiveOrdersAdapte
 
         }
     }
-
 
     public void showConfirmLogoutDialog(final long activeOrderId) {
 

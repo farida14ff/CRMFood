@@ -16,7 +16,7 @@ public interface BasketContract {
 
     interface Presenter{
         void sendCreatedOrder(long tableId,String comment,List<Basket> mealOrders);
-        void sendAddMealOrder(long mealId,List<AddMealList> mealOrders);
+        void sendAddMealOrder(long orderId,List<AddMealList> mealOrders);
     }
 
     interface View{

@@ -53,7 +53,6 @@ public class KitchenMenuFragment extends Fragment implements KitchenMenuContract
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-
         if (adapterMenu == null) {
             recyclerView.setVisibility(View.GONE);
             emptyView.setVisibility(View.GONE);

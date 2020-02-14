@@ -70,9 +70,9 @@ public class BasketPresenter implements BasketContract.Presenter{
     }
 
     @Override
-    public void sendAddMealOrder(final long mealId, List<AddMealList> mealOrders) {
+    public void sendAddMealOrder(final long orderId, List<AddMealList> mealOrders) {
 
-        Call<StatusMessage> call = service.addMealsOrder(BaseActivity.authToken, new AddMeal(mealId, mealOrders));
+        Call<StatusMessage> call = service.addMealsOrder(BaseActivity.authToken, new AddMeal(orderId, mealOrders));
         call.enqueue(new Callback<StatusMessage>() {
             @Override
             public void onResponse(@NotNull Call<StatusMessage> call, @NotNull Response<StatusMessage> response) {
@@ -90,8 +90,8 @@ public class BasketPresenter implements BasketContract.Presenter{
                         Log.e("onResponse addOrder", "else else");
                     }
                 }
-
-                Log.e("tableId", "onClick: "+ mealId);
+                view.stopRefreshingOrders();
+                Log.e("BasketPresenter", "orderId: "+ orderId);
 
 
             }

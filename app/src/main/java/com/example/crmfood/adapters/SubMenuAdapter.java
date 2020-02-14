@@ -126,6 +126,7 @@ public class SubMenuAdapter extends RecyclerView.Adapter<SubMenuAdapter.SubMenuV
                  price.setText(String.valueOf(totPrice));
                  counter.setText(String.valueOf(basket.getOrderedQuantity()));
                  subMenuActivity.saveBasket(basket);
+
                  inBasketView();
 
                  Log.e("basketObj: increase", "name: " + name.getText().toString());

@@ -5,24 +5,28 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "add_meal")
+//@Entity(tableName = "add_meal")
 public class AddMealList {
 
-    @PrimaryKey
+    //@PrimaryKey
     private long mealId;
 
-    @ColumnInfo(name = "add_meal_name")
+    //@ColumnInfo(name = "add_meal_name")
     private String add_meal_name;
 
-    @ColumnInfo(name = "add_meal_price")
+    //@ColumnInfo(name = "add_meal_price")
     private double add_meal_price;
 
-    @ColumnInfo(name = "add_meal_counter")
+    //@ColumnInfo(name = "add_meal_counter")
     private int addQuantity;
 
     public AddMealList(long mealId, int addQuantity) {
         this.mealId = mealId;
         this.addQuantity = addQuantity;
+    }
+
+    public AddMealList() {
+
     }
 
     public long getMealId() {

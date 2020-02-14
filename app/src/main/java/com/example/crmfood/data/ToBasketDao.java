@@ -34,24 +34,23 @@ public interface ToBasketDao {
     void update(int num,long id);
 
 
-
-
-    @Insert
-    void addItemsAddMeal(AddMealList... addMealLists);
-
-    @Query("SELECT * FROM add_meal WHERE mealId = :id")
-    AddMealList getAddItem(long id);
-
-    @Query("SELECT * FROM add_meal")
-    List<AddMealList> getAllItemsAddMeal();
-
-    @Query("DELETE FROM add_meal WHERE mealId = :id")
-    void deleteItemAddMeal(long id);
-
-    @Delete
-    void deleteAllAddItems(List<AddMealList> addMealLists);
-
-    @Query("UPDATE add_meal SET add_meal_counter = :num WHERE mealId = :id")
-    void updateAddMeal(int num,long id);
+//
+//    @Insert
+//    void addItemsAddMeal(AddMealList... addMealLists);
+//
+//    @Query("SELECT * FROM add_meal WHERE mealId = :id")
+//    AddMealList getAddItem(long id);
+//
+//    @Query("SELECT * FROM add_meal")
+//    List<AddMealList> getAllItemsAddMeal();
+//
+//    @Query("DELETE FROM add_meal WHERE mealId = :id")
+//    void deleteItemAddMeal(long id);
+//
+//    @Delete
+//    void deleteAllAddItems(List<AddMealList> addMealLists);
+//
+//    @Query("UPDATE add_meal SET add_meal_counter = :num WHERE mealId = :id")
+//    void updateAddMeal(int num,long id);
 
 }

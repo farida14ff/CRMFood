@@ -27,6 +27,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.example.crmfood.BaseActivity;
 import com.example.crmfood.R;
 import com.example.crmfood.adapters.ActiveOrdersAdapter;
+import com.example.crmfood.data.SharedPreferencesManager;
 import com.example.crmfood.models.ActiveOrder;
 import com.example.crmfood.models.ListMealInActiveOrder;
 import com.example.crmfood.tables.TablesActivity;
@@ -49,15 +50,11 @@ public class MainFragment extends Fragment implements MainContract.View {
     ProgressBar progressBar;
 
 
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.activity_main, container, false);
-
-
 
         progressBar = root.findViewById(R.id.progress_bar);
         emptyView = root.findViewById(R.id.empty_view);
@@ -72,7 +69,9 @@ public class MainFragment extends Fragment implements MainContract.View {
     private void initViews(View root) {
         final ImageView createNewOrderButton = root.findViewById(R.id.create_new_order_button);
         createNewOrderButton.setOnClickListener(e ->{
-                Intent intent = new Intent(getActivity(), TablesActivity.class);
+            long id = 0;
+            SharedPreferencesManager.setValue("ORDER_ID",id);
+            Intent intent = new Intent(getActivity(), TablesActivity.class);
                 startActivity(intent);
 
             createNewOrderButton.setEnabled(false);

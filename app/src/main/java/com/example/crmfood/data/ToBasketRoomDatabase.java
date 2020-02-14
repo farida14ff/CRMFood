@@ -10,7 +10,8 @@ import com.example.crmfood.models.AddMealList;
 import com.example.crmfood.models.Basket;
 
 
-@Database(entities = {Basket.class, AddMealList.class}, version = 5,exportSchema = false)
+@Database(entities = {Basket.class}, version = 6,exportSchema = false)
+//@Database(entities = {Basket.class, AddMealList.class}, version = 5,exportSchema = false)
 //@Database(entities = Basket.class, version = 1, exportSchema = false)
 public abstract class ToBasketRoomDatabase extends RoomDatabase {
 

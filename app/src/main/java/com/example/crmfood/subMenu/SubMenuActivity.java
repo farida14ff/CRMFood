@@ -36,18 +36,17 @@ public class SubMenuActivity extends AppCompatActivity implements SubMenuContrac
     ProgressBar progressBar;
 
     public long activeOrdersId;
-
     public static long act_ored_id;
-    long def_val = 1;
-
+    long def_val = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sub_menu);
 
-
         act_ored_id = SharedPreferencesManager.getValue("ORDER_ID",def_val);
+        Log.i("SubMenuActivity", "act_ored_id: " + act_ored_id);
+
 
         initViews();
         initRecyclerView();
@@ -95,28 +94,28 @@ public class SubMenuActivity extends AppCompatActivity implements SubMenuContrac
 
     }
 
-    public void saveAddMeal(AddMealList aml) {
-        ToBasketRoomDatabase db = ToBasketRoomDatabase.getDatabase(this);
-
-        AddMealList addMealList = db.toBasketDao().getAddItem(aml.getMealId());
-
-        if (addMealList == null) {
-            db.toBasketDao().addItemsAddMeal(aml);
-            Log.e("SubMenuActivity","addMealList created");
-
-        } else {
-            db.toBasketDao().updateAddMeal(aml.getAddQuantity(), aml.getMealId());
-            Log.e("SubMenu activity","addMealList updated");
-        }
-
-    }
-
-    public void deleteFromAddMealBasket(AddMealList addMealList){
-        ToBasketRoomDatabase db = ToBasketRoomDatabase.getDatabase(this);
-
-        db.toBasketDao().deleteItemAddMeal(addMealList.getMealId());
-
-    }
+//    public void saveAddMeal(AddMealList aml) {
+//        ToBasketRoomDatabase db = ToBasketRoomDatabase.getDatabase(this);
+//
+//        AddMealList addMealList = db.toBasketDao().getAddItem(aml.getMealId());
+//
+//        if (addMealList == null) {
+//            db.toBasketDao().addItemsAddMeal(aml);
+//            Log.e("SubMenuActivity","addMealList created");
+//
+//        } else {
+//            db.toBasketDao().updateAddMeal(aml.getAddQuantity(), aml.getMealId());
+//            Log.e("SubMenu activity","addMealList updated");
+//        }
+//
+//    }
+//
+//    public void deleteFromAddMealBasket(AddMealList addMealList){
+//        ToBasketRoomDatabase db = ToBasketRoomDatabase.getDatabase(this);
+//
+//        db.toBasketDao().deleteItemAddMeal(addMealList.getMealId());
+//
+//    }
 
 
     public void deleteFromBasket(Basket b){
