@@ -1,6 +1,7 @@
 package com.example.crmfood.adapters;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 
 import android.content.DialogInterface;
@@ -172,6 +173,7 @@ public class ActiveOrdersAdapter extends RecyclerView.Adapter<ActiveOrdersAdapte
                 Log.i("activeOrdersId", " Add btn clicked: " + activeOrder.getId());
                 saveId(currentOrder.getId());
                 context.startActivity(intent);
+                ((Activity)context).finish();
             });
 
 

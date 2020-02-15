@@ -67,6 +67,7 @@ public class MainMenuActivity extends AppCompatActivity {
         final LinearLayout basket_LL = findViewById(R.id.basket_sub);
         basket_LL.setOnClickListener(view -> {
             startActivity(intent1);
+            finish();
 
             basket_LL.setEnabled(false);
 
