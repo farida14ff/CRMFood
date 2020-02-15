@@ -37,7 +37,10 @@
             android:textAlignment="center"
             android:textColor="@color/colorWhite"
             android:textSize="24sp"
-            >
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="14dp"
+            android:layout_marginRight="13dp">
 
         </TextView>
     </RelativeLayout>

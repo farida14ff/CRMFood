@@ -60,7 +60,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="10sp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginLeft="10sp">
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -94,7 +95,9 @@
                     android:text="Занятые"
                     android:textAlignment="center"
                     android:textColor="@color/colorWhite"
-                    android:textSize="12sp">
+                    android:textSize="12sp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentRight="true">
 
                 </TextView>
             </RelativeLayout>
@@ -133,7 +136,9 @@
                         android:layout_marginEnd="12dp"
                         android:text="Свободные"
                         android:textColor="@color/colorWhite"
-                        android:textSize="12sp">
+                        android:textSize="12sp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentRight="true">
 
                     </TextView>
                 </RelativeLayout>
@@ -171,7 +176,9 @@
                         android:text="Забронированы"
                         android:textAlignment="center"
                         android:textColor="@color/colorWhite"
-                        android:textSize="11sp">
+                        android:textSize="11sp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentRight="true">
 
                     </TextView>
                 </RelativeLayout>
@@ -222,7 +229,8 @@
             android:id="@+id/imageView7"
             android:layout_width="35dp"
             android:layout_height="35dp"
-            app:srcCompat="@drawable/ic_empty" />
+            app:srcCompat="@drawable/ic_empty"
+            tools:ignore="VectorDrawableCompat" />
 
         <TextView
             android:id="@+id/textView7"

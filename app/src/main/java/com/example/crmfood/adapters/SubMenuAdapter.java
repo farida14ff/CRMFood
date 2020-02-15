@@ -187,7 +187,7 @@ public class SubMenuAdapter extends RecyclerView.Adapter<SubMenuAdapter.SubMenuV
          }
 
          void inBasketView() {
-             ImageBasket.setVisibility(View.GONE);
+             ImageBasket.setVisibility(View.VISIBLE);
              ImageBasket2.setVisibility(View.VISIBLE);
          }
 

@@ -63,15 +63,6 @@ public class SubMenuActivity extends AppCompatActivity implements SubMenuContrac
         progressBar = findViewById(R.id.subMenu_progress_bar);
         emptyView = findViewById(R.id.empty_view_subMenu);
 
-//        final LinearLayout basket_LL = findViewById(R.id.basket_sub);
-//        basket_LL.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                startActivity(intent1);
-//                //basket_LL.setEnabled(false);
-//            }
-//        });
-
 
         final Button next_btn = findViewById(R.id.next_button);
         next_btn.setOnClickListener(e -> finish());
@@ -93,29 +84,6 @@ public class SubMenuActivity extends AppCompatActivity implements SubMenuContrac
         }
 
     }
-
-//    public void saveAddMeal(AddMealList aml) {
-//        ToBasketRoomDatabase db = ToBasketRoomDatabase.getDatabase(this);
-//
-//        AddMealList addMealList = db.toBasketDao().getAddItem(aml.getMealId());
-//
-//        if (addMealList == null) {
-//            db.toBasketDao().addItemsAddMeal(aml);
-//            Log.e("SubMenuActivity","addMealList created");
-//
-//        } else {
-//            db.toBasketDao().updateAddMeal(aml.getAddQuantity(), aml.getMealId());
-//            Log.e("SubMenu activity","addMealList updated");
-//        }
-//
-//    }
-//
-//    public void deleteFromAddMealBasket(AddMealList addMealList){
-//        ToBasketRoomDatabase db = ToBasketRoomDatabase.getDatabase(this);
-//
-//        db.toBasketDao().deleteItemAddMeal(addMealList.getMealId());
-//
-//    }
 
 
     public void deleteFromBasket(Basket b){

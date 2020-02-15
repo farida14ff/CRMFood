@@ -18,7 +18,8 @@
         android:layout_marginStart="10dp"
         android:textSize="17sp"
         android:textStyle="normal"
-        android:textColor="@color/colorBlack">
+        android:textColor="@color/colorBlack"
+        android:layout_marginLeft="10dp">
     </TextView>
 
 
@@ -27,7 +28,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:orientation="horizontal"
-        android:layout_marginTop="14dp">
+        android:layout_marginTop="14dp"
+        android:layout_marginLeft="10dp">
 
         <androidx.cardview.widget.CardView
             android:layout_width="72dp"
@@ -42,7 +44,8 @@
                 android:paddingStart="14dp"
                 android:textColor="@color/colorBlack"
                 android:text="@string/items_price"
-                tools:ignore="RtlSymmetry" />
+                tools:ignore="RtlSymmetry"
+                android:paddingLeft="14dp" />
 
         </androidx.cardview.widget.CardView>
 
@@ -59,7 +62,8 @@
                 android:text="-"
                 android:textSize="25sp"
                 android:layout_marginStart="18dp"
-                android:textColor="@color/colorBlack"/>
+                android:textColor="@color/colorBlack"
+                android:layout_marginLeft="18dp" />
 
         </androidx.cardview.widget.CardView>
 
@@ -77,7 +81,8 @@
                 android:paddingTop="9dp"
                 android:text="0"
                 android:textColor="@color/colorBlack"
-                tools:ignore="RtlSymmetry" />
+                tools:ignore="RtlSymmetry"
+                android:paddingLeft="17dp" />
 
         </androidx.cardview.widget.CardView>
 
@@ -94,21 +99,23 @@
                 android:text="+"
                 android:textSize="25sp"
                 android:layout_marginStart="16dp"
-                android:textColor="@color/colorBlack"/>
+                android:textColor="@color/colorBlack"
+                android:layout_marginLeft="16dp" />
 
         </androidx.cardview.widget.CardView>
+
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_marginStart="80dp"
+            android:orientation="vertical"
+            android:layout_marginLeft="80dp">
             <ImageView
                 android:id="@+id/to_basket_cv_sub"
                 android:layout_width="44dp"
                 android:layout_height="37dp"
-                android:layout_marginStart="80dp"
                 android:src="@drawable/ic_check_mark"
                 android:visibility="visible"/>
-
 
             <ImageView
                 android:id="@+id/to_basket_cv2_sub"
@@ -119,7 +126,9 @@
                 android:layout_marginStart="7dp"
                 android:layout_marginTop="0dp"
                 android:src="@drawable/done_ic"
-                android:visibility="gone" />
+                android:visibility="gone"
+                android:layout_alignLeft="@+id/to_basket_cv_sub"
+                android:layout_marginLeft="7dp" />
 
         </RelativeLayout>
 
